@@ -18,7 +18,7 @@ public class Database {
     private JsonObject makeSampleFile() {
 
         int numberOfDepots = 100;
-        int transactions = 30;
+        int transactions = 200;
         int stockMax = 50;
         int stockMin = 15;
         int storageMax = 80;

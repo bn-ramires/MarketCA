@@ -4,14 +4,25 @@ public class Ticket {
     String seller;
     int buyerDepotId;
     int sellerDepotId;
+    int productCost;
+    int totalCost;
     int quantity;
     double delivery;
 
-    public Ticket(String buyer, String seller, int buyerDepotId, int sellerDepotId, int quantity, double delivery) {
+    public Ticket(String buyer,
+                  String seller,
+                  int buyerDepotId,
+                  int sellerDepotId,
+                  int productCost,
+                  int quantity,
+                  double delivery) {
+
+        this.totalCost = quantity * productCost;
         this.buyer = buyer;
         this.seller = seller;
         this.buyerDepotId = buyerDepotId;
         this.sellerDepotId = sellerDepotId;
+        this.productCost = productCost;
         this.quantity = quantity;
         this.delivery = delivery;
     }

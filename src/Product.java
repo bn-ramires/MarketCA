@@ -2,12 +2,10 @@ public class Product {
 
     String brand;
     int price;
-    int delivery;
 
     public Product(ProductBuilder builder) {
         this.brand = builder.input.name;
         this.price = builder.input.productCost;
-        this.delivery = builder.input.deliveryCost;
     }
 
     public String getBrand() {
@@ -16,10 +14,6 @@ public class Product {
 
     public int getPrice() {
         return price;
-    }
-
-    public int getDelivery() {
-        return delivery;
     }
 
     public static class ProductBuilder {
@@ -40,7 +34,6 @@ public class Product {
         return "Product{" +
                 "brand='" + brand + '\'' +
                 ", price=" + price +
-                ", delivery=" + delivery +
                 '}';
     }
 }

@@ -9,6 +9,7 @@ public class Depot {
     List<Product> storageList;
     String owner;
     int cashAllowance;
+    int delivery;
     int stockMax;
     int stockMin;
     int storageMax;
@@ -20,6 +21,7 @@ public class Depot {
         this.stockList = initStock(builder);
         this.storageList = initStorage(builder);
         this.cashAllowance = builder.input.cashAllowance;
+        this.delivery = builder.input.deliveryCost;
         this.stockMax = builder.input.stockMax;
         this.stockMin = builder.input.stockMin;
         this.storageMax = builder.input.storageMax;
@@ -79,6 +81,18 @@ public class Depot {
         return storageList;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public int getCashAllowance() {
+        return cashAllowance;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
     public int getStockMax() {
         return stockMax;
     }
@@ -93,6 +107,10 @@ public class Depot {
 
     public int getStorageMin() {
         return storageMin;
+    }
+
+    public void setCashAllowance(int cashAllowance) {
+        this.cashAllowance = cashAllowance;
     }
 
     public static class DepotBuilder {
@@ -111,10 +129,11 @@ public class Depot {
     @Override
     public String toString() {
         return "Depot{" +
-                "stockList=" + stockList.size() +
-                ", storageList=" + storageList.size() +
+                "stockList=" + stockList +
+                ", storageList=" + storageList +
                 ", owner='" + owner + '\'' +
                 ", cashAllowance=" + cashAllowance +
+                ", delivery=" + delivery +
                 ", stockMax=" + stockMax +
                 ", stockMin=" + stockMin +
                 ", storageMax=" + storageMax +

@@ -16,21 +16,12 @@ public class Market {
 
     public void testing() {
 
-        System.out.println("--------------------------------------------------------------");
 
-        companies.forEach(currentCompany -> {
-
-            System.out.println(currentCompany.toString());
-
-            System.out.println(currentCompany.depots.get(0).toString());
-
-        });
+        new Transaction(companies.get(0), companies.get(2), companies.get(1));
+        new Transaction(companies.get(1), companies.get(0), companies.get(2));
+        new Transaction(companies.get(2), companies.get(1), companies.get(0));
 
         System.out.println("--------------------------------------------------------------");
-
-        isReadyToBuy(companies.get(0).depots.get(0));
-        isReadyToSell(companies.get(1).depots.get(0));
-
 
     }
 }

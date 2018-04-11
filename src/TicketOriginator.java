@@ -4,22 +4,17 @@ public class TicketOriginator {
     private String seller;
     private int buyerDepotId;
     private int sellerDepotId;
+    private int productCost;
+    private int totalCost;
     private int quantity;
     private double delivery;
 
-    public TicketOriginator(String buyer, String seller, int buyerDepotId, int sellerDepotId, int quantity, double delivery) {
-        this.buyer = buyer;
-        this.seller = seller;
-        this.buyerDepotId = buyerDepotId;
-        this.sellerDepotId = sellerDepotId;
-        this.quantity = quantity;
-        this.delivery = delivery;
+    public Ticket saveTicketState() {
+        return new Ticket(buyer, seller, buyerDepotId, sellerDepotId, productCost, quantity, delivery);
     }
 
-    public Ticket saveTicketState(){
-        return new Ticket(buyer, seller, buyerDepotId, sellerDepotId, quantity, delivery);
-    }
-    public void getTicketState(Ticket ticket){
+    public void getTicketState(Ticket ticket) {
+        this.totalCost = productCost * quantity;
         this.buyer = ticket.buyer;
         this.seller = ticket.seller;
         this.buyerDepotId = ticket.buyerDepotId;
@@ -74,5 +69,13 @@ public class TicketOriginator {
 
     public void setDelivery(double delivery) {
         this.delivery = delivery;
+    }
+
+    public int getProductCost() {
+        return productCost;
+    }
+
+    public void setProductCost(int productCost) {
+        this.productCost = productCost;
     }
 }

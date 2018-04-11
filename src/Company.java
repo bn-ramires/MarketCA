@@ -5,12 +5,10 @@ public class Company {
 
     String name;
     List<Depot> depots;
-    int transactions;
 
     public Company(CompanyBuilder builder) {
         this.name = builder.name;
         this.depots = initDepots(builder);
-        this.transactions = builder.transactions;
     }
 
     private List<Depot> initDepots(CompanyBuilder builder) {
@@ -43,16 +41,11 @@ public class Company {
         return depots;
     }
 
-    public double getTransactions() {
-        return transactions;
-    }
-
     public static class CompanyBuilder {
 
         String name;
         int numberOfDepots;
         int cashAllowance;
-        int transactions;
         int stockMax;
         int stockMin;
         int storageMax;
@@ -63,7 +56,6 @@ public class Company {
         public CompanyBuilder(String name,
                               int numberOfDepots,
                               int cashAllowance,
-                              int transactions,
                               int productCost,
                               int deliveryCost,
                               int stockMax,
@@ -73,7 +65,6 @@ public class Company {
             this.name = name;
             this.numberOfDepots = numberOfDepots;
             this.cashAllowance = cashAllowance;
-            this.transactions = transactions;
             this.productCost = productCost;
             this.deliveryCost = deliveryCost;
             this.stockMax = stockMax;
@@ -91,8 +82,7 @@ public class Company {
     public String toString() {
         return "Company{" +
                 "name='" + name + '\'' +
-                ", depots=" + depots.size() +
-                ", transactions=" + transactions +
+                ", depots=" + depots +
                 '}';
     }
 }

@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class Market {
 
     }
 
-    public void testing(){
+    public void testing() {
 
-        System.out.println("---------------------------------");
+        System.out.println("--------------------------------------------------------------");
 
         companies.forEach(currentCompany -> {
 
@@ -27,7 +26,7 @@ public class Market {
 
         });
 
-        System.out.println("---------------------------------");
+        System.out.println("--------------------------------------------------------------");
 
     }
 }

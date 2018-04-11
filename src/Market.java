@@ -28,5 +28,9 @@ public class Market {
 
         System.out.println("--------------------------------------------------------------");
 
+        isReadyToBuy(companies.get(0).depots.get(0));
+        isReadyToSell(companies.get(1).depots.get(0));
+
+
     }
 }

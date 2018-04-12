@@ -29,8 +29,8 @@ public class Company {
         return new Record(name, carer);
     }
 
-    public Report makeFullReport(List<Ticket> tickets) {
-        return null;
+    public Report makeFullReport(TicketCarer carer) {
+        return new Report(name, carer);
     }
 
     public String getName() {

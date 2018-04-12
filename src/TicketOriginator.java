@@ -7,7 +7,7 @@ public class TicketOriginator {
     private int productCost;
     private int totalCost;
     private int quantity;
-    private double delivery;
+    private int delivery;
 
     public Ticket saveTicketState() {
         return new Ticket(buyer, seller, buyerDepotId, sellerDepotId, productCost, quantity, delivery);
@@ -63,11 +63,11 @@ public class TicketOriginator {
         this.quantity = quantity;
     }
 
-    public double getDelivery() {
+    public int getDelivery() {
         return delivery;
     }
 
-    public void setDelivery(double delivery) {
+    public void setDelivery(int delivery) {
         this.delivery = delivery;
     }
 

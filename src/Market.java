@@ -34,6 +34,9 @@ public class Market {
         companyRecords.forEach(record -> {
             System.out.println(record.toString());
         });
+
+        companies.get(0).makeFullReport(getCarer()).generateReport();
+
     }
 
     private ArrayList<Company> getCompanies() {

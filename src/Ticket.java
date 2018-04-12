@@ -7,7 +7,7 @@ public class Ticket {
     int productCost;
     int totalCost;
     int quantity;
-    double delivery;
+    int delivery;
 
     public Ticket(String buyer,
                   String seller,
@@ -15,7 +15,7 @@ public class Ticket {
                   int sellerDepotId,
                   int productCost,
                   int quantity,
-                  double delivery) {
+                  int delivery) {
 
         this.totalCost = quantity * productCost;
         this.buyer = buyer;
@@ -69,11 +69,11 @@ public class Ticket {
         this.quantity = quantity;
     }
 
-    public double getDelivery() {
+    public int getDelivery() {
         return delivery;
     }
 
-    public void setDelivery(double delivery) {
+    public void setDelivery(int delivery) {
         this.delivery = delivery;
     }
 

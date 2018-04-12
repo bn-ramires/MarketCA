@@ -5,6 +5,11 @@ import purchasing.TicketCarer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a model for company and it holds all necessary information about a company.
+ *
+ *
+ * */
 public class Company {
 
     String name;
@@ -29,7 +34,7 @@ public class Company {
         return initializedList;
     }
 
-    public CompanyRecord makeRecord(TicketCarer carer) {
+    public CompanyRecord makeCompanyRecord(TicketCarer carer) {
         return new CompanyRecord(getName(), carer);
     }
 

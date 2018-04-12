@@ -4,12 +4,22 @@ import purchasing.TicketCarer;
 
 import java.util.List;
 
+/**
+ * This is a model for a company's record.
+ * It contains financial details based on the transactions performed.
+ *
+ * @see CompanyRecord#companyName
+ * @see CompanyRecord#income
+ * @see CompanyRecord#expenses
+ * @see CompanyRecord#cashflow
+ * @see CompanyRecord#tickets
+ */
 public class CompanyRecord {
 
+    private String companyName;
     private int income;
     private int expenses;
     private int cashflow;
-    private String companyName;
     private List<Ticket> tickets;
 
     public CompanyRecord(String companyName, TicketCarer carer) {
@@ -22,26 +32,45 @@ public class CompanyRecord {
     }
 
 
-    private void calculateIncome() {
+    /**
+     * Determines how much money a company has made after all transactions have been carried out.
+     *
+     * @return company's income
+     */
+    private int calculateIncome() {
 
         String companyName = getCompanyName();
         List<Ticket> tickets = getTickets();
 
-        setIncome(tickets.stream().filter(ticket ->
-                ticket.getSeller().equals(companyName)).mapToInt(Ticket::getTotalCost).sum());
+        int temp = tickets.stream().filter(ticket ->
+                ticket.getSeller().equals(companyName)).mapToInt(Ticket::getTotalCost).sum();
+
+        return income = temp;
     }
 
-    private void calculateExpenses() {
+    /**
+     * Determines how much money a company has spent after all transactions have been carried out.
+     *
+     * @return company's expenses
+     */
+    private int calculateExpenses() {
 
         String companyName = getCompanyName();
         List<Ticket> tickets = getTickets();
 
-        setExpenses(tickets.stream().filter(ticket ->
-                ticket.getBuyer().equals(companyName)).mapToInt(Ticket::getTotalCost).sum());
+        int temp = tickets.stream().filter(ticket ->
+                ticket.getBuyer().equals(companyName)).mapToInt(Ticket::getTotalCost).sum();
+
+        return expenses = temp;
     }
 
-    private void calculateCashflow() {
-        cashflow = getIncome() - getExpenses();
+    /**
+     * Determines a company's cashflow after all transactions have been carried out.
+     *
+     * @return company's cashflow
+     */
+    private int calculateCashflow() {
+        return cashflow = getIncome() - getExpenses();
     }
 
     public int getIncome() {
@@ -62,18 +91,6 @@ public class CompanyRecord {
 
     private List<Ticket> getTickets() {
         return tickets;
-    }
-
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public void setExpenses(int expenses) {
-        this.expenses = expenses;
-    }
-
-    public void setCashflow(int cashflow) {
-        this.cashflow = cashflow;
     }
 
     @Override

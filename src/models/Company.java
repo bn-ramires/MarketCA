@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This is a model for company and it holds all necessary information about a company.
- * <p>
+ *
  * This class contains a list of depot objcets.
  *
  * @see Company#depots

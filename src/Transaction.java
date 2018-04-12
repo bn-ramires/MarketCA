@@ -71,6 +71,7 @@ public class Transaction {
     public void buyProducts(int toBuy, Depot buyer, Depot seller) {
 
         int productCost = seller.stockList.get(0).price;
+        int totalCost = (toBuy * productCost) - seller.delivery;
 
         originator.setBuyer(buyer.getOwner());
         originator.setSeller(seller.getOwner());
@@ -81,20 +82,22 @@ public class Transaction {
         originator.setQuantity(toBuy);
         ticketCarer.addTicket(originator.saveTicketState());
 
-        int total = toBuy * productCost;
-
         for (int i = 0; i < toBuy; i++) {
 //            System.out.println("To buy:" + toBuy);
 //            System.out.println("Stock List Size: " + seller.stockList.size());
 
-            System.out.println("buyProducts() Stock size: " + seller.stockList.size());
-            System.out.println("buyProducts() Stock isEmpty?!: " + seller.stockList.isEmpty());
-            Product temp = seller.getStockList().remove(i);
+//            System.out.println("buyProducts() Stock size: " + seller.stockList.size());
+//            System.out.println("buyProducts() Stock isEmpty?!: " + seller.stockList.isEmpty());
+
+            Product temp = seller.getStockList().remove(0);
             buyer.getStockList().add(temp);
         }
 
-        buyer.setCashAllowance(buyer.getCashAllowance() - total);
-        seller.setCashAllowance(seller.getCashAllowance() + total);
+        System.out.println("Cash before: " + buyer.getCashAllowance());
+        buyer.setCashAllowance(buyer.getCashAllowance() - totalCost);
+        System.out.println("Cash after: " + buyer.getCashAllowance());
+
+        seller.setCashAllowance(seller.getCashAllowance() + totalCost);
 
     }
 

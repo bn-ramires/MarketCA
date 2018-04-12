@@ -18,7 +18,7 @@ public class Database {
     private JsonObject makeSampleFile() {
 
         int numberOfDepots = 100;
-        int transactions = 200;
+        int transactions = numberOfDepots;
         int stockMax = 50;
         int stockMin = 15;
         int storageMax = 80;
@@ -78,7 +78,7 @@ public class Database {
 
         ArrayList<Company> companies = new ArrayList<>();
 
-        json.getAsJsonArray("companies").forEach(item -> {
+        getJson().getAsJsonArray("companies").forEach(item -> {
 
             // Creating JSON object
             JsonObject obj = (JsonObject) item;
@@ -97,4 +97,7 @@ public class Database {
         return new Random().nextInt(max - min + 1) + min;
     }
 
+    public JsonObject getJson() {
+        return json;
+    }
 }

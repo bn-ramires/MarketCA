@@ -39,6 +39,8 @@ public class Ticket {
         return seller;
     }
 
+    public int getTotalCost() { return totalCost; }
+
     public void setSeller(String seller) {
         this.seller = seller;
     }
@@ -74,6 +76,7 @@ public class Ticket {
     public void setDelivery(double delivery) {
         this.delivery = delivery;
     }
+
 
     @Override
     public String toString() {

@@ -3,71 +3,74 @@ import java.util.List;
 
 public class Market {
 
-    ArrayList<Company> companies;
-    List<Record> companyRecords = new ArrayList<>();
-    Report fullReport;
-    TicketCarer carer;
+    private static Market instance;
+    private static ArrayList<Company> companies;
+    private static List<Record> companyRecords = new ArrayList<>();
+    private static Report fullReport;
+    private static TicketCarer carer;
 
     public Market() {
-
+        getInstance();
         Database db = new Database();
         companies = db.getCompanies();
 
     }
 
-    public void testing() {
+    // Following Mark's CA parameters
+    public void marksRequirements() {
 
-        Transaction transaction = new Transaction();
-        transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
-        transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
-        transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
+        Transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
+        Transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
+        Transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
 
-        setCarer(transaction.getTicketCarer());
+        setCarer(Transaction.getTicketCarer());
 
         companies.forEach(company -> {
             Record record = company.makeRecord(getCarer());
-            companyRecords.add(record);
+            addCompanyRecords(record);
         });
 
         companyRecords.forEach(record -> {
             System.out.println(record.toString());
         });
-
-//        new Transaction(companies.get(0), companies.get(2), companies.get(1));
-//        new Transaction(companies.get(1), companies.get(0), companies.get(2));
-//        new Transaction(companies.get(2), companies.get(1), companies.get(0));
-
     }
 
-    public ArrayList<Company> getCompanies() {
+    private static ArrayList<Company> getCompanies() {
         return companies;
     }
 
-    public void setCompanies(ArrayList<Company> companies) {
-        this.companies = companies;
+    private static void setCompanies(ArrayList<Company> companies) {
+        companies = companies;
     }
 
-    public List<Record> getCompanyRecords() {
+    private static List<Record> getCompanyRecords() {
         return companyRecords;
     }
 
-    public void setCompanyRecords(List<Record> companyRecords) {
-        this.companyRecords = companyRecords;
+    private static void addCompanyRecords(Record record) {
+        companyRecords.add(record);
     }
 
-    public Report getFullReport() {
+    private static Report getFullReport() {
         return fullReport;
     }
 
-    public void setFullReport(Report fullReport) {
-        this.fullReport = fullReport;
+    private static void setFullReport(Report fullReport) {
+        fullReport = fullReport;
     }
 
-    public TicketCarer getCarer() {
+    private static TicketCarer getCarer() {
         return carer;
     }
 
-    public void setCarer(TicketCarer carer) {
-        this.carer = carer;
+    private static Market getInstance() {
+        if (instance == null) {
+            return instance = new Market();
+        }
+        return instance;
+    }
+
+    private static void setCarer(TicketCarer carer) {
+        carer = carer;
     }
 }

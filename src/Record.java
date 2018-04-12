@@ -2,7 +2,6 @@ import java.util.List;
 
 public class Record {
 
-
     private int income;
     private int expenses;
     private int cashflow;

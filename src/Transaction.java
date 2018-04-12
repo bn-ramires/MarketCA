@@ -3,26 +3,21 @@ import java.util.List;
 
 public class Transaction {
 
-    private ArrayList<Company> sellers = new ArrayList<>();
-    Company buyer;
+    private static Transaction instance;
+    private static ArrayList<Company> sellers = new ArrayList<>();
+    private static TicketOriginator originator = new TicketOriginator();
+    private static TicketCarer ticketCarer = new TicketCarer();
+    private static int currentBuyerId;
+    private static int currentSellerId;
 
-    private TicketOriginator originator = new TicketOriginator();
-    private TicketCarer ticketCarer = new TicketCarer();
-
-    private int currentBuyerId;
-    private int currentSellerId;
-
-    public Transaction() {
+    private Transaction() {
+        getInstance();
     }
 
-    public void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
-
-        this.buyer = buyer;
-        this.sellers.add(firstSeller);
-        this.sellers.add(secondSeller);
+    public static void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
 
         currentSellerId = 0;
-
+        setSellers(firstSeller, secondSeller);
         List<Company> sellers = getSellers();
 
         // Looping through buyer's depots
@@ -66,10 +61,12 @@ public class Transaction {
         });
     }
 
-    public void buyProducts(int toBuy, Depot buyer, Depot seller) {
+    private static void buyProducts(int toBuy, Depot buyer, Depot seller) {
 
         int productCost = seller.stockList.get(0).price;
         int totalCost = (toBuy * productCost) + seller.delivery;
+        TicketOriginator originator = getOriginator();
+        TicketCarer carer = getTicketCarer();
 
         originator.setBuyer(buyer.getOwner());
         originator.setSeller(seller.getOwner());
@@ -78,7 +75,7 @@ public class Transaction {
         originator.setDelivery(seller.getDelivery());
         originator.setProductCost(productCost);
         originator.setQuantity(toBuy);
-        ticketCarer.addTicket(originator.saveTicketState());
+        carer.addTicket(originator.saveTicketState());
 
         for (int i = 0; i < toBuy; i++) {
 
@@ -91,7 +88,7 @@ public class Transaction {
 
     }
 
-    public Boolean isReadyToBuy(Depot buyer, Depot seller) {
+    private static Boolean isReadyToBuy(Depot buyer, Depot seller) {
 
         int cash = buyer.cashAllowance;
         int storage = buyer.storageList.size();
@@ -103,7 +100,7 @@ public class Transaction {
         return cash > 50 && storage > minimum && cash >= totalCost;
     }
 
-    public int setBuyingGoal(Depot buyer, Depot seller) {
+    private static int setBuyingGoal(Depot buyer, Depot seller) {
 
         int deliveryCost = seller.getDelivery();
         int productCost = seller.stockList.get(0).getPrice();
@@ -120,7 +117,7 @@ public class Transaction {
         return buyingGoal;
     }
 
-    public int toBuy(Depot seller, int buyingGoal) {
+    private static int toBuy(Depot seller, int buyingGoal) {
 
         int stock = seller.stockList.size();
         int minimum = seller.stockMin;
@@ -134,7 +131,7 @@ public class Transaction {
         return buyingGoal;
     }
 
-    public Boolean isReadyToSell(Depot seller) {
+    private static Boolean isReadyToSell(Depot seller) {
 
         int stock = seller.stockList.size();
         int minimum = seller.stockMin;
@@ -142,27 +139,35 @@ public class Transaction {
         return stock > minimum;
     }
 
-    public List<Company> getSellers() {
+    private static List<Company> getSellers() {
         return sellers;
     }
 
-    public Company getBuyer() {
-        return buyer;
-    }
-
-    public TicketOriginator getOriginator() {
+    public static TicketOriginator getOriginator() {
         return originator;
     }
 
-    public TicketCarer getTicketCarer() {
+    public static TicketCarer getTicketCarer() {
         return ticketCarer;
     }
 
-    public int getCurrentBuyerId() {
+    private static int getCurrentBuyerId() {
         return currentBuyerId;
     }
 
-    public int getCurrentSellerId() {
+    private static int getCurrentSellerId() {
         return currentSellerId;
+    }
+
+    private static Transaction getInstance() {
+        if (instance == null) {
+            return Transaction.instance = new Transaction();
+        }
+        return instance;
+    }
+
+    public static void setSellers(Company firstSeller, Company secondSeller) {
+        sellers.add(firstSeller);
+        sellers.add(secondSeller);
     }
 }

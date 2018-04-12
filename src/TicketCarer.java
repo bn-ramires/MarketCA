@@ -2,19 +2,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketCarer {
-    private List<Ticket> tickets = new ArrayList<>();
+    private List<Ticket> ticketList = new ArrayList<>();
 
     public TicketCarer() { }
 
     public void addTicket(Ticket ticket){
-        tickets.add(ticket);
+        ticketList.add(ticket);
     }
 
     public Ticket getTicket(int index){
-        return tickets.get(index);
+        return ticketList.get(index);
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public List<Ticket> getTicketList() {
+        return ticketList;
     }
 }

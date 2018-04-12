@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Depot {
 
-    List<Product> stockList;
-    List<Product> storageList;
+    LinkedList<Product> stockList;
+    LinkedList<Product> storageList;
     String owner;
     int cashAllowance;
     int delivery;
@@ -34,12 +31,12 @@ public class Depot {
         return new Random().nextInt(max - min + 1) + min;
     }
 
-    private List<Product> initStock(DepotBuilder builder) {
+    private LinkedList<Product> initStock(DepotBuilder builder) {
 
         // Random number between the minimum and maximum amount of allowed stock items
         int numberOfProducts = getRandomNumber(builder.input.stockMax, builder.input.stockMin);
 
-        ArrayList<Product> initializedList = new ArrayList<>();
+        LinkedList<Product> initializedList = new LinkedList<>();
 
         for (int i = 0; i < numberOfProducts; i++) {
 
@@ -51,12 +48,12 @@ public class Depot {
         return initializedList;
     }
 
-    private List<Product> initStorage(DepotBuilder builder) {
+    private LinkedList<Product> initStorage(DepotBuilder builder) {
 
         // Random number of products from other companies. Default is 3 to 40 for each.
         int numberOfProducts = getRandomNumber(builder.input.storageMax / 2, builder.input.storageMin / 2);
 
-        ArrayList<Product> initializedList = new ArrayList<>();
+        LinkedList<Product> initializedList = new LinkedList<>();
 
         for (int i = 0; i < numberOfProducts; i++) {
 
@@ -129,8 +126,8 @@ public class Depot {
     @Override
     public String toString() {
         return "Depot{" +
-                "stockList=" + stockList +
-                ", storageList=" + storageList +
+                "stockList=" + stockList.size() +
+                ", storageList=" + storageList.size() +
                 ", owner='" + owner + '\'' +
                 ", cashAllowance=" + cashAllowance +
                 ", delivery=" + delivery +

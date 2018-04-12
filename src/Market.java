@@ -16,12 +16,14 @@ public class Market {
 
     public void testing() {
 
+        Transaction transaction = new Transaction(companies.get(0), companies.get(2), companies.get(1));
+        transaction.getTicketCarer().getTicketList().forEach(ticket -> {
+//            System.out.println(ticket);
+        });
 
-        new Transaction(companies.get(0), companies.get(2), companies.get(1));
-        new Transaction(companies.get(1), companies.get(0), companies.get(2));
-        new Transaction(companies.get(2), companies.get(1), companies.get(0));
-
-        System.out.println("--------------------------------------------------------------");
+//        new Transaction(companies.get(0), companies.get(2), companies.get(1));
+//        new Transaction(companies.get(1), companies.get(0), companies.get(2));
+//        new Transaction(companies.get(2), companies.get(1), companies.get(0));
 
     }
 }

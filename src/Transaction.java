@@ -1,11 +1,12 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Transaction {
 
-    private List<Company> sellers;
+    private ArrayList<Company> sellers = new ArrayList<>();
     Company buyer;
 
-    private TicketOriginator originator;
+    private TicketOriginator originator = new TicketOriginator();
     private TicketCarer ticketCarer = new TicketCarer();
 
     private int currentBuyerId;
@@ -23,38 +24,46 @@ public class Transaction {
 
         currentSellerId = 0;
 
-        Depot randomSellerDepot = getSellers().get(0).depots.get(0);
         Company buyer = getBuyer();
         List<Company> sellers = getSellers();
 
+        // Looping through buyer's depots
         buyer.depots.forEach(buyerDepot -> {
-            if (isReadyToBuy(buyerDepot, randomSellerDepot)) {
 
-                int buyingGoal = setBuyingGoal(buyerDepot, randomSellerDepot);
+            // Looping through seller companies
+            for (int j = 0; j < sellers.size(); j++) {
 
-                for (int j = 0; j < sellers.size(); j++) {
+                Company seller = sellers.get(j);
+                boolean notReadyToBuy = false;
+                boolean hasBought = false;
 
-                    boolean hasBought = false;
-                    if (hasBought) {
-                        break;
-                    }
+                if (notReadyToBuy || hasBought) {
+                    break;
+                }
 
-                    int depotSize = sellers.get(j).depots.size();
+                // Looping through sellers's depots
+                for (int i = currentSellerId; i < seller.depots.size(); i++) {
 
-                    for (int i = currentSellerId; i < depotSize; i++) {
+                    Depot sellerDepot = seller.depots.get(i);
 
-                        Depot currentDepot = sellers.get(j).depots.get(i);
+                    if (isReadyToBuy(buyerDepot, sellerDepot)) {
 
-                        if (isReadyToSell(currentDepot)) {
-                            int toBuy = toBuy(currentDepot, buyingGoal);
-                            buyProducts(toBuy, buyerDepot, currentDepot);
+                        int buyingGoal = setBuyingGoal(buyerDepot, sellerDepot);
+
+                        if (isReadyToSell(sellerDepot)) {
+                            int toBuy = toBuy(sellerDepot, buyingGoal);
+                            System.out.println("To buy: " + toBuy);
+                            buyProducts(toBuy, buyerDepot, sellerDepot);
 
                             currentSellerId++;
                             hasBought = true;
                             break;
                         }
+                    } else {
+                        notReadyToBuy = true;
                     }
                 }
+
             }
         });
     }
@@ -63,11 +72,11 @@ public class Transaction {
 
         int productCost = seller.stockList.get(0).price;
 
-        originator.setBuyer(buyer.owner);
-        originator.setSeller(seller.owner);
+        originator.setBuyer(buyer.getOwner());
+        originator.setSeller(seller.getOwner());
         originator.setBuyerDepotId(getCurrentBuyerId());
         originator.setSellerDepotId(getCurrentSellerId());
-        originator.setDelivery(seller.delivery);
+        originator.setDelivery(seller.getDelivery());
         originator.setProductCost(productCost);
         originator.setQuantity(toBuy);
         ticketCarer.addTicket(originator.saveTicketState());
@@ -75,8 +84,13 @@ public class Transaction {
         int total = toBuy * productCost;
 
         for (int i = 0; i < toBuy; i++) {
-            Product temp = buyer.stockList.remove(i);
-            seller.storageList.add(temp);
+//            System.out.println("To buy:" + toBuy);
+//            System.out.println("Stock List Size: " + seller.stockList.size());
+
+            System.out.println("buyProducts() Stock size: " + seller.stockList.size());
+            System.out.println("buyProducts() Stock isEmpty?!: " + seller.stockList.isEmpty());
+            Product temp = seller.getStockList().remove(i);
+            buyer.getStockList().add(temp);
         }
 
         buyer.setCashAllowance(buyer.getCashAllowance() - total);
@@ -93,7 +107,7 @@ public class Transaction {
         int delivery = seller.delivery;
         int totalCost = productPrice + delivery;
 
-        if (cash <= 50 && storage <= minimum && cash < totalCost) {
+        if (cash <= 50 || storage <= minimum || cash < totalCost) {
             return false;
         }
 
@@ -102,12 +116,16 @@ public class Transaction {
 
     public int setBuyingGoal(Depot buyer, Depot seller) {
 
-        int deliveryCost = seller.delivery;
-        int unitCost = seller.stockList.get(0).getPrice();
+        int deliveryCost = seller.getDelivery();
+        int productCost = seller.stockList.get(0).getPrice();
         int stock = buyer.stockList.size();
         int minimum = buyer.stockMin;
         int cash = buyer.cashAllowance;
-        int purchasingPower = (int) Math.floor((cash - deliveryCost) / unitCost);
+        int purchasingPower = (int) Math.floor((cash - deliveryCost) / productCost);
+        System.out.println("Product cost: €" + productCost);
+        System.out.println("Delivery cost: €" + deliveryCost);
+        System.out.println("Total cash: €" + cash);
+        System.out.println("Purchasing power: " + purchasingPower);
         int spaceAvailable = stock - minimum;
 
         if (purchasingPower > spaceAvailable) {
@@ -115,18 +133,6 @@ public class Transaction {
         }
 
         return purchasingPower;
-    }
-
-    public Boolean isReadyToSell(Depot seller) {
-
-        int stock = seller.stockList.size();
-        int minimum = seller.stockMin;
-
-        if (stock <= minimum) {
-            return false;
-        }
-
-        return true;
     }
 
     public int toBuy(Depot seller, int buyingGoal) {
@@ -141,6 +147,20 @@ public class Transaction {
         }
 
         return buyingGoal;
+    }
+
+    public Boolean isReadyToSell(Depot seller) {
+
+        int stock = seller.stockList.size();
+        int minimum = seller.stockMin;
+
+        System.out.println("isReadyToSell STOCK: " + stock);
+        System.out.println("isReadyToSell MINIMUM: " + minimum);
+        if (stock <= minimum) {
+            return false;
+        }
+
+        return true;
     }
 
     public List<Company> getSellers() {

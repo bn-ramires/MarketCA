@@ -74,4 +74,18 @@ public class Ticket {
     public void setDelivery(double delivery) {
         this.delivery = delivery;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "buyer='" + buyer + '\'' +
+                ", seller='" + seller + '\'' +
+                ", buyerDepotId=" + buyerDepotId +
+                ", sellerDepotId=" + sellerDepotId +
+                ", productCost=" + productCost +
+                ", totalCost=" + totalCost +
+                ", quantity=" + quantity +
+                ", delivery=" + delivery +
+                '}';
+    }
 }

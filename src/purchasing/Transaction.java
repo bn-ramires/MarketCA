@@ -5,6 +5,7 @@ import models.Depot;
 import models.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +50,7 @@ public class Transaction {
         currentBuyerId = 0;
         setSellers(firstSeller, secondSeller);
         List<Company> sellers = getSellers();
+        Collections.shuffle(sellers);
 
         // Looping through buyer's depots
         buyer.getDepots().forEach(buyerDepot -> {

@@ -51,7 +51,7 @@ public class Transaction {
         List<Company> sellers = getSellers();
 
         // Looping through buyer's depots
-        buyer.depots.forEach(buyerDepot -> {
+        buyer.getDepots().forEach(buyerDepot -> {
 
             currentBuyerId++;
 
@@ -67,9 +67,9 @@ public class Transaction {
                 }
 
                 // Looping through sellers's depots
-                for (int i = currentSellerId; i < seller.depots.size(); i++) {
+                for (int i = getCurrentSellerId(); i < seller.getDepots().size(); i++) {
 
-                    Depot sellerDepot = seller.depots.get(i);
+                    Depot sellerDepot = seller.getDepots().get(i);
 
                     if (isReadyToBuy(buyerDepot, sellerDepot)) {
 
@@ -150,7 +150,7 @@ public class Transaction {
      */
     private void generateTicket(int quantity, Depot buyer, Depot seller) {
 
-        int productCost = seller.stockList.get(0).price;
+        int productCost = seller.getStockList().get(0).getPrice();
 
         TicketOriginator originator = getOriginator();
         TicketCarer carer = getTicketCarer();
@@ -177,14 +177,14 @@ public class Transaction {
         int cash = buyer.getCashAllowance();
         int storage = buyer.getStorageList().size();
         int minimum = buyer.getStockMin();
-        int productPrice = seller.stockList.get(0).getPrice();
-        int delivery = seller.delivery;
+        int productPrice = seller.getStockList().get(0).getPrice();
+        int delivery = seller.getDelivery();
         int totalCost = productPrice + delivery;
 
         // Buyer's cash has to be bigger than 50.
         // Also enough to purchase at least a single product and pay for delivery costs.
         // Its storage space bigger than 6 (minimum of 3 products in storage from the other two companies).
-        return cash > minimumCashAllowance && storage > minimum && cash >= totalCost;
+        return cash > getMinimumCashAllowance() && storage > minimum && cash >= totalCost;
     }
 
     /**
@@ -198,10 +198,10 @@ public class Transaction {
     public int setBuyingGoal(Depot buyer, Depot seller) {
 
         int deliveryCost = seller.getDelivery();
-        int productCost = seller.stockList.get(0).getPrice();
-        int stock = buyer.stockList.size();
+        int productCost = seller.getStockList().get(0).getPrice();
+        int stock = buyer.getStockList().size();
         int minimum = buyer.getStockMin();
-        int purchasingPower = buyer.getCashAllowance() - minimumCashAllowance;
+        int purchasingPower = buyer.getCashAllowance() - getMinimumCashAllowance();
         int buyingGoal = (int) Math.floor((purchasingPower - deliveryCost) / productCost);
         int spaceAvailable = stock - minimum;
 
@@ -267,6 +267,10 @@ public class Transaction {
 
     public int getCurrentSellerId() {
         return currentSellerId;
+    }
+
+    public int getMinimumCashAllowance() {
+        return minimumCashAllowance;
     }
 
     /**

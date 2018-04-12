@@ -9,9 +9,9 @@ public class Record {
     private String companyName;
     private List<Ticket> tickets;
 
-    public Record(String companyName, List<Ticket> tickets) {
+    public Record(String companyName, TicketCarer carer) {
         this.companyName = companyName;
-        this.tickets = tickets;
+        this.tickets = carer.getTicketList();
 
         calculateIncome();
         calculateExpenses();
@@ -59,5 +59,15 @@ public class Record {
 
     private List<Ticket> getTickets() {
         return tickets;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "income=" + income +
+                ", expenses=" + expenses +
+                ", cashflow=" + cashflow +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }

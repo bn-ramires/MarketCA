@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Product {
 
     String brand;
@@ -35,5 +37,20 @@ public class Product {
                 "brand='" + brand + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return price == product.price &&
+                Objects.equals(brand, product.brand);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(brand, price);
     }
 }

@@ -29,7 +29,7 @@ public class Transaction {
 
         // Looping through buyer's depots
         buyer.depots.forEach(buyerDepot -> {
-
+            System.out.println("!--------------------------");
             // Looping through seller companies
             for (int j = 0; j < sellers.size(); j++) {
 
@@ -52,7 +52,6 @@ public class Transaction {
 
                         if (isReadyToSell(sellerDepot)) {
                             int toBuy = toBuy(sellerDepot, buyingGoal);
-                            System.out.println("To buy: " + toBuy);
                             buyProducts(toBuy, buyerDepot, sellerDepot);
 
                             currentSellerId++;
@@ -65,13 +64,14 @@ public class Transaction {
                 }
 
             }
+            System.out.println("/--------------------------");
         });
     }
 
     public void buyProducts(int toBuy, Depot buyer, Depot seller) {
 
         int productCost = seller.stockList.get(0).price;
-        int totalCost = (toBuy * productCost) - seller.delivery;
+        int totalCost = (toBuy * productCost) + seller.delivery;
 
         originator.setBuyer(buyer.getOwner());
         originator.setSeller(seller.getOwner());
@@ -83,20 +83,12 @@ public class Transaction {
         ticketCarer.addTicket(originator.saveTicketState());
 
         for (int i = 0; i < toBuy; i++) {
-//            System.out.println("To buy:" + toBuy);
-//            System.out.println("Stock List Size: " + seller.stockList.size());
-
-//            System.out.println("buyProducts() Stock size: " + seller.stockList.size());
-//            System.out.println("buyProducts() Stock isEmpty?!: " + seller.stockList.isEmpty());
 
             Product temp = seller.getStockList().remove(0);
             buyer.getStockList().add(temp);
         }
 
-        System.out.println("Cash before: " + buyer.getCashAllowance());
         buyer.setCashAllowance(buyer.getCashAllowance() - totalCost);
-        System.out.println("Cash after: " + buyer.getCashAllowance());
-
         seller.setCashAllowance(seller.getCashAllowance() + totalCost);
 
     }
@@ -110,11 +102,7 @@ public class Transaction {
         int delivery = seller.delivery;
         int totalCost = productPrice + delivery;
 
-        if (cash <= 50 || storage <= minimum || cash < totalCost) {
-            return false;
-        }
-
-        return true;
+        return cash > 50 && storage > minimum && cash >= totalCost;
     }
 
     public int setBuyingGoal(Depot buyer, Depot seller) {
@@ -123,19 +111,15 @@ public class Transaction {
         int productCost = seller.stockList.get(0).getPrice();
         int stock = buyer.stockList.size();
         int minimum = buyer.stockMin;
-        int cash = buyer.cashAllowance;
-        int purchasingPower = (int) Math.floor((cash - deliveryCost) / productCost);
-        System.out.println("Product cost: €" + productCost);
-        System.out.println("Delivery cost: €" + deliveryCost);
-        System.out.println("Total cash: €" + cash);
-        System.out.println("Purchasing power: " + purchasingPower);
+        int purchasingPower = buyer.cashAllowance - 50;
+        int buyingGoal = (int) Math.floor((purchasingPower - deliveryCost) / productCost);
         int spaceAvailable = stock - minimum;
 
-        if (purchasingPower > spaceAvailable) {
+        if (buyingGoal > spaceAvailable) {
             return spaceAvailable;
         }
 
-        return purchasingPower;
+        return buyingGoal;
     }
 
     public int toBuy(Depot seller, int buyingGoal) {
@@ -157,13 +141,7 @@ public class Transaction {
         int stock = seller.stockList.size();
         int minimum = seller.stockMin;
 
-        System.out.println("isReadyToSell STOCK: " + stock);
-        System.out.println("isReadyToSell MINIMUM: " + minimum);
-        if (stock <= minimum) {
-            return false;
-        }
-
-        return true;
+        return stock > minimum;
     }
 
     public List<Company> getSellers() {

@@ -35,7 +35,7 @@ public class Market {
             System.out.println(record.toString());
         });
 
-        companies.get(0).makeFullReport(getCarer()).generateReport();
+        companies.get(0).makeFullReport(getCarer()).generateFullReport();
 
     }
 

@@ -7,6 +7,7 @@ public class Report {
 
     private String companyName;
     private List<Ticket> tickets;
+    private List<DepotReport> reports = new ArrayList<>();
 
 
     public Report(String companyName, TicketCarer carer) {
@@ -15,26 +16,31 @@ public class Report {
     }
 
 
-    public void generateReport() {
+    public List<DepotReport> generateFullReport() {
         List<Ticket> filtered = tickets.stream()
                 .filter(ticket -> ticket.getBuyer().equals(companyName) ||
                         ticket.getSeller().equals(companyName))
                 .collect(Collectors.toList());
         for(int i = 0; i<= 100; i++){
             int finalI = i;
-            int bought = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum();
-            int totalProdCost = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum();
-            int sold = filtered.stream().filter(ticket -> finalI == ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum();
+            int prodSold = filtered.stream().filter(ticket -> finalI == ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum();
             int income = filtered.stream().filter(ticket -> finalI == ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum();
-            int tolatDelivery = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getDelivery).sum();
-            System.out.println("---------------------------------");
-            System.out.println("Depot Id: " + i);
-            System.out.println("Prod sold: " + sold+ " Total: $"+ income);
-            System.out.println("Prod bought " + bought + " Total: $"+ totalProdCost);
+            int prodBought = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum();
+            int totalProdCost = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum();
+            int totalDelivery = filtered.stream().filter(ticket -> finalI == ticket.getBuyerDepotId()).mapToInt(Ticket::getDelivery).sum();
+
+
+            reports.add(new DepotReport(i, prodSold, prodBought, income, totalProdCost, totalDelivery));
         }
-
-
+       return reports;
     }
 
 
 }
+
+
+
+
+
+
+

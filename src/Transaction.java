@@ -12,19 +12,17 @@ public class Transaction {
     private int currentBuyerId;
     private int currentSellerId;
 
-    public Transaction(Company buyer, Company firstSeller, Company secondSeller) {
-        this.sellers.add(firstSeller);
-        this.sellers.add(secondSeller);
-        this.buyer = buyer;
-
-        makeTransactions();
+    public Transaction() {
     }
 
-    public void makeTransactions() {
+    public void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
+
+        this.buyer = buyer;
+        this.sellers.add(firstSeller);
+        this.sellers.add(secondSeller);
 
         currentSellerId = 0;
 
-        Company buyer = getBuyer();
         List<Company> sellers = getSellers();
 
         // Looping through buyer's depots

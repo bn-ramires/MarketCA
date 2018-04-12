@@ -17,12 +17,17 @@ public class Market {
 
     public void testing() {
 
-        Transaction transaction = new Transaction(companies.get(0), companies.get(2), companies.get(1));
+        Transaction transaction = new Transaction();
+        transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
+        transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
+        transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
 
         setCarer(transaction.getTicketCarer());
-        companyRecords.add(companies.get(0).makeRecord(getCarer()));
-        companyRecords.add(companies.get(1).makeRecord(getCarer()));
-        companyRecords.add(companies.get(2).makeRecord(getCarer()));
+
+        companies.forEach(company -> {
+            Record record = company.makeRecord(getCarer());
+            companyRecords.add(record);
+        });
 
         companyRecords.forEach(record -> {
             System.out.println(record.toString());

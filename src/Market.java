@@ -24,7 +24,7 @@ public class Market {
 
     // Following Mark's CA parameters
     public void marksRequirements() {
-
+        boolean isManualMode = UserInterface.setMode();
         Transaction transaction = Transaction.getInstance();
         transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
         transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
@@ -36,14 +36,30 @@ public class Market {
             CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
             addCompanyRecords(companyRecord);
         });
+        if(isManualMode){
 
-        companies.get(0).makeFullReport(getCarer()).generateFullReport();
-        UserInterface.printTitles("Full Report");
-
-
-
+            int index = UserInterface.selectCompany();
+            if(index != -1) {
+                UserInterface.printCompanyName(companies.get(index).getName());
+                UserInterface.printTitles("Full Report");
+                companies.get(index).makeFullReport(getCarer()).generateFullReport().forEach(depotReport -> {
+                    UserInterface.printDepotReport(depotReport);
+                });
+            }
+        }
         UserInterface.printTitles("Company Results");
         companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
+
+
+        int highestCashflowIndex = 0;
+        for(int i = 0; i < companyRecords.size(); i++){
+            int highestCashflow = 0;
+            if(highestCashflow < companyRecords.get(i).getCashflow()){
+                highestCashflow = companyRecords.get(i).getCashflow();
+               highestCashflowIndex = i;
+            }
+        }
+        UserInterface.printHighestCashflowCompany(companyRecords.get(highestCashflowIndex));
 
 
 

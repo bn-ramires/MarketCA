@@ -5,6 +5,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This is a model for a Depot and it holds all necessary information about it.
+ * <p>
+ * Lists of both the depot's and other company's products. Randomized as required.
+ *
+ * @see Depot#stockList
+ * @see Depot#storageList
+ * <p>
+ * The company that owns this depot.
+ * @see Depot#owner
+ * <p>
+ * Cash allowance. Restricted and randomized as required.
+ * @see Depot#cashAllowance
+ * <p>
+ * Delivery cost for anyone buying from this depot.
+ * @see Depot#delivery
+ * <p>
+ * Restrictions as required for the depot's own products and purchased ones.
+ * @see Depot#stockMax
+ * @see Depot#stockMin
+ * @see Depot#storageMax
+ * @see Depot#storageMin
+ */
 public class Depot {
 
     public LinkedList<Product> stockList;
@@ -30,12 +53,26 @@ public class Depot {
         this.storageMin = builder.input.storageMin;
     }
 
-    // Returns a random number between the first and second parameter
+    /**
+     * Generates a random number between two parameters.
+     *
+     * @param max maximum result.
+     * @param min minimum result.
+     * @return randomized number
+     */
     private int getRandomNumber(int max, int min) {
 
         return new Random().nextInt(max - min + 1) + min;
     }
 
+    /**
+     * Initialized depot's stock list as required.
+     * <p>
+     * Requirement: minimum of 15 products and maximum of 50.
+     *
+     * @param builder required input from original JSON file.
+     * @return list of this depot's products.
+     */
     private LinkedList<Product> initStock(DepotBuilder builder) {
 
         // Random number between the minimum and maximum amount of allowed stock items
@@ -53,6 +90,14 @@ public class Depot {
         return initializedList;
     }
 
+    /**
+     * Initialized depot's storage list as required.
+     * <p>
+     * Requirement: minimum of 3 products and maximum of 40. For each company.
+     *
+     * @param builder required input from original JSON file.
+     * @return list of other depot's products.
+     */
     private LinkedList<Product> initStorage(DepotBuilder builder) {
 
         // Random number of products from other companies. Default is 3 to 40 for each.
@@ -70,6 +115,7 @@ public class Depot {
             initializedList.add(secondNewProduct);
         }
 
+        // Randomizing the list
         Collections.shuffle(initializedList);
 
         return initializedList;

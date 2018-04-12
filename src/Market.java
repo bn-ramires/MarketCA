@@ -9,7 +9,8 @@ public class Market {
     private static Report fullReport;
     private static TicketCarer carer;
 
-    public Market() {
+    private Market() {
+
         getInstance();
         Database db = new Database();
         companies = db.getCompanies();
@@ -17,7 +18,7 @@ public class Market {
     }
 
     // Following Mark's CA parameters
-    public void marksRequirements() {
+    public static void marksRequirements() {
 
         Transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
         Transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));

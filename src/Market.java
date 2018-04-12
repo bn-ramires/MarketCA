@@ -1,3 +1,9 @@
+import models.Company;
+import models.CompanyRecord;
+import models.Report;
+import purchasing.TicketCarer;
+import purchasing.Transaction;
+
 import java.util.ArrayList;
 import java.util.List;
 

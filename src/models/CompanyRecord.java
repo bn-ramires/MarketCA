@@ -1,3 +1,7 @@
+package models;
+
+import purchasing.TicketCarer;
+
 import java.util.List;
 
 public class CompanyRecord {
@@ -23,8 +27,8 @@ public class CompanyRecord {
         String companyName = getCompanyName();
         List<Ticket> tickets = getTickets();
 
-        income = tickets.stream().filter(ticket ->
-                ticket.getSeller().equals(companyName)).mapToInt(Ticket::getTotalCost).sum();
+        setIncome(tickets.stream().filter(ticket ->
+                ticket.getSeller().equals(companyName)).mapToInt(Ticket::getTotalCost).sum());
     }
 
     private void calculateExpenses() {
@@ -32,8 +36,8 @@ public class CompanyRecord {
         String companyName = getCompanyName();
         List<Ticket> tickets = getTickets();
 
-        expenses = tickets.stream().filter(ticket ->
-                ticket.getBuyer().equals(companyName)).mapToInt(Ticket::getTotalCost).sum();
+        setExpenses(tickets.stream().filter(ticket ->
+                ticket.getBuyer().equals(companyName)).mapToInt(Ticket::getTotalCost).sum());
     }
 
     private void calculateCashflow() {
@@ -60,9 +64,21 @@ public class CompanyRecord {
         return tickets;
     }
 
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public void setExpenses(int expenses) {
+        this.expenses = expenses;
+    }
+
+    public void setCashflow(int cashflow) {
+        this.cashflow = cashflow;
+    }
+
     @Override
     public String toString() {
-        return "CompanyRecord{" +
+        return "models.CompanyRecord{" +
                 "income=" + income +
                 ", expenses=" + expenses +
                 ", cashflow=" + cashflow +

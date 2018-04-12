@@ -1,3 +1,7 @@
+package purchasing;
+
+import models.Ticket;
+
 public class TicketOriginator {
 
     private String buyer;
@@ -15,12 +19,12 @@ public class TicketOriginator {
 
     public void getTicketState(Ticket ticket) {
         this.totalCost = productCost * quantity;
-        this.buyer = ticket.buyer;
-        this.seller = ticket.seller;
-        this.buyerDepotId = ticket.buyerDepotId;
-        this.sellerDepotId = ticket.sellerDepotId;
-        this.quantity = ticket.quantity;
-        this.delivery = ticket.delivery;
+        this.buyer = ticket.getBuyer();
+        this.seller = ticket.getSeller();
+        this.buyerDepotId = ticket.getBuyerDepotId();
+        this.sellerDepotId = ticket.getSellerDepotId();
+        this.quantity = ticket.getQuantity();
+        this.delivery = ticket.getDelivery();
     }
 
     public String getBuyer() {
@@ -77,5 +81,13 @@ public class TicketOriginator {
 
     public void setProductCost(int productCost) {
         this.productCost = productCost;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 }

@@ -1,3 +1,5 @@
+package models;
+
 public class DepotReport {
     private int depotId;
     private int prodSold;
@@ -47,7 +49,7 @@ public class DepotReport {
 
     @Override
     public String toString() {
-        return "DepotReport{" +
+        return "models.DepotReport{" +
                 "depotId=" + depotId +
                 ", prodSold=" + prodSold +
                 ", prodBought=" + prodBought +

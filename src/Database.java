@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import models.Company;
 
 import java.util.ArrayList;
 import java.util.Random;

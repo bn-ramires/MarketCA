@@ -1,3 +1,9 @@
+package purchasing;
+
+import models.Company;
+import models.Depot;
+import models.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,8 +105,8 @@ public class Transaction {
      */
     public void buy(int quatity, Depot buyer, Depot seller) {
 
-        int productCost = seller.stockList.get(0).price;
-        int totalCost = (quatity * productCost) + seller.delivery;
+        int productCost = seller.getStockList().get(0).getPrice();
+        int totalCost = (quatity * productCost) + seller.getDelivery();
 
         pay(totalCost, buyer, seller);
         ship(quatity, buyer, seller);
@@ -115,7 +121,7 @@ public class Transaction {
      * @param seller
      * @param buyer
      */
-    private void pay(int totalCost, Depot buyer, Depot seller){
+    private void pay(int totalCost, Depot buyer, Depot seller) {
 
         buyer.setCashAllowance(buyer.getCashAllowance() - totalCost);
         seller.setCashAllowance(seller.getCashAllowance() + totalCost);
@@ -129,7 +135,7 @@ public class Transaction {
      * @param seller
      * @param buyer
      */
-    private void ship(int quantity, Depot buyer, Depot seller){
+    private void ship(int quantity, Depot buyer, Depot seller) {
 
         for (int i = 0; i < quantity; i++) {
 
@@ -145,7 +151,7 @@ public class Transaction {
      * @param seller
      * @param buyer
      */
-    private void generateTicket(int quantity, Depot buyer, Depot seller){
+    private void generateTicket(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.stockList.get(0).price;
 
@@ -171,9 +177,9 @@ public class Transaction {
      */
     public Boolean isReadyToBuy(Depot buyer, Depot seller) {
 
-        int cash = buyer.cashAllowance;
-        int storage = buyer.storageList.size();
-        int minimum = buyer.storageMin;
+        int cash = buyer.getCashAllowance();
+        int storage = buyer.getStorageList().size();
+        int minimum = buyer.getStockMin();
         int productPrice = seller.stockList.get(0).getPrice();
         int delivery = seller.delivery;
         int totalCost = productPrice + delivery;
@@ -187,6 +193,7 @@ public class Transaction {
     /**
      * Determines how many products the Buyer's depot is capable of buying.
      * Ensuring the depot will not be left with its stock capacity below the required minimum amount.
+     *
      * @param buyer
      * @param seller
      * @return The quantity of items this depot is capable of buying.
@@ -196,8 +203,8 @@ public class Transaction {
         int deliveryCost = seller.getDelivery();
         int productCost = seller.stockList.get(0).getPrice();
         int stock = buyer.stockList.size();
-        int minimum = buyer.stockMin;
-        int purchasingPower = buyer.cashAllowance - minimumCashAllowance;
+        int minimum = buyer.getStockMin();
+        int purchasingPower = buyer.getCashAllowance() - minimumCashAllowance;
         int buyingGoal = (int) Math.floor((purchasingPower - deliveryCost) / productCost);
         int spaceAvailable = stock - minimum;
 
@@ -218,8 +225,8 @@ public class Transaction {
      */
     public int quantityToBuy(Depot seller, int buyingGoal) {
 
-        int stock = seller.stockList.size();
-        int minimum = seller.stockMin;
+        int stock = seller.getStockList().size();
+        int minimum = seller.getStockMin();
 
         int available = stock - minimum;
 
@@ -238,8 +245,8 @@ public class Transaction {
      */
     public Boolean isReadyToSell(Depot seller) {
 
-        int stock = seller.stockList.size();
-        int minimum = seller.stockMin;
+        int stock = seller.getStockList().size();
+        int minimum = seller.getStockMin();
 
         // It can only sell products if its stock capacity is above the minimum required.
         return stock > minimum;

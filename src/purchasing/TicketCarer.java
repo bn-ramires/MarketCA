@@ -1,3 +1,7 @@
+package purchasing;
+
+import models.Ticket;
+
 import java.util.ArrayList;
 
 public class TicketCarer {

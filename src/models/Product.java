@@ -1,7 +1,14 @@
 package models;
 
-import java.util.Objects;
-
+/**
+ * This is a model for a product and it holds all necessary information about it.
+ * <p>
+ * The company that has made this product.
+ * @see Product#brand
+ * <p>
+ * The cost of this product.
+ * @see Product#price
+ */
 public class Product {
 
     String brand;
@@ -39,20 +46,5 @@ public class Product {
                 "brand='" + brand + '\'' +
                 ", price=" + price +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return price == product.price &&
-                Objects.equals(brand, product.brand);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(brand, price);
     }
 }

@@ -1,13 +1,38 @@
 package models;
 
+/**
+ * This is a model for a depot's report. Containing financial information about
+ * transactions carried out by a depot.
+ * <p>
+ * Depot's ID.
+ * @see DepotReport#depotId
+ * <p>
+ * Products sold by it.
+ * @see DepotReport#prodSold
+ * <p>
+ * Products bought by it.
+ * @see DepotReport#prodBought
+ * <p>
+ * How much money it has made.
+ * @see DepotReport#income
+ * <p>
+ * How much money it has spent.
+ * @see DepotReport#expenses
+ * <p>
+ * Total cost
+ * @see DepotReport#totalProdCost
+ * <p>
+ * Total cost
+ * @see DepotReport#totalDeliveryCost
+ */
 public class DepotReport {
     private int depotId;
     private int prodSold;
     private int prodBought;
     private int income;
+    private int expenses;
     private int totalProdCost;
     private int totalDeliveryCost;
-    private int expenses;
 
     public DepotReport(int depotId, int prodSold, int prodBought, int income, int totalProdCost, int totalDeliveryCost) {
         this.depotId = depotId;

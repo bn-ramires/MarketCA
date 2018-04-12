@@ -11,7 +11,7 @@ public class Market {
 
     private static Market instance = null;
     private ArrayList<Company> companies;
-    private List<CompanyRecord> companyCompanyRecords = new ArrayList<>();
+    private List<CompanyRecord> companyRecords = new ArrayList<>();
     private Report fullReport;
     private TicketCarer carer;
 
@@ -37,9 +37,15 @@ public class Market {
             addCompanyRecords(companyRecord);
         });
 
-        companyCompanyRecords.forEach(companyRecord -> System.out.println(companyRecord.toString()));
-
         companies.get(0).makeFullReport(getCarer()).generateFullReport();
+        UserInterface.printTitles("Full Report");
+
+
+
+        UserInterface.printTitles("Company Results");
+        companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
+
+
 
     }
 
@@ -51,12 +57,12 @@ public class Market {
         this.companies = companies;
     }
 
-    private List<CompanyRecord> getCompanyCompanyRecords() {
-        return companyCompanyRecords;
+    private List<CompanyRecord> getCompanyRecords() {
+        return companyRecords;
     }
 
     private void addCompanyRecords(CompanyRecord companyRecord) {
-        companyCompanyRecords.add(companyRecord);
+        companyRecords.add(companyRecord);
     }
 
     private Report getFullReport() {

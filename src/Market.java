@@ -3,26 +3,26 @@ import java.util.List;
 
 public class Market {
 
-    private static Market instance;
-    private static ArrayList<Company> companies;
-    private static List<Record> companyRecords = new ArrayList<>();
-    private static Report fullReport;
-    private static TicketCarer carer;
+    private static Market instance = null;
+    public ArrayList<Company> companies;
+    public List<Record> companyRecords = new ArrayList<>();
+    public Report fullReport;
+    public TicketCarer carer;
 
     private Market() {
 
-        getInstance();
         Database db = new Database();
         companies = db.getCompanies();
 
     }
 
     // Following Mark's CA parameters
-    public static void marksRequirements() {
+    public void marksRequirements() {
 
-        Transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
-        Transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
-        Transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
+        Transaction transaction = Transaction.getInstance();
+        transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
+        transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
+        transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
 
         setCarer(Transaction.getTicketCarer());
 
@@ -36,42 +36,42 @@ public class Market {
         });
     }
 
-    private static ArrayList<Company> getCompanies() {
+    private ArrayList<Company> getCompanies() {
         return companies;
     }
 
-    private static void setCompanies(ArrayList<Company> companies) {
+    private void setCompanies(ArrayList<Company> companies) {
         companies = companies;
     }
 
-    private static List<Record> getCompanyRecords() {
+    private List<Record> getCompanyRecords() {
         return companyRecords;
     }
 
-    private static void addCompanyRecords(Record record) {
+    private void addCompanyRecords(Record record) {
         companyRecords.add(record);
     }
 
-    private static Report getFullReport() {
+    private Report getFullReport() {
         return fullReport;
     }
 
-    private static void setFullReport(Report fullReport) {
-        fullReport = fullReport;
+    private void setFullReport(Report fullReport) {
+        this.fullReport = fullReport;
     }
 
-    private static TicketCarer getCarer() {
+    private TicketCarer getCarer() {
         return carer;
     }
 
-    private static Market getInstance() {
+    public static Market getInstance() {
         if (instance == null) {
-            return instance = new Market();
+            instance = new Market();
         }
         return instance;
     }
 
-    private static void setCarer(TicketCarer carer) {
-        carer = carer;
+    private void setCarer(TicketCarer carer) {
+        this.carer = carer;
     }
 }

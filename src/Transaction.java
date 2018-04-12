@@ -3,18 +3,17 @@ import java.util.List;
 
 public class Transaction {
 
-    private static Transaction instance;
-    private static ArrayList<Company> sellers = new ArrayList<>();
-    private static TicketOriginator originator = new TicketOriginator();
-    private static TicketCarer ticketCarer = new TicketCarer();
-    private static int currentBuyerId;
-    private static int currentSellerId;
+    private static Transaction instance = null;
+    public ArrayList<Company> sellers = new ArrayList<>();
+    public TicketOriginator originator = new TicketOriginator();
+    public static TicketCarer ticketCarer = new TicketCarer();
+    public int currentBuyerId;
+    public int currentSellerId;
 
     private Transaction() {
-        getInstance();
     }
 
-    public static void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
+    public void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
 
         currentSellerId = 0;
         setSellers(firstSeller, secondSeller);
@@ -61,7 +60,7 @@ public class Transaction {
         });
     }
 
-    private static void buyProducts(int toBuy, Depot buyer, Depot seller) {
+    public void buyProducts(int toBuy, Depot buyer, Depot seller) {
 
         int productCost = seller.stockList.get(0).price;
         int totalCost = (toBuy * productCost) + seller.delivery;
@@ -88,7 +87,7 @@ public class Transaction {
 
     }
 
-    private static Boolean isReadyToBuy(Depot buyer, Depot seller) {
+    public Boolean isReadyToBuy(Depot buyer, Depot seller) {
 
         int cash = buyer.cashAllowance;
         int storage = buyer.storageList.size();
@@ -100,7 +99,7 @@ public class Transaction {
         return cash > 50 && storage > minimum && cash >= totalCost;
     }
 
-    private static int setBuyingGoal(Depot buyer, Depot seller) {
+    public int setBuyingGoal(Depot buyer, Depot seller) {
 
         int deliveryCost = seller.getDelivery();
         int productCost = seller.stockList.get(0).getPrice();
@@ -117,7 +116,7 @@ public class Transaction {
         return buyingGoal;
     }
 
-    private static int toBuy(Depot seller, int buyingGoal) {
+    public int toBuy(Depot seller, int buyingGoal) {
 
         int stock = seller.stockList.size();
         int minimum = seller.stockMin;
@@ -131,7 +130,7 @@ public class Transaction {
         return buyingGoal;
     }
 
-    private static Boolean isReadyToSell(Depot seller) {
+    public Boolean isReadyToSell(Depot seller) {
 
         int stock = seller.stockList.size();
         int minimum = seller.stockMin;
@@ -139,11 +138,11 @@ public class Transaction {
         return stock > minimum;
     }
 
-    private static List<Company> getSellers() {
+    public List<Company> getSellers() {
         return sellers;
     }
 
-    public static TicketOriginator getOriginator() {
+    public TicketOriginator getOriginator() {
         return originator;
     }
 
@@ -151,22 +150,22 @@ public class Transaction {
         return ticketCarer;
     }
 
-    private static int getCurrentBuyerId() {
+    public int getCurrentBuyerId() {
         return currentBuyerId;
     }
 
-    private static int getCurrentSellerId() {
+    public int getCurrentSellerId() {
         return currentSellerId;
     }
 
-    private static Transaction getInstance() {
+    public static Transaction getInstance() {
         if (instance == null) {
-            return Transaction.instance = new Transaction();
+            instance = new Transaction();
         }
         return instance;
     }
 
-    public static void setSellers(Company firstSeller, Company secondSeller) {
+    public void setSellers(Company firstSeller, Company secondSeller) {
         sellers.add(firstSeller);
         sellers.add(secondSeller);
     }

@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class TicketCarer {
-    private List<Ticket> ticketList = new ArrayList<>();
+    private ArrayList<Ticket> ticketList = new ArrayList<>();
 
     public TicketCarer() { }
 
@@ -14,7 +13,7 @@ public class TicketCarer {
         return ticketList.get(index);
     }
 
-    public List<Ticket> getTicketList() {
+    public ArrayList<Ticket> getTicketList() {
         return ticketList;
     }
 }

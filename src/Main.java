@@ -3,7 +3,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Market.marksRequirements();
+        Market market = Market.getInstance();
+        market.marksRequirements();
 
     }
 }

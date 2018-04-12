@@ -53,8 +53,6 @@ public class Transaction {
         // Looping through buyer's depots
         buyer.depots.forEach(buyerDepot -> {
 
-            System.out.println("!--------------------------");
-
             currentBuyerId++;
 
             // Looping through seller companies
@@ -91,7 +89,6 @@ public class Transaction {
                 }
 
             }
-            System.out.println("/--------------------------");
         });
     }
 

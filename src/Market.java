@@ -33,7 +33,7 @@ public class Market {
         setCarer(Transaction.getTicketCarer());
 
         companies.forEach(company -> {
-            CompanyRecord companyRecord = company.makeRecord(getCarer());
+            CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
             addCompanyRecords(companyRecord);
         });
 

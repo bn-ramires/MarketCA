@@ -4,10 +4,10 @@ import java.util.List;
 public class Market {
 
     private static Market instance = null;
-    public ArrayList<Company> companies;
-    public List<Record> companyRecords = new ArrayList<>();
-    public Report fullReport;
-    public TicketCarer carer;
+    private ArrayList<Company> companies;
+    private List<CompanyRecord> companyCompanyRecords = new ArrayList<>();
+    private Report fullReport;
+    private TicketCarer carer;
 
     private Market() {
 
@@ -27,13 +27,11 @@ public class Market {
         setCarer(Transaction.getTicketCarer());
 
         companies.forEach(company -> {
-            Record record = company.makeRecord(getCarer());
-            addCompanyRecords(record);
+            CompanyRecord companyRecord = company.makeRecord(getCarer());
+            addCompanyRecords(companyRecord);
         });
 
-        companyRecords.forEach(record -> {
-            System.out.println(record.toString());
-        });
+        companyCompanyRecords.forEach(companyRecord -> System.out.println(companyRecord.toString()));
 
         companies.get(0).makeFullReport(getCarer()).generateFullReport();
 
@@ -44,15 +42,15 @@ public class Market {
     }
 
     private void setCompanies(ArrayList<Company> companies) {
-        companies = companies;
+        this.companies = companies;
     }
 
-    private List<Record> getCompanyRecords() {
-        return companyRecords;
+    private List<CompanyRecord> getCompanyCompanyRecords() {
+        return companyCompanyRecords;
     }
 
-    private void addCompanyRecords(Record record) {
-        companyRecords.add(record);
+    private void addCompanyRecords(CompanyRecord companyRecord) {
+        companyCompanyRecords.add(companyRecord);
     }
 
     private Report getFullReport() {

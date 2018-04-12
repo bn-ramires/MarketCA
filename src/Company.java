@@ -25,8 +25,8 @@ public class Company {
         return initializedList;
     }
 
-    public Record makeRecord(TicketCarer carer) {
-        return new Record(name, carer);
+    public CompanyRecord makeRecord(TicketCarer carer) {
+        return new CompanyRecord(name, carer);
     }
 
     public Report makeFullReport(TicketCarer carer) {

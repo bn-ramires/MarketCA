@@ -1,7 +1,6 @@
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class Record {
+public class CompanyRecord {
 
     private int income;
     private int expenses;
@@ -9,7 +8,7 @@ public class Record {
     private String companyName;
     private List<Ticket> tickets;
 
-    public Record(String companyName, TicketCarer carer) {
+    public CompanyRecord(String companyName, TicketCarer carer) {
         this.companyName = companyName;
         this.tickets = carer.getTicketList();
 
@@ -63,7 +62,7 @@ public class Record {
 
     @Override
     public String toString() {
-        return "Record{" +
+        return "CompanyRecord{" +
                 "income=" + income +
                 ", expenses=" + expenses +
                 ", cashflow=" + cashflow +

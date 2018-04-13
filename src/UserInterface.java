@@ -17,6 +17,10 @@ public class UserInterface {
         System.out.println();
     }
 
+    public static void printGoobye(){
+        System.out.println("Goodbye");
+    }
+
     public static void promptToPressEnter(){
         System.out.println("                        Press Enter to continue. ");
         Scanner scanner = new Scanner(System.in);
@@ -54,12 +58,12 @@ public class UserInterface {
             System.out.println("c)  Big C\n");
             Scanner scanner = new Scanner(System.in);
             String company = scanner.nextLine();
-            switch (company) {
-                case "a":
+            switch (company.toUpperCase()) {
+                case "A":
                     return 0;
-                case "b":
+                case "B":
                     return 1;
-                case "c":
+                case "C":
                     return 2;
                 default:
                     printTryAgain();
@@ -80,9 +84,9 @@ public class UserInterface {
         System.out.println("=========================================");
         System.out.println("Company name | "+record.getCompanyName());
         System.out.println("-----------------------------------------");
-        System.out.println("Income       | €"+record.getIncome());
-        System.out.println("Expenses     | €"+record.getExpenses());
-        System.out.println("Cashflow     | €"+record.getCashflow());
+        System.out.println("Income       | "+record.getIncome()+"€");
+        System.out.println("Expenses     | "+record.getExpenses()+"€");
+        System.out.println("Cashflow     | "+record.getCashflow()+"€");
     }
 
     public static void printDepotReport(DepotReport depotReport){
@@ -92,10 +96,10 @@ public class UserInterface {
         System.out.println("=================================================");
         System.out.println("       Products sold   | "+depotReport.getProdSold());
         System.out.println("       Products bought | "+depotReport.getProdBought());
-        System.out.println("       Income          | €"+depotReport.getIncome());
-        System.out.println("       Expenses        | €"+depotReport.getExpenses());
+        System.out.println("       Income          | "+depotReport.getIncome()+"€");
+        System.out.println("       Expenses        | "+depotReport.getExpenses()+"€");
         System.out.println("-------------------------------------------------");
-        System.out.println("       Cashflow        | €"+cashFlow+"           ");
+        System.out.println("       Cashflow        | "+cashFlow+"€");
         System.out.println("-------------------------------------------------");
     }
 
@@ -121,8 +125,26 @@ public class UserInterface {
         System.out.println("============ Best Performance Company ===========");
         System.out.println("=================================================");
         System.out.println("Company name: "+winner.getCompanyName());
-        System.out.println("Cashflow:     "+winner.getCashflow());
+        System.out.println("Cashflow:     "+winner.getCashflow()+"€");
         System.out.println("-------------------------------------------------");
         System.out.println();
+    }
+
+    public static boolean promptToRestart(){
+        boolean flag = true;
+        System.out.println();
+        System.out.println("Do you want to restart? (y/n)");
+        while(flag){
+            Scanner option = new Scanner(System.in);
+            switch (option.nextLine().toUpperCase()){
+                case "Y":
+                    return true;
+                case "N":
+                    return false;
+                default:
+                    printTryAgain();
+            }
+        }
+        return false;
     }
 }

@@ -14,6 +14,7 @@ public class Market {
     private List<CompanyRecord> companyRecords = new ArrayList<>();
     private Report fullReport;
     private TicketCarer carer;
+    private boolean isActive = true;
 
     private Market() {
 
@@ -27,51 +28,55 @@ public class Market {
 
     // Following Mark's CA parameters
     public void marksRequirements() {
-        boolean isManualMode = UserInterface.setMode();
-        Transaction transaction = Transaction.getInstance();
-        transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
-        transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
-        transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
 
-        setCarer(Transaction.getTicketCarer());
+        while (isActive()) {
 
-        companies.forEach(company -> {
-            CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
-            addCompanyRecords(companyRecord);
-        });
+            boolean isManualMode = UserInterface.setMode();
+            Transaction transaction = Transaction.getInstance();
+            transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
+            transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
+            transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
 
-        if(isManualMode){
+            setCarer(Transaction.getTicketCarer());
 
-            int index = UserInterface.selectCompany();
-            int numberOfDepots = companies.get(0).getDepots().size();
+            companies.forEach(company -> {
+                CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
+                addCompanyRecords(companyRecord);
+            });
 
-            if(index != -1) {
+            if (isManualMode) {
 
-                UserInterface.printCompanyName(companies.get(index).getName());
-                UserInterface.printTitles();
+                int index = UserInterface.selectCompany();
+                int numberOfDepots = companies.get(0).getDepots().size();
 
-                companies.get(index).makeFullReport(getCarer()).generateFullReport(numberOfDepots).forEach(depotReport -> {
-                    UserInterface.printDepotReport(depotReport);
-                });
+                if (index != -1) {
+
+                    UserInterface.printCompanyName(companies.get(index).getName());
+                    UserInterface.printTitles();
+
+                    companies.get(index).makeFullReport(getCarer()).generateFullReport(numberOfDepots).forEach(depotReport -> {
+                        UserInterface.printDepotReport(depotReport);
+                    });
+                }
             }
-        }
-        UserInterface.printCompanyResultsTitle();
-        companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
+            UserInterface.printCompanyResultsTitle();
+            companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
 
 
-        int highestCashflowIndex = 0;
-        int highestCashflow = 0;
-        for(int i = 0; i < companyRecords.size(); i++){
+            int highestCashflowIndex = 0;
+            int highestCashflow = 0;
+            for (int i = 0; i < companyRecords.size(); i++) {
 
-            if(highestCashflow < companyRecords.get(i).getCashflow()){
-                highestCashflow = companyRecords.get(i).getCashflow();
-               highestCashflowIndex = i;
+                if (highestCashflow < companyRecords.get(i).getCashflow()) {
+                    highestCashflow = companyRecords.get(i).getCashflow();
+                    highestCashflowIndex = i;
+                }
             }
+            UserInterface.printHighestCashflowCompany(companyRecords.get(highestCashflowIndex));
+            setActive(UserInterface.promptToRestart());
+
         }
-        UserInterface.printHighestCashflowCompany(companyRecords.get(highestCashflowIndex));
-
-
-
+        UserInterface.printGoobye();
     }
 
     private ArrayList<Company> getCompanies() {
@@ -111,5 +116,13 @@ public class Market {
 
     private void setCarer(TicketCarer carer) {
         this.carer = carer;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

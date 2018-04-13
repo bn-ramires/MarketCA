@@ -15,7 +15,7 @@ public class Report {
     int prodSold;
     int income;
     int prodBought;
-    int costProdductsBought;
+    int costProductsBought;
     int totalDeliveryCost;
 
 
@@ -45,7 +45,7 @@ public class Report {
             setProdBought(filtered.stream().filter(ticket -> current ==
                     ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum());
 
-            setCostProdductsBought(filtered.stream().filter(ticket -> current ==
+            setCostProductsBought(filtered.stream().filter(ticket -> current ==
                     ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum());
 
             setTotalDeliveryCost(filtered.stream().filter(ticket -> current ==
@@ -55,7 +55,7 @@ public class Report {
                     getProdSold(),
                     getProdBought(),
                     getIncome(),
-                    getCostProdductsBought(),
+                    getCostProductsBought(),
                     getTotalDeliveryCost()));
         }
         return getReports();
@@ -109,12 +109,12 @@ public class Report {
         this.prodBought = prodBought;
     }
 
-    public int getCostProdductsBought() {
-        return costProdductsBought;
+    public int getCostProductsBought() {
+        return costProductsBought;
     }
 
-    public void setCostProdductsBought(int costProdductsBought) {
-        this.costProdductsBought = costProdductsBought;
+    public void setCostProductsBought(int costProductsBought) {
+        this.costProductsBought = costProductsBought;
     }
 
     public int getTotalDeliveryCost() {

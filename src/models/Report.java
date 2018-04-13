@@ -25,12 +25,15 @@ public class Report {
     }
 
 
-    public List<DepotReport> generateFullReport() {
+    public List<DepotReport> generateFullReport(int numberOfDepots) {
+
+        // A list of tickets where a particular company was involved in the transaction
         List<Ticket> filtered = getTickets().stream()
                 .filter(ticket -> ticket.getBuyer().equals(getCompanyName()) ||
                         ticket.getSeller().equals(getCompanyName()))
                 .collect(Collectors.toList());
-        for (int i = 0; i <= 100; i++) {
+
+        for (int i = 0; i <= numberOfDepots; i++) {
             int current = i;
 
             setProdSold(filtered.stream().filter(ticket -> current ==

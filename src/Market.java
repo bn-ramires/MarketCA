@@ -39,13 +39,18 @@ public class Market {
             CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
             addCompanyRecords(companyRecord);
         });
+
         if(isManualMode){
 
             int index = UserInterface.selectCompany();
+            int numberOfDepots = companies.get(0).getDepots().size();
+
             if(index != -1) {
+
                 UserInterface.printCompanyName(companies.get(index).getName());
                 UserInterface.printTitles();
-                companies.get(index).makeFullReport(getCarer()).generateFullReport().forEach(depotReport -> {
+
+                companies.get(index).makeFullReport(getCarer()).generateFullReport(numberOfDepots).forEach(depotReport -> {
                     UserInterface.printDepotReport(depotReport);
                 });
             }

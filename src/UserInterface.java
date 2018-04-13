@@ -88,6 +88,8 @@ public class UserInterface {
         System.out.println("Products sold   | "+depotReport.getProdSold());
         System.out.println("Products bought | "+depotReport.getProdBought());
         System.out.println("income          | "+depotReport.getIncome());
+        System.out.println("totalProdCost   | "+depotReport.getTotalProdCost() );
+        System.out.println("Delivery:       | "+depotReport.getTotalDeliveryCost());
         System.out.println("expenses        | "+depotReport.getExpenses());
         System.out.println("----------------------");
         System.out.println("Cashflow        | "+cashFlow+" |");

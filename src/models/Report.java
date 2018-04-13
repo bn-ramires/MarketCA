@@ -12,6 +12,12 @@ public class Report {
     private List<Ticket> tickets;
     private List<DepotReport> reports = new ArrayList<>();
 
+    int prodSold;
+    int income;
+    int prodBought;
+    int costProdductsBought;
+    int totalDeliveryCost;
+
 
     public Report(String companyName, TicketCarer carer) {
         this.companyName = companyName;
@@ -24,22 +30,32 @@ public class Report {
                 .filter(ticket -> ticket.getBuyer().equals(getCompanyName()) ||
                         ticket.getSeller().equals(getCompanyName()))
                 .collect(Collectors.toList());
-        for(int i = 0; i<= 100; i++){
+        for (int i = 0; i <= 100; i++) {
             int current = i;
-            int prodSold = filtered.stream().filter(ticket -> current ==
-                    ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum();
-            int income = filtered.stream().filter(ticket -> current ==
-                    ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum();
-            int prodBought = filtered.stream().filter(ticket -> current ==
-                    ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum();
-            int totalProdCost = filtered.stream().filter(ticket -> current ==
-                    ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum();
-            int totalDelivery = filtered.stream().filter(ticket -> current ==
-                    ticket.getBuyerDepotId()).mapToInt(Ticket::getDelivery).sum();
 
-            reports.add(new DepotReport(i, prodSold, prodBought, income, totalProdCost, totalDelivery));
+            setProdSold(filtered.stream().filter(ticket -> current ==
+                    ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum());
+
+            setIncome(filtered.stream().filter(ticket -> current ==
+                    ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum());
+
+            setProdBought(filtered.stream().filter(ticket -> current ==
+                    ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum());
+
+            setCostProdductsBought(filtered.stream().filter(ticket -> current ==
+                    ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum());
+
+            setTotalDeliveryCost(filtered.stream().filter(ticket -> current ==
+                    ticket.getBuyerDepotId()).mapToInt(Ticket::getDelivery).sum());
+
+            addReports(new DepotReport(i,
+                    getProdSold(),
+                    getProdBought(),
+                    getIncome(),
+                    getCostProdductsBought(),
+                    getTotalDeliveryCost()));
         }
-       return reports;
+        return getReports();
     }
 
     public String getCompanyName() {
@@ -52,6 +68,58 @@ public class Report {
 
     public List<DepotReport> getReports() {
         return reports;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void addReports(DepotReport report) {
+        this.reports.add(report);
+    }
+
+    public int getProdSold() {
+        return prodSold;
+    }
+
+    public void setProdSold(int prodSold) {
+        this.prodSold = prodSold;
+    }
+
+    public int getIncome() {
+        return income;
+    }
+
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public int getProdBought() {
+        return prodBought;
+    }
+
+    public void setProdBought(int prodBought) {
+        this.prodBought = prodBought;
+    }
+
+    public int getCostProdductsBought() {
+        return costProdductsBought;
+    }
+
+    public void setCostProdductsBought(int costProdductsBought) {
+        this.costProdductsBought = costProdductsBought;
+    }
+
+    public int getTotalDeliveryCost() {
+        return totalDeliveryCost;
+    }
+
+    public void setTotalDeliveryCost(int totalDeliveryCost) {
+        this.totalDeliveryCost = totalDeliveryCost;
     }
 }
 

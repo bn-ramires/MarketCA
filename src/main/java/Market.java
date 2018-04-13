@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import models.Company;
 import models.CompanyRecord;
 import models.Report;
@@ -18,11 +20,14 @@ public class Market {
 
     private Market() {
 
+        // The very first messages to be displayed
         UserInterface.printWelcomeMessage();
         UserInterface.promptToPressEnter();
 
+        // Acquire input and initialize companies based on it
         Database db = new Database();
-        companies = db.getCompanies();
+        JsonObject input = db.getJson();
+        initCompanies(input);
 
     }
 
@@ -83,8 +88,23 @@ public class Market {
         return companies;
     }
 
-    private void setCompanies(ArrayList<Company> companies) {
-        this.companies = companies;
+    private List<Company> initCompanies(JsonObject input) {
+
+        ArrayList<Company> companies = new ArrayList<>();
+
+        input.getAsJsonArray("companies").forEach(item -> {
+
+            // Creating JSON object
+            JsonObject obj = (JsonObject) item;
+            // Serializing the CompanyBuilder class with the JSON data
+            Company.CompanyBuilder company = new Gson().fromJson(obj, Company.CompanyBuilder.class);
+            // Building a new company object
+            Company newCompany = company.build();
+            // Adding this new company to the list to be returned
+            companies.add(newCompany);
+        });
+
+        return companies;
     }
 
     private List<CompanyRecord> getCompanyRecords() {

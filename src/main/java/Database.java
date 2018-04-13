@@ -1,25 +1,28 @@
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import models.Company;
 
-import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class represents the data source needed to carry out all necessary requirements.
+ * <p>
+ * Sample initiation to meet the CA's requirements.
+ * @see Database#makeSampleFile()
+ * <p>
+ * Data source to be used as input by the program.
+ * @see Database#json
+ */
 public class Database {
 
     private JsonObject json = new JsonObject();
 
     public Database() {
-
         makeSampleFile();
-
     }
 
     private JsonObject makeSampleFile() {
 
         int numberOfDepots = 100;
-        int transactions = numberOfDepots;
         int stockMax = 50;
         int stockMin = 15;
         int storageMax = 80;
@@ -32,7 +35,6 @@ public class Database {
         bigA.addProperty("name", "BigA");
         bigA.addProperty("numberOfDepots", numberOfDepots);
         bigA.addProperty("cashAllowance", cashAllowance);
-        bigA.addProperty("transactions", transactions);
         bigA.addProperty("productCost", productCost);
         bigA.addProperty("deliveryCost", deliveryCost);
         bigA.addProperty("stockMax", stockMax);
@@ -44,7 +46,6 @@ public class Database {
         bigB.addProperty("name", "BigB");
         bigB.addProperty("numberOfDepots", numberOfDepots);
         bigB.addProperty("cashAllowance", cashAllowance);
-        bigB.addProperty("transactions", transactions);
         bigB.addProperty("productCost", productCost);
         bigB.addProperty("deliveryCost", deliveryCost);
         bigB.addProperty("stockMax", stockMax);
@@ -56,7 +57,6 @@ public class Database {
         bigC.addProperty("name", "BigC");
         bigC.addProperty("numberOfDepots", numberOfDepots);
         bigC.addProperty("cashAllowance", cashAllowance);
-        bigC.addProperty("transactions", transactions);
         bigC.addProperty("productCost", productCost);
         bigC.addProperty("deliveryCost", deliveryCost);
         bigC.addProperty("stockMax", stockMax);
@@ -72,25 +72,6 @@ public class Database {
         json.add("companies", jsonArray);
 
         return json;
-    }
-
-        public ArrayList<Company> getCompanies() {
-
-        ArrayList<Company> companies = new ArrayList<>();
-
-        getJson().getAsJsonArray("companies").forEach(item -> {
-
-            // Creating JSON object
-            JsonObject obj = (JsonObject) item;
-            // Serializing the CompanyBuilder class with the JSON data
-            Company.CompanyBuilder company = new Gson().fromJson(obj, Company.CompanyBuilder.class);
-            // Building a new company object
-            Company newCompany = company.build();
-            // Adding this new company to the list to be returned
-            companies.add(newCompany);
-        });
-
-        return companies;
     }
 
     private int getRandomNumber(int max, int min) {

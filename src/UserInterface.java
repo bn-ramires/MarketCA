@@ -29,23 +29,36 @@ public class UserInterface {
         return false;
     }
     public static int selectCompany(){
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println("Select one of these companies and press enter: ");
-        System.out.println("a)  Big A");
-        System.out.println("b)  Big B");
-        System.out.println("c)  Big C\n");
-        Scanner scanner = new Scanner(System.in);
-        String company = scanner.nextLine();
-        switch (company){
-            case "a":
-                return 0;
-            case "b":
-                return 1;
-            case "c":
-                return 2;
-            default:
-                return -1;
+        boolean flag = true;
+
+        while(flag) {
+            System.out.println("---------------------------------------------------------------------------------------");
+            System.out.println("Select one of these companies and press enter: ");
+            System.out.println("a)  Big A");
+            System.out.println("b)  Big B");
+            System.out.println("c)  Big C\n");
+            Scanner scanner = new Scanner(System.in);
+            String company = scanner.nextLine();
+            switch (company) {
+                case "a":
+                    return 0;
+                case "b":
+                    return 1;
+                case "c":
+                    return 2;
+                default:
+                    printTryAgain();
+            }
         }
+        return -1;
+    }
+    public static void printTryAgain(){
+        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("You have selected an incorrect option. ");
+        System.out.println();
+        System.out.println("Press Enter and try again.");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
     public static void printRecord(CompanyRecord record){

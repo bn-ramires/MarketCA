@@ -71,7 +71,6 @@ public class Database {
 
         json.add("companies", jsonArray);
 
-        System.out.println(json);
         return json;
     }
 

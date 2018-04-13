@@ -52,8 +52,9 @@ public class Market {
 
 
         int highestCashflowIndex = 0;
+        int highestCashflow = 0;
         for(int i = 0; i < companyRecords.size(); i++){
-            int highestCashflow = 0;
+
             if(highestCashflow < companyRecords.get(i).getCashflow()){
                 highestCashflow = companyRecords.get(i).getCashflow();
                highestCashflowIndex = i;

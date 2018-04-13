@@ -7,13 +7,18 @@ public class UserInterface {
 
 
     public static void printWelcomeMessage(){
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println("---------------------------  VirtualMarket 1.0 ----------------------------------------");
-        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println(" _____             _     ___  ___           _        _         __   _____ ");
+        System.out.println("|_   _|           | |    |  \\/  |          | |      | |       /  | |  _  |");
+        System.out.println("  | |_ __ __ _  __| | ___| .  . | __ _ _ __| | _____| |_      `| | | |/' |");
+        System.out.println("  | | '__/ _` |/ _` |/ _ | |\\/| |/ _` | '__| |/ / _ | __|      | | |  /| |");
+        System.out.println("  | | | | (_| | (_| |  __| |  | | (_| | |  |   |  __| |_      _| |_\\ |_/ /");
+        System.out.println("  \\_|_|  \\__,_|\\__,_|\\___\\_|  |_/\\__,_|_|  |_|\\_\\___|\\__|     \\___(_\\___/ ");
+        System.out.println();
+        System.out.println();
     }
 
     public static void promptToPressEnter(){
-        System.out.println("Press Enter to continue. ");
+        System.out.println("                        Press Enter to continue. ");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
@@ -21,7 +26,7 @@ public class UserInterface {
     public static boolean setMode(){
         boolean flag = true;
         while(flag) {
-            System.out.println("---------------------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             System.out.println("Select one of the following options and press enter: ");
             System.out.println("1)  Autonomous");
             System.out.println("2)  Manual\n");
@@ -42,7 +47,7 @@ public class UserInterface {
         boolean flag = true;
 
         while(flag) {
-            System.out.println("---------------------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             System.out.println("Select one of these companies and press enter: ");
             System.out.println("a)  Big A");
             System.out.println("b)  Big B");
@@ -63,7 +68,7 @@ public class UserInterface {
         return -1;
     }
     public static void printTryAgain(){
-        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         System.out.println("You have selected an incorrect option. ");
         System.out.println();
         System.out.println("Press Enter and try again.");
@@ -75,44 +80,49 @@ public class UserInterface {
         System.out.println("=========================================");
         System.out.println("Company name | "+record.getCompanyName());
         System.out.println("-----------------------------------------");
-        System.out.println("Income       | "+record.getIncome());
-        System.out.println("Expenses     | "+record.getExpenses());
-        System.out.println("Cashflow     | "+record.getCashflow());
+        System.out.println("Income       | €"+record.getIncome());
+        System.out.println("Expenses     | €"+record.getExpenses());
+        System.out.println("Cashflow     | €"+record.getCashflow());
     }
 
     public static void printDepotReport(DepotReport depotReport){
         int cashFlow = depotReport.getIncome() - depotReport.getExpenses();
-        System.out.println("========================");
-        System.out.println("Depot Id        | "+depotReport.getDepotId());
-        System.out.println("========================");
-        System.out.println("Products sold   | "+depotReport.getProdSold());
-        System.out.println("Products bought | "+depotReport.getProdBought());
-        System.out.println("income          | "+depotReport.getIncome());
-        System.out.println("totalProdCost   | "+depotReport.getTotalProdCost() );
-        System.out.println("Delivery:       | "+depotReport.getTotalDeliveryCost());
-        System.out.println("expenses        | "+depotReport.getExpenses());
-        System.out.println("----------------------");
-        System.out.println("Cashflow        | "+cashFlow+" |");
-        System.out.println("----------------------");
+        System.out.println("=================================================");
+        System.out.println("        Depot Id        | "+depotReport.getDepotId());
+        System.out.println("=================================================");
+        System.out.println("       Products sold   | "+depotReport.getProdSold());
+        System.out.println("       Products bought | "+depotReport.getProdBought());
+        System.out.println("       Income          | €"+depotReport.getIncome());
+        System.out.println("       Expenses        | €"+depotReport.getExpenses());
+        System.out.println("-------------------------------------------------");
+        System.out.println("       Cashflow        | €"+cashFlow+"           ");
+        System.out.println("-------------------------------------------------");
     }
 
-    public static void printTitles(String title){
-        System.out.println("========================================================================================");
-        System.out.println("============================== "+title.toUpperCase()+" ======================================");
-        System.out.println("========================================================================================");
+    public static void printTitles(){
+        System.out.println("=================================================");
+        System.out.println("================== FULL REPORT ==================");
+        System.out.println("=================================================");
     }
+
+    public static void printCompanyResultsTitle(){
+        System.out.println("=================================================");
+        System.out.println("================ COMPANY RESULTS ================");
+        System.out.println("=================================================");
+    }
+
     public static void printCompanyName(String companyName){
-        System.out.println("========================================================================================");
-        System.out.println("============================== "+companyName.toUpperCase()+" ======================================");
+        System.out.println("=================================================");
+        System.out.println("====================== "+companyName.toUpperCase()+" =====================");
     }
 
     public static void printHighestCashflowCompany(CompanyRecord winner){
-        System.out.println("===================================");
-        System.out.println("==== Best Performance Company =====");
-        System.out.println("===================================");
+        System.out.println("=================================================");
+        System.out.println("============ Best Performance Company ===========");
+        System.out.println("=================================================");
         System.out.println("Company name: "+winner.getCompanyName());
-        System.out.println("-----------------------------------");
-        System.out.println("Cashflow: "+winner.getCashflow());
+        System.out.println("Cashflow:     "+winner.getCashflow());
+        System.out.println("-------------------------------------------------");
         System.out.println();
     }
 }

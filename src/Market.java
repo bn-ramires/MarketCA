@@ -17,6 +17,9 @@ public class Market {
 
     private Market() {
 
+        UserInterface.printWelcomeMessage();
+        UserInterface.promptToPressEnter();
+
         Database db = new Database();
         companies = db.getCompanies();
 
@@ -41,13 +44,13 @@ public class Market {
             int index = UserInterface.selectCompany();
             if(index != -1) {
                 UserInterface.printCompanyName(companies.get(index).getName());
-                UserInterface.printTitles("Full Report");
+                UserInterface.printTitles();
                 companies.get(index).makeFullReport(getCarer()).generateFullReport().forEach(depotReport -> {
                     UserInterface.printDepotReport(depotReport);
                 });
             }
         }
-        UserInterface.printTitles("Company Results");
+        UserInterface.printCompanyResultsTitle();
         companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
 
 

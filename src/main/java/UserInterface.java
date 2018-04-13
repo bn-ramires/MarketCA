@@ -109,11 +109,11 @@ public class UserInterface {
 
         String[] headers = {"Depot ID", String.valueOf(depotReport.getDepotId())};
         String[][] data = {
-                {"Products Sold", String.valueOf(depotReport.getProdSold()) + "€"},
-                {"Products Bought", String.valueOf(depotReport.getProdBought()) + "€"},
+                {"Products Sold", String.valueOf(depotReport.getProdSold())},
+                {"Products Bought", String.valueOf(depotReport.getProdBought())},
                 {"Income", String.valueOf(depotReport.getIncome()) + "€"},
                 {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
-                {"Cashflow", String.valueOf(cashFlow)},
+                {"Cashflow", String.valueOf(cashFlow) + "€"},
         };
 
         System.out.println(FlipTable.of(headers, data));

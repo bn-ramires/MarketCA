@@ -7,16 +7,16 @@ import java.util.Random;
  * This class represents the data source needed to carry out all necessary requirements.
  * <p>
  * Sample initiation to meet the CA's requirements.
- * @see Database#makeSampleFile()
+ * @see Input#makeSampleFile()
  * <p>
  * Data source to be used as input by the program.
- * @see Database#json
+ * @see Input#json
  */
-public class Database {
+public class Input {
 
     private JsonObject json = new JsonObject();
 
-    public Database() {
+    public Input() {
         makeSampleFile();
     }
 

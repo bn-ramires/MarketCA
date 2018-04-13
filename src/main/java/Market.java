@@ -12,7 +12,7 @@ import java.util.List;
 public class Market {
 
     private static Market instance = null;
-    private ArrayList<Company> companies;
+    private ArrayList<Company> companies = new ArrayList<>();
     private List<CompanyRecord> companyRecords = new ArrayList<>();
     private Report fullReport;
     private TicketCarer carer;
@@ -25,7 +25,7 @@ public class Market {
         UserInterface.promptToPressEnter();
 
         // Acquire input and initialize companies based on it
-        Database db = new Database();
+        Input db = new Input();
         JsonObject input = db.getJson();
         initCompanies(input);
 
@@ -88,9 +88,7 @@ public class Market {
         return companies;
     }
 
-    private List<Company> initCompanies(JsonObject input) {
-
-        ArrayList<Company> companies = new ArrayList<>();
+    private void initCompanies(JsonObject input) {
 
         input.getAsJsonArray("companies").forEach(item -> {
 
@@ -103,8 +101,6 @@ public class Market {
             // Adding this new company to the list to be returned
             companies.add(newCompany);
         });
-
-        return companies;
     }
 
     private List<CompanyRecord> getCompanyRecords() {

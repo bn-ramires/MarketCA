@@ -111,7 +111,7 @@ public class Company {
     public String toString() {
         return "models.Company{" +
                 "name='" + name + '\'' +
-                ", depots=" + depots +
+                ", depots=" + depots.size() +
                 '}';
     }
 }

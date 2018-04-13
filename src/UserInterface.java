@@ -19,13 +19,23 @@ public class UserInterface {
     }
 
     public static boolean setMode(){
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println("Select one of the following options and press enter: ");
-        System.out.println("1)  Autonomous");
-        System.out.println("2)  Manual\n");
-        Scanner scanner = new Scanner(System.in);
-        String option = scanner.nextLine();
-        if(option.equals("2")) return true;
+        boolean flag = true;
+        while(flag) {
+            System.out.println("---------------------------------------------------------------------------------------");
+            System.out.println("Select one of the following options and press enter: ");
+            System.out.println("1)  Autonomous");
+            System.out.println("2)  Manual\n");
+            Scanner scanner = new Scanner(System.in);
+            String option = scanner.nextLine();
+            switch(option){
+                case "1":
+                    return false;
+                case "2":
+                    return true;
+                default:
+                    printTryAgain();
+            }
+        }
         return false;
     }
     public static int selectCompany(){

@@ -9,12 +9,24 @@ import purchasing.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for initializing the market. It effectively works as the main class.
+ * <p>
+ * All CA's requirements are attempted to be fulfilled by simply calling this class.
+ * Also, this class is a singleton and can't be initialized multiple times.
+ * <p>
+ * @see Market#init() Initialization based on CA's requirements.
+ * @see Market#instance instance of this class. (singleton pattern).
+ * @see Market#companies list of all company objects.
+ * @see Market#companyRecords list of all company's financial records.
+ * @see Market#carer holds all tickets for all transactions performed.
+ * @see Market#isActive determined if the software should keep running or not.
+ */
 public class Market {
 
     private static Market instance = null;
     private ArrayList<Company> companies = new ArrayList<>();
     private List<CompanyRecord> companyRecords = new ArrayList<>();
-    private Report fullReport;
     private TicketCarer carer;
     private boolean isActive = true;
 
@@ -29,10 +41,12 @@ public class Market {
         JsonObject input = db.getJson();
         initCompanies(input);
 
+        init();
+
     }
 
     // Following Mark's CA parameters
-    public void marksRequirements() {
+    public void init() {
 
         while (isActive()) {
 
@@ -59,28 +73,38 @@ public class Market {
                     UserInterface.printCompanyName(companies.get(index).getName());
                     UserInterface.printTitles();
 
-                    companies.get(index).makeFullReport(getCarer()).generateFullReport(numberOfDepots).forEach(depotReport -> {
+                    // Generate a Report for the selected company
+                    Report report = companies.get(index).makeFullReport(getCarer());
+                    // Print the report, containing details of all depots
+                    report.getReportList().forEach(depotReport -> {
                         UserInterface.printDepotReport(depotReport);
                     });
                 }
             }
+
+            // Print financial records for all companies involved in the market
             UserInterface.printCompanyResultsTitle();
             companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
 
 
-            int highestCashflowIndex = 0;
+            // Determining the company that has the best cashflow
+            int winnerCompany = 0;
             int highestCashflow = 0;
             for (int i = 0; i < companyRecords.size(); i++) {
 
                 if (highestCashflow < companyRecords.get(i).getCashflow()) {
                     highestCashflow = companyRecords.get(i).getCashflow();
-                    highestCashflowIndex = i;
+                    winnerCompany = i;
                 }
             }
-            UserInterface.printHighestCashflowCompany(companyRecords.get(highestCashflowIndex));
+
+            // Printing winner
+            UserInterface.printHighestCashflowCompany(companyRecords.get(winnerCompany));
+            // Prompting user to start a new transaction or quit
             setActive(UserInterface.promptToRestart());
 
         }
+
         UserInterface.printGoobye();
     }
 
@@ -88,6 +112,11 @@ public class Market {
         return companies;
     }
 
+    /**
+     * Initializes all companies with all their necessary data and stores it in a list.
+     *
+     * @param input JSON object with initialization data for all companies.
+     */
     private void initCompanies(JsonObject input) {
 
         input.getAsJsonArray("companies").forEach(item -> {
@@ -111,14 +140,6 @@ public class Market {
         companyRecords.add(companyRecord);
     }
 
-    private Report getFullReport() {
-        return fullReport;
-    }
-
-    private void setFullReport(Report fullReport) {
-        this.fullReport = fullReport;
-    }
-
     private TicketCarer getCarer() {
         return carer;
     }
@@ -134,11 +155,11 @@ public class Market {
         this.carer = carer;
     }
 
-    public boolean isActive() {
+    private boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    private void setActive(boolean active) {
         isActive = active;
     }
 }

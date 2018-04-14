@@ -59,7 +59,7 @@ public class Company {
      * @return a new CompanyRecord object.
      */
     public Report makeFullReport(TicketCarer carer) {
-        return new Report(getName(), carer);
+        return new Report(getName(), getNumberOfDepots(), carer);
     }
 
     public String getName() {
@@ -68,6 +68,10 @@ public class Company {
 
     public List<Depot> getDepots() {
         return depots;
+    }
+
+    public int getNumberOfDepots() {
+        return depots.size();
     }
 
     public static class CompanyBuilder {

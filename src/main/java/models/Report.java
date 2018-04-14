@@ -10,7 +10,7 @@ public class Report {
 
     private String companyName;
     private List<Ticket> tickets;
-    private List<DepotReport> reports = new ArrayList<>();
+    private List<DepotReport> reportList = new ArrayList<>();
 
     int prodSold;
     int income;
@@ -19,9 +19,11 @@ public class Report {
     int totalDeliveryCost;
 
 
-    public Report(String companyName, TicketCarer carer) {
+    public Report(String companyName, int numberOfDepots, TicketCarer carer) {
         this.companyName = companyName;
         this.tickets = carer.getTicketList();
+
+        generateFullReport(numberOfDepots);
     }
 
 
@@ -58,7 +60,7 @@ public class Report {
                     getCostProductsBought(),
                     getTotalDeliveryCost()));
         }
-        return getReports();
+        return getReportList();
     }
 
     public String getCompanyName() {
@@ -69,8 +71,8 @@ public class Report {
         return tickets;
     }
 
-    public List<DepotReport> getReports() {
-        return reports;
+    public List<DepotReport> getReportList() {
+        return reportList;
     }
 
     public void setCompanyName(String companyName) {
@@ -82,7 +84,7 @@ public class Report {
     }
 
     public void addReports(DepotReport report) {
-        this.reports.add(report);
+        this.reportList.add(report);
     }
 
     public int getProdSold() {

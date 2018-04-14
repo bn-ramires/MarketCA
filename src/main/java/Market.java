@@ -80,6 +80,9 @@ public class Market {
                         UserInterface.printDepotReport(depotReport);
                     });
                 }
+                // Print financial records for all companies involved in the market
+                UserInterface.printCompanyResultsTitle();
+                companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
             }
 
             // Print financial records for all companies involved in the market

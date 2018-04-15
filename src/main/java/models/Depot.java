@@ -30,11 +30,11 @@ import java.util.Random;
  */
 public class Depot {
 
-    public LinkedList<Product> stockList;
+    LinkedList<Product> stockList;
     LinkedList<Product> storageList;
     String owner;
     int cashAllowance;
-    public int delivery;
+    int delivery;
     int stockMax;
     int stockMin;
     int storageMax;

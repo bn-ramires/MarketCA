@@ -4,8 +4,11 @@ import models.DepotReport;
 
 import java.util.Scanner;
 
+/**
+ * This class represents the user interface. In this case, a simple terminal interface
+ * used to interact with the the software and get information displayed to the screen.
+ */
 public class UserInterface {
-
 
     public static void printWelcomeMessage() {
         System.out.println(" _____             _     ___  ___           _        _         __   _____ ");
@@ -18,7 +21,7 @@ public class UserInterface {
         System.out.println();
     }
 
-    public static void printGoobye() {
+    public static void printGoodbye() {
         System.out.println("Goodbye");
     }
 
@@ -93,14 +96,6 @@ public class UserInterface {
         };
 
         System.out.println(FlipTable.of(headers, data));
-
-//
-//        System.out.println("=========================================");
-//        System.out.println("Company name | "+record.getCompanyName());
-//        System.out.println("-----------------------------------------");
-//        System.out.println("Income       | "+record.getIncome()+"€");
-//        System.out.println("Expenses     | "+record.getExpenses()+"€");
-//        System.out.println("Cashflow     | "+record.getCashflow()+"€");
     }
 
     public static void printDepotReport(DepotReport depotReport) {
@@ -117,17 +112,6 @@ public class UserInterface {
         };
 
         System.out.println(FlipTable.of(headers, data));
-
-//        System.out.println("=================================================");
-//        System.out.println("        Depot Id        | " + depotReport.getDepotId());
-//        System.out.println("=================================================");
-//        System.out.println("       Products sold   | " + depotReport.getProdSold());
-//        System.out.println("       Products bought | " + depotReport.getProdBought());
-//        System.out.println("       Income          | " + depotReport.getIncome() + "€");
-//        System.out.println("       Expenses        | " + depotReport.getExpenses() + "€");
-//        System.out.println("-------------------------------------------------");
-//        System.out.println("       Cashflow        | " + cashFlow + "€");
-//        System.out.println("-------------------------------------------------");
     }
 
     public static void printTitles() {

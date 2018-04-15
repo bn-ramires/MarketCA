@@ -58,11 +58,13 @@ public class Market {
 
             setCarer(Transaction.getTicketCarer());
 
+            // Adding company records to the list
             companies.forEach(company -> {
                 CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
                 addCompanyRecords(companyRecord);
             });
 
+            // If the user choses manual mode
             if (isManualMode) {
 
                 int index = UserInterface.selectCompany();
@@ -83,7 +85,7 @@ public class Market {
                 // Print financial records for all companies involved in the market
                 UserInterface.printCompanyResultsTitle();
                 companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
-            }
+            } // If the user choses automatic mode.
 
             // Print financial records for all companies involved in the market
             UserInterface.printCompanyResultsTitle();
@@ -108,7 +110,7 @@ public class Market {
 
         }
 
-        UserInterface.printGoobye();
+        UserInterface.printGoodbye();
     }
 
     private ArrayList<Company> getCompanies() {

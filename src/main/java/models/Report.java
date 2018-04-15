@@ -6,6 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents a full financial report after transactions are made.
+ *
+ * It contains a list of depot reports.
+ * @see Report#reportList
+ *
+ * The method responsible for the full report generation.
+ * @see Report#generateFullReport(int)
+ */
 public class Report {
 
     private String companyName;

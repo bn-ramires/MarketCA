@@ -87,6 +87,7 @@ public class Transaction {
                         }
                     } else {
                         notReadyToBuy = true;
+                        break;
                     }
                 }
 

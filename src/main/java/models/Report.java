@@ -44,17 +44,17 @@ public class Report {
                         ticket.getSeller().equals(getCompanyName()))
                 .collect(Collectors.toList());
 
-        for (int i = 0; i <= numberOfDepots; i++) {
+        for (int i = 0; i < numberOfDepots; i++) {
             int current = i;
 
             setProdSold(filtered.stream().filter(ticket -> current ==
                     ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum());
 
-            setIncome(filtered.stream().filter(ticket -> current ==
-                    ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum());
-
             setProdBought(filtered.stream().filter(ticket -> current ==
                     ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum());
+
+            setIncome(filtered.stream().filter(ticket -> current ==
+                    ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum());
 
             setCostProductsBought(filtered.stream().filter(ticket -> current ==
                     ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum());

@@ -20,7 +20,7 @@ import java.util.List;
  * @see Market#companies list of all company objects.
  * @see Market#companyRecords list of all company's financial records.
  * @see Market#carer holds all tickets for all transactions performed.
- * @see Market#isActive determined if the software should keep running or not.
+ * @see Market#isActive determines if the software should keep running or not.
  */
 public class Market {
 
@@ -50,13 +50,25 @@ public class Market {
 
         while (isActive()) {
 
+            // Prompt which style of transaction to be made
             boolean isManualMode = UserInterface.setMode();
+            
+            // Making all necessary transactions
             Transaction transaction = Transaction.getInstance();
-            transaction.makeTransactions(companies.get(0), companies.get(2), companies.get(1));
-            transaction.makeTransactions(companies.get(1), companies.get(0), companies.get(2));
-            transaction.makeTransactions(companies.get(2), companies.get(1), companies.get(0));
+            transaction.makeTransactions(
+                    companies.get(0), 
+                    companies.get(2), 
+                    companies.get(1));
+            transaction.makeTransactions(
+                    companies.get(1), 
+                    companies.get(0), 
+                    companies.get(2));
+            transaction.makeTransactions(
+                    companies.get(2), 
+                    companies.get(1), 
+                    companies.get(0));
 
-            setCarer(Transaction.getTicketCarer());
+            setCarer(transaction.getTicketCarer());
 
             // Adding company records to the list
             companies.forEach(company -> {
@@ -64,7 +76,7 @@ public class Market {
                 addCompanyRecords(companyRecord);
             });
 
-            // If the user choses manual mode
+            // If the user chooses manual mode
             if (isManualMode) {
 
                 int index = UserInterface.selectCompany();
@@ -82,9 +94,7 @@ public class Market {
                         UserInterface.printDepotReport(depotReport);
                     });
                 }
-                // Print financial records for all companies involved in the market
-                UserInterface.printCompanyResultsTitle();
-                companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
+
             } // If the user choses automatic mode.
 
             // Print financial records for all companies involved in the market

@@ -90,12 +90,10 @@ public class Market {
                     // Generate a Report for the selected company
                     Report report = companies.get(index).makeFullReport(getCarer());
                     // Print the report, containing details of all depots
-                    report.getReportList().forEach(depotReport -> {
-                        UserInterface.printDepotReport(depotReport);
-                    });
+                    report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
                 }
 
-            } // If the user choses automatic mode.
+            } // If the user chooses automatic mode.
 
             // Print financial records for all companies involved in the market
             UserInterface.printCompanyResultsTitle();

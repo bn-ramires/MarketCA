@@ -7,6 +7,7 @@ import java.util.Random;
  * This class represents the data source needed to carry out all necessary requirements.
  * <p>
  * Sample initiation to meet the CA's requirements.
+ *
  * @see Input#makeSampleFile()
  * <p>
  * Data source to be used as input by the program.
@@ -74,8 +75,9 @@ public class Input {
         return json;
     }
 
-    private int getRandomNumber(int max, int min) {
+    public int getRandomNumber(int max, int min) {
         return new Random().nextInt(max - min + 1) + min;
+
     }
 
     public JsonObject getJson() {

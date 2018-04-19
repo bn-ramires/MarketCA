@@ -1,9 +1,6 @@
 package models;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This is a model for a Depot and it holds all necessary information about it.
@@ -30,8 +27,8 @@ import java.util.Random;
  */
 public class Depot {
 
-    LinkedList<Product> stockList;
-    LinkedList<Product> storageList;
+    List<Product> stockList;
+    List<Product> storageList;
     String owner;
     int cashAllowance;
     int delivery;
@@ -51,6 +48,10 @@ public class Depot {
         this.stockMin = builder.input.stockMin;
         this.storageMax = builder.input.storageMax;
         this.storageMin = builder.input.storageMin;
+    }
+
+    // This constructor is for testing purposes
+    public Depot() {
     }
 
     /**
@@ -73,12 +74,12 @@ public class Depot {
      * @param builder required input from original JSON file.
      * @return list of this depot's products.
      */
-    private LinkedList<Product> initStock(DepotBuilder builder) {
+    private List<Product> initStock(DepotBuilder builder) {
 
         // Random number between the minimum and maximum amount of allowed stock items
         int numberOfProducts = getRandomNumber(builder.input.stockMax, builder.input.stockMin);
 
-        LinkedList<Product> initializedList = new LinkedList<>();
+        List<Product> initializedList = new ArrayList<>();
 
         for (int i = 0; i < numberOfProducts; i++) {
 
@@ -98,12 +99,12 @@ public class Depot {
      * @param builder required input from original JSON file.
      * @return list of other depot's products.
      */
-    private LinkedList<Product> initStorage(DepotBuilder builder) {
+    private List<Product> initStorage(DepotBuilder builder) {
 
         // Random number of products from other companies. Default is 3 to 40 for each.
         int numberOfProducts = getRandomNumber(builder.input.storageMax / 2, builder.input.storageMin / 2);
 
-        LinkedList<Product> initializedList = new LinkedList<>();
+        List<Product> initializedList = new ArrayList<>();
 
         for (int i = 0; i < numberOfProducts; i++) {
 
@@ -159,6 +160,38 @@ public class Depot {
 
     public void setCashAllowance(int cashAllowance) {
         this.cashAllowance = cashAllowance;
+    }
+
+    public void setStockList(List<Product> stockList) {
+        this.stockList = stockList;
+    }
+
+    public void setStorageList(List<Product> storageList) {
+        this.storageList = storageList;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
+    }
+
+    public void setStockMax(int stockMax) {
+        this.stockMax = stockMax;
+    }
+
+    public void setStockMin(int stockMin) {
+        this.stockMin = stockMin;
+    }
+
+    public void setStorageMax(int storageMax) {
+        this.storageMax = storageMax;
+    }
+
+    public void setStorageMin(int storageMin) {
+        this.storageMin = storageMin;
     }
 
     public static class DepotBuilder {

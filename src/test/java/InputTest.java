@@ -1,7 +1,7 @@
 import org.junit.Before;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class InputTest extends Input {
 
@@ -9,11 +9,11 @@ public class InputTest extends Input {
 
     @Before
     public void setUp() {
+        inputClass = new Input();
     }
 
-    @RepeatedTest(100)
+    @Test
     public void shouldGenerateRandomNumbersBetweenXandY() {
-        inputClass = new Input();
         int actual = inputClass.getRandomNumber(10, 5);
         assertEquals(true, actual >= 5 && actual <= 10);
     }

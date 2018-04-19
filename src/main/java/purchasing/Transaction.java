@@ -32,7 +32,7 @@ public class Transaction {
     public int currentSellerId;
 
     // Mark's requirements. Will greatly restrict the number of purchases a depot will perform.
-    int minimumCashAllowance = 50;
+    public int minimumCashAllowance = 50;
 
     private Transaction() {
     }
@@ -169,28 +169,6 @@ public class Transaction {
     }
 
     /**
-     * Determines if the current Buyer's depot is capable of buying any products.
-     *
-     * @param seller
-     * @param buyer
-     * @Return A true or false.
-     */
-    public Boolean isReadyToBuy(Depot buyer, Depot seller) {
-
-        int cash = buyer.getCashAllowance();
-        int storage = buyer.getStorageList().size();
-        int minimum = buyer.getStockMin();
-        int productPrice = seller.getStockList().get(0).getPrice();
-        int delivery = seller.getDelivery();
-        int totalCost = productPrice + delivery;
-
-        // Buyer's cash has to be bigger than 50.
-        // Also enough to purchase at least a single product and pay for delivery costs.
-        // Its storage space bigger than 6 (minimum of 3 products in storage from the other two companies).
-        return cash > getMinimumCashAllowance() && storage > minimum && cash >= totalCost;
-    }
-
-    /**
      * Determines how many products the Buyer's depot is capable of buying.
      * Ensuring the depot will not be left with its stock capacity below the required minimum amount.
      *
@@ -235,6 +213,31 @@ public class Transaction {
         }
 
         return buyingGoal;
+    }
+
+    /**
+     * Determines if the current Buyer's depot is capable of buying any products.
+     *
+     * @param seller
+     * @param buyer
+     * @Return A true or false.
+     */
+    public Boolean isReadyToBuy(Depot buyer, Depot seller) {
+
+        int cash = buyer.getCashAllowance();
+        int currentAmountOfProductsBought = buyer.getStorageList().size();
+        int storageMax = buyer.getStorageMax();
+        int productPrice = seller.getStockList().get(0).getPrice();
+        int delivery = seller.getDelivery();
+        int costOfPurchase = productPrice + delivery;
+        int purchasingPower = cash - getMinimumCashAllowance();
+
+        // Buyer's cash has to be bigger than 50.
+        // Also enough to purchase at least a single product and pay for delivery costs.
+        // Its storage space bigger than 6 (minimum of 3 products in storage from the other two companies).
+        return cash > getMinimumCashAllowance() &&
+                currentAmountOfProductsBought < storageMax &&
+                purchasingPower >= costOfPurchase;
     }
 
     /**

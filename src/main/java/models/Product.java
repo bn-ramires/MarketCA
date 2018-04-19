@@ -19,6 +19,12 @@ public class Product {
         this.price = builder.input.productCost;
     }
 
+    // Auto initialized for TESTING purposes!
+    public Product() {
+        brand = "test";
+        price = 5;
+    }
+
     public String getBrand() {
         return brand;
     }

@@ -28,20 +28,32 @@ package models;
 public class DepotReport {
     private int depotId;
     private int prodSold;
+    private int soldTo;
+    private int boughtFrom;
     private int prodBought;
     private int income;
     private int expenses;
     private int totalProdCost;
     private int totalDeliveryCost;
+    private int cashAllowance;
 
-    public DepotReport(int depotId, int prodSold, int prodBought, int income, int totalProdCost, int totalDeliveryCost) {
+    public DepotReport(int depotId,
+                       int prodSold,
+                       int prodBought,
+                       int income,
+                       int totalProdCost,
+                       int totalDeliveryCost,
+                       int cashAllowance) {
+
         this.depotId = depotId;
         this.prodSold = prodSold;
         this.prodBought = prodBought;
         this.income = income;
         this.totalProdCost = totalProdCost;
         this.totalDeliveryCost = totalDeliveryCost;
+        this.cashAllowance = cashAllowance;
         this.expenses = totalProdCost + totalDeliveryCost;
+
     }
 
     public int getDepotId() {

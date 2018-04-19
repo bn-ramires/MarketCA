@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 
 /**
  * This class represents a full financial report after transactions are made.
- *
+ * <p>
  * It contains a list of depot reports.
- * @see Report#reportList
  *
+ * @see Report#reportList
+ * <p>
  * The method responsible for the full report generation.
  * @see Report#generateFullReport(int)
  */
@@ -67,7 +68,7 @@ public class Report {
                     getProdBought(),
                     getIncome(),
                     getCostProductsBought(),
-                    getTotalDeliveryCost()));
+                    getTotalDeliveryCost(), 100));
         }
         return getReportList();
     }

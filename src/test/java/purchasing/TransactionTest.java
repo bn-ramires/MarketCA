@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TransactionTest {
@@ -19,8 +20,8 @@ public class TransactionTest {
     @Before
     public void setUp() {
 
-        int stockMin = 15;
-        int storageMin = 79;
+        int stockMin = 30;
+        int storageMin = 50;
 
         List<Product> storage = new ArrayList<>();
         List<Product> stock = new ArrayList<>();
@@ -38,7 +39,7 @@ public class TransactionTest {
             storage.add(newProduct);
         }
 
-        buyer.setCashAllowance(1000);
+        buyer.setCashAllowance(75);
         buyer.setDelivery(5);
         buyer.setOwner("Buyer Depot");
         buyer.setStockMax(50);
@@ -48,7 +49,7 @@ public class TransactionTest {
         buyer.setStorageList(storage);
         buyer.setStockList(stock);
 
-        seller.setCashAllowance(50);
+        seller.setCashAllowance(60);
         seller.setDelivery(5);
         seller.setOwner("Seller Depot");
         seller.setStockMax(50);
@@ -63,5 +64,30 @@ public class TransactionTest {
     public void should_Be_Ready_To_Buy() {
         boolean actual = transactionClass.isReadyToBuy(buyer, seller);
         assertTrue(actual);
+    }
+
+    @Test
+    public void should_Not_Surpass_Max_Cash_Allowance() {
+        int maxSellersCashAllowance = 100;
+        int allowedIncome = (maxSellersCashAllowance - seller.getCashAllowance()) - seller.getDelivery();
+
+        int actual = transactionClass.accountForMaxCashAllowance(
+                10,
+                5,
+                allowedIncome);
+
+        assertEquals(7, actual);
+    }
+
+    @Test
+    public void IDontKnowForNow() {
+        int maxSellersCashAllowance = 100;
+        int allowedIncome = (maxSellersCashAllowance - seller.getCashAllowance()) - seller.getDelivery();
+
+        int actual = transactionClass.quantityToBuy(
+                seller,
+                15);
+
+        assertEquals(7, actual);
     }
 }

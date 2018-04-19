@@ -76,12 +76,13 @@ public class Market {
                 addCompanyRecords(companyRecord);
             });
 
-            // If the user chooses manual mode
+            // If the user chooses manual mode.
             if (isManualMode) {
 
                 int index = UserInterface.selectCompany();
                 int numberOfDepots = companies.get(0).getDepots().size();
 
+                // Handling input error.
                 if (index != -1) {
 
                     UserInterface.printCompanyName(companies.get(index).getName());

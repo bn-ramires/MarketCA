@@ -92,7 +92,7 @@ public class UserInterface {
         String[][] data = {
                 {"Income", String.valueOf(record.getIncome()) + "€"},
                 {"Expenses", String.valueOf(record.getExpenses()) + "€"},
-                {"Cashflow", String.valueOf(record.getCashflow()) + "€"},
+                {"Cashflow", String.valueOf(record.getCashflow()) + "€"}
         };
 
         System.out.println(FlipTable.of(headers, data));
@@ -108,7 +108,8 @@ public class UserInterface {
                 {"Products Bought", String.valueOf(depotReport.getProdBought())},
                 {"Income", String.valueOf(depotReport.getIncome()) + "€"},
                 {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
-                {"Cashflow", String.valueOf(cashFlow) + "€"},
+//                {"Cash Allowance", String.valueOf(depotReport.getCashAllowance()) + "€"},
+                {"Cashflow", String.valueOf(cashFlow) + "€"}
         };
 
         System.out.println(FlipTable.of(headers, data));

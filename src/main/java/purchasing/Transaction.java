@@ -31,8 +31,9 @@ public class Transaction {
     public int currentBuyerId;
     public int currentSellerId;
 
-    // Mark's requirements. Will greatly restrict the number of purchases a depot will perform.
-    public int minimumCashAllowance = 50;
+    // Mark's requirements. Will greatly restrict the number of transactions a depot will perform.
+    public int minCashAllowance = 50;
+    public int maxCashAllowance = 100;
 
     private Transaction() {
     }
@@ -151,7 +152,7 @@ public class Transaction {
      * @param seller
      * @param buyer
      */
-    private void generateTicket(int quantity, Depot buyer, Depot seller) {
+    public void generateTicket(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
 
@@ -169,6 +170,31 @@ public class Transaction {
     }
 
     /**
+     * Decides the quantity of products to be sold, ensuring it does not surpass
+     * the seller's cash maximum allowance.
+     *
+     * @param productQty      desired quantity of products to be bought.
+     * @param productCost     cost of each individual product.
+     * @param incomeThreshold amount of income that can't be surpassed.
+     * @return settled quantity of products available to sell.
+     */
+    public int accountForMaxCashAllowance(int productQty, int productCost, int incomeThreshold) {
+
+        int availability;
+
+        boolean doesNotReachMaxCashAllowance =
+                (productQty * productCost) < incomeThreshold;
+
+        if (doesNotReachMaxCashAllowance) {
+            availability = productQty;
+        } else {
+            availability = incomeThreshold / productCost;
+        }
+
+        return availability;
+    }
+
+    /**
      * Determines how many products the Buyer's depot is capable of buying.
      * Ensuring the depot will not be left with its stock capacity below the required minimum amount.
      *
@@ -182,7 +208,7 @@ public class Transaction {
         int productCost = seller.getStockList().get(0).getPrice();
         int stock = buyer.getStockList().size();
         int minimum = buyer.getStockMin();
-        int purchasingPower = buyer.getCashAllowance() - getMinimumCashAllowance();
+        int purchasingPower = buyer.getCashAllowance() - getMinCashAllowance();
         int buyingGoal = (int) Math.floor((purchasingPower - deliveryCost) / productCost);
         int spaceAvailable = stock - minimum;
 
@@ -194,29 +220,41 @@ public class Transaction {
     }
 
     /**
-     * Determines how many products will be bought from the chosen Seller's depot.
-     * Ensuring the depot will not be left with its storage capacity below the required minimum amount.
+     * Determines how many products will be bought from the chosen seller's depot.
+     * Ensuring the seller will not be left with its stock capacity below the required minimum amount.
+     * Or with more money than its maximum cash allowance.
      *
-     * @param buyingGoal
-     * @param seller
-     * @return Quantity of items to be bought.
+     * @param buyerDemand how many products the buyer wishes to buy.
+     * @param seller      the selling depot.
+     * @return Quantity of products to be bought.
      */
-    public int quantityToBuy(Depot seller, int buyingGoal) {
+    public int quantityToBuy(Depot seller, int buyerDemand) {
 
         int stock = seller.getStockList().size();
         int minimum = seller.getStockMin();
+        int productsInStock = stock - minimum;
+        int productCost = seller.getStockList().get(0).getPrice();
+        int deliveryCost = seller.getDelivery();
+        int allowedIncome = (getMaxCashAllowance() - seller.getCashAllowance()) - deliveryCost;
 
-        int available = stock - minimum;
-
-        if (available < buyingGoal) {
-            return available;
+        /*
+        When the quantity of products available to sell is less than the buyer's demand,
+        attempt to sell all available products, taking the maximum cash allowance into consideration.
+         */
+        if (productsInStock < buyerDemand) {
+            return accountForMaxCashAllowance(productsInStock, productCost, allowedIncome);
         }
 
-        return buyingGoal;
+        /*
+        When the quantity of products available to sell meets the buyer's demand,
+        attempt to sell that amount, taking the maximum cash allowance into consideration.
+         */
+        return accountForMaxCashAllowance(buyerDemand, productCost, allowedIncome);
+
     }
 
     /**
-     * Determines if the current Buyer's depot is capable of buying any products.
+     * Determines if the current buyer's depot is capable of buying at least one product.
      *
      * @param seller
      * @param buyer
@@ -230,28 +268,42 @@ public class Transaction {
         int productPrice = seller.getStockList().get(0).getPrice();
         int delivery = seller.getDelivery();
         int costOfPurchase = productPrice + delivery;
-        int purchasingPower = cash - getMinimumCashAllowance();
+        int purchasingPower = cash - getMinCashAllowance();
 
-        // Buyer's cash has to be bigger than 50.
-        // Also enough to purchase at least a single product and pay for delivery costs.
-        // Its storage space bigger than 6 (minimum of 3 products in storage from the other two companies).
-        return cash > getMinimumCashAllowance() &&
+        /*
+        1: Buying depot's cash has to be bigger than 50.
+        2: Its storage space is not full.
+        3: Has enough money to buy at least one product from the seller and pay for delivery.
+         */
+        return cash > getMinCashAllowance() &&
                 currentAmountOfProductsBought < storageMax &&
                 purchasingPower >= costOfPurchase;
     }
 
     /**
-     * Determines if the current Seller's depot is capable of selling any products.
+     * Determines if the current seller's depot is capable of selling at least one product.
      *
      * @param seller
      * @Return A true or false.
      */
     public Boolean isReadyToSell(Depot seller) {
 
+        int cash = seller.getCashAllowance();
         int stock = seller.getStockList().size();
         int minimum = seller.getStockMin();
+        int productCost = seller.getStockList().get(0).getPrice();
+        int minimumCharge = productCost + seller.getDelivery();
+        int newBalance = cash + minimumCharge;
 
-        // It can only sell products if its stock capacity is above the minimum required.
+        /*
+        If selling one single item already leaves this seller with too much money.
+        It won't be able to sell anything to anyone.
+         */
+        if (newBalance >= getMaxCashAllowance()) {
+            return false;
+        }
+
+        // Also, it can only sell products if its stock capacity is above the minimum required.
         return stock > minimum;
     }
 
@@ -275,8 +327,12 @@ public class Transaction {
         return currentSellerId;
     }
 
-    public int getMinimumCashAllowance() {
-        return minimumCashAllowance;
+    public int getMinCashAllowance() {
+        return minCashAllowance;
+    }
+
+    public int getMaxCashAllowance() {
+        return maxCashAllowance;
     }
 
     /**

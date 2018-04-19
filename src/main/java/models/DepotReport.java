@@ -1,99 +1,104 @@
 package models;
 
-/**
- * This is a model for a depot's report. Containing financial information about
- * transactions carried out by a depot.
- * <p>
- * Depot's ID.
- * @see DepotReport#depotId
- * <p>
- * Products sold by it.
- * @see DepotReport#prodSold
- * <p>
- * Products bought by it.
- * @see DepotReport#prodBought
- * <p>
- * How much money it has made.
- * @see DepotReport#income
- * <p>
- * How much money it has spent.
- * @see DepotReport#expenses
- * <p>
- * Total cost
- * @see DepotReport#totalProdCost
- * <p>
- * Total cost
- * @see DepotReport#totalDeliveryCost
- */
+import main.Input;
+import main.Market;
+
+import java.util.List;
+
 public class DepotReport {
     private int depotId;
-    private int prodSold;
-    private int soldTo;
-    private int boughtFrom;
-    private int prodBought;
+    private int totalProductSold;
+    private int totalProductBought;
+    //    private int soldTo;
+    //    private int boughtFrom;
     private int income;
     private int expenses;
-    private int totalProdCost;
-    private int totalDeliveryCost;
+    //    private int totalProdCost;
+    //    private int totalDeliveryCost;
     private int cashAllowance;
+    private int cashFlow;
 
-    public DepotReport(int depotId,
-                       int prodSold,
-                       int prodBought,
-                       int income,
-                       int totalProdCost,
-                       int totalDeliveryCost,
-                       int cashAllowance) {
 
+    private List<Ticket> ticketsAsBuyer;
+    private List<Ticket> ticketsAsSeller;
+
+    public DepotReport(List<Ticket> ticketsAsBuyer, List<Ticket> ticketsAsSeller, int depotId) {
+        setTotalProductBought(ticketsAsBuyer);
+        setTotalProductSold(ticketsAsSeller);
+        calcCashAllowance();
+
+        this.ticketsAsBuyer = ticketsAsBuyer;
+        this.ticketsAsSeller = ticketsAsSeller;
+        this.income = calcIncome(ticketsAsSeller);
+        this.expenses = calcExpenses(ticketsAsBuyer);
+        this.cashFlow = calcCashFlow(income, expenses);
         this.depotId = depotId;
-        this.prodSold = prodSold;
-        this.prodBought = prodBought;
-        this.income = income;
-        this.totalProdCost = totalProdCost;
-        this.totalDeliveryCost = totalDeliveryCost;
-        this.cashAllowance = cashAllowance;
-        this.expenses = totalProdCost + totalDeliveryCost;
 
+
+    }
+
+    public int calcIncome(List<Ticket> ticketsAsSeller) {
+        return ticketsAsSeller.stream().mapToInt(Ticket::getTotalCost).sum();
+    }
+
+    public int calcExpenses(List<Ticket> ticketsAsBuyer) {
+        int totalDeliveryCost = ticketsAsBuyer.stream().mapToInt(Ticket::getDelivery).sum();
+        int totalExpenses = getTotalProductBought() + totalDeliveryCost;
+        return totalExpenses;
+    }
+
+    public int calcCashFlow(int income, int expenses) {
+        return income - expenses;
+    }
+
+    public int getCashAllowance() {
+        return cashAllowance;
+    }
+
+    public void calcCashAllowance() {
+        this.cashAllowance = Input.getCashAllowance();
+    }
+
+    public void setTotalProductSold(List<Ticket> ticketsAsSeller) {
+        int result = ticketsAsSeller.stream().mapToInt(Ticket::getTotalCost).sum();
+        this.totalProductSold = result;
+    }
+
+    public void setTotalProductBought(List<Ticket> ticketsAsBuyer) {
+        int result = ticketsAsBuyer.stream().mapToInt(Ticket::getTotalCost).sum();
+        this.totalProductBought = result;
     }
 
     public int getDepotId() {
         return depotId;
     }
 
-    public int getProdSold() {
-        return prodSold;
+    public int getTotalProductSold() {
+        return totalProductSold;
     }
 
-    public int getProdBought() {
-        return prodBought;
+    public int getTotalProductBought() {
+        return totalProductBought;
+    }
+
+    public int getCashFlow() {
+        return cashFlow;
     }
 
     public int getIncome() {
         return income;
     }
 
-    public int getTotalProdCost() {
-        return totalProdCost;
-    }
-
-    public int getTotalDeliveryCost() {
-        return totalDeliveryCost;
-    }
-
     public int getExpenses() {
         return expenses;
     }
 
-    @Override
-    public String toString() {
-        return "models.DepotReport{" +
-                "depotId=" + depotId +
-                ", prodSold=" + prodSold +
-                ", prodBought=" + prodBought +
-                ", income=" + income +
-                ", totalProdCost=" + totalProdCost +
-                ", totalDeliveryCost=" + totalDeliveryCost +
-                ", expenses=" + expenses +
-                '}';
+    public List<Ticket> getTicketsAsBuyer() {
+        return ticketsAsBuyer;
+    }
+
+    public List<Ticket> getTicketsAsSeller() {
+        return ticketsAsSeller;
     }
 }
+

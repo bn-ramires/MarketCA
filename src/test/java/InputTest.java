@@ -1,3 +1,4 @@
+import main.Input;
 import org.junit.Before;
 import org.junit.Test;
 

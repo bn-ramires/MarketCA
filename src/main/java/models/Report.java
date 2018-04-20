@@ -37,11 +37,10 @@ public class Report {
     }
 
     /**
-     *
-     * @param depotId
-     * @param role
-     * @param tickets
-     * @return
+     * Returns only the tickets in which the current depot is either the buyer or the seller
+     * @param depotId  Id of the depot being audited
+     * @param role     specifies whether the current depot is the buyer or the seller
+     * @param tickets  List of tickets containing only tickets in which the selected company is involved
      */
 
     public List<Ticket> filterTickets(int depotId, String role, List<Ticket> tickets) {
@@ -63,6 +62,10 @@ public class Report {
         }
     }
 
+    /**
+     * It returns a list of DepotReports
+     * @param numberOfDepots the number of depots for which depotRepots should be generated
+     */
 
     public List<DepotReport> generateFullReport(int numberOfDepots) {
 
@@ -99,6 +102,10 @@ public class Report {
         this.tickets = tickets;
     }
 
+    /**
+     * It adds a report to the reportList
+     * @param report DeportReport object of a given depot
+     */
     public void addReports(DepotReport report) {
         this.reportList.add(report);
     }

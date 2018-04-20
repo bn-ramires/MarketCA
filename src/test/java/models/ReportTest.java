@@ -14,6 +14,7 @@ import static org.junit.Assert.assertThat;
 public class ReportTest {
 
     List<Ticket> fakeTickets = new ArrayList<>();
+    List<Depot> fakeDepots = new ArrayList<>();
 
 
     @Before
@@ -35,31 +36,32 @@ public class ReportTest {
         fakeTickets.add(ticket7);
     }
 
-//    @Test
-//    public void should_only_return_tickets_where_the_selected_comany_is_a_buyer() {
-//        Report report = new Report("BigA",100, new TicketCarer());
-//
-//
-//        List<Ticket> actual = report.filterTickets(1,"buyer", getFakeTickets());
-//
-//
-//        assertEquals(2, actual.size());
-//        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(0)));
-//        assertThat(actual.get(1), samePropertyValuesAs(fakeTickets.get(6)));
-//    }
-//
-//    @Test
-//    public void should_only_return_tickets_where_the_selected_comany_is_a_seller() {
-//        Report report = new Report("BigA",100, new TicketCarer());
-//
-//
-//        List<Ticket> actual = report.filterTickets(5,"seller", getFakeTickets());
-//
-//
-//        assertEquals(1, actual.size());
-//        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(5)));
-//
-//    }
+
+    @Test
+    public void should_only_return_tickets_where_the_selected_comany_is_a_buyer() {
+        Report report = new Report("BigA",fakeDepots, new TicketCarer());
+
+
+        List<Ticket> actual = report.filterTickets(1,"buyer", getFakeTickets());
+
+
+        assertEquals(2, actual.size());
+        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(0)));
+        assertThat(actual.get(1), samePropertyValuesAs(fakeTickets.get(6)));
+    }
+
+    @Test
+    public void should_only_return_tickets_where_the_selected_comany_is_a_seller() {
+        Report report = new Report("BigA",fakeDepots, new TicketCarer());
+
+
+        List<Ticket> actual = report.filterTickets(5,"seller", getFakeTickets());
+
+
+        assertEquals(1, actual.size());
+        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(5)));
+
+    }
 
     public List<Ticket> getFakeTickets() {
         return fakeTickets;

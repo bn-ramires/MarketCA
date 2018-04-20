@@ -29,8 +29,8 @@ public class Transaction {
     public TicketOriginator originator = new TicketOriginator();
     public static TicketCarer ticketCarer = new TicketCarer();
     //
-    public int currentBuyerId;
-    public int currentSellerId;
+    public int currentBuyerId = -1;
+    public int currentSellerId = -1;
 
     // Mark's requirements. Will greatly restrict the number of transactions a depot will perform.
     public int minCashAllowance = 50;

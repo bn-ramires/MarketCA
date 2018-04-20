@@ -19,7 +19,6 @@ public class Ticket {
                   int quantity,
                   int delivery) {
 
-        this.totalCost = quantity * productCost;
         this.buyer = buyer;
         this.seller = seller;
         this.buyerDepotId = buyerDepotId;
@@ -27,6 +26,8 @@ public class Ticket {
         this.productCost = productCost;
         this.quantity = quantity;
         this.delivery = delivery;
+        this.totalCost = quantity * productCost;
+
     }
 
     public String getBuyer() {

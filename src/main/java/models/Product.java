@@ -4,6 +4,7 @@ package models;
  * This is a model for a product and it holds all necessary information about it.
  * <p>
  * The company that has made this product.
+ *
  * @see Product#brand
  * <p>
  * The cost of this product.
@@ -19,10 +20,7 @@ public class Product {
         this.price = builder.input.productCost;
     }
 
-    // Auto initialized for TESTING purposes!
     public Product() {
-        brand = "test";
-        price = 5;
     }
 
     public String getBrand() {
@@ -44,6 +42,14 @@ public class Product {
         public Product build() {
             return new Product(this);
         }
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override

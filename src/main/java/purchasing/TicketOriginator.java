@@ -18,13 +18,13 @@ public class TicketOriginator {
     }
 
     public void getTicketState(Ticket ticket) {
-        this.totalCost = productCost * quantity;
         this.buyer = ticket.getBuyer();
         this.seller = ticket.getSeller();
         this.buyerDepotId = ticket.getBuyerDepotId();
         this.sellerDepotId = ticket.getSellerDepotId();
         this.quantity = ticket.getQuantity();
         this.delivery = ticket.getDelivery();
+        this.totalCost = productCost * quantity;
     }
 
     public String getBuyer() {

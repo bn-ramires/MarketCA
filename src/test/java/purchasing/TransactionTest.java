@@ -33,6 +33,7 @@ public class TransactionTest {
         for (int i = 0; i < stockMin; i++) {
 
             Product newProduct = new Product();
+            newProduct.setBrand("test");
             stock.add(newProduct);
         }
 
@@ -95,10 +96,20 @@ public class TransactionTest {
     }
 
     @Test
-    public void ticket_Properties_Should_Match_With_Tested_One(){
+    public void ticket_Properties_Should_Match_With_Tested_One() {
         Ticket actual = transactionClass.generateTicket
-                (10, buyerDepot, sellerDepot);
+                (7, buyerDepot, sellerDepot);
 
-        assertThat(actual, samePropertyValuesAs(expected);
+        Ticket expected = new Ticket(
+                "Buyer Depot",
+                "Seller Depot",
+                -1,
+                -1,
+                5,
+                7,
+                5
+        );
+
+        assertThat(actual, samePropertyValuesAs(expected));
     }
 }

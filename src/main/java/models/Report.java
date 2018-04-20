@@ -36,10 +36,10 @@ public class Report {
         generateFullReport(numberOfDepots);
     }
 
-    public List<Ticket> filterTickets(int depotId, String role) {
+    public List<Ticket> filterTickets(int depotId, String role, List<Ticket> tickets) {
 
         if (role.equals("buyer")) {
-            List<Ticket> ticketsAsBuyer = getTickets().stream()
+            List<Ticket> ticketsAsBuyer = tickets.stream()
                     .filter(ticket -> ticket.getBuyer().equals(getCompanyName()) &&
                             ticket.getBuyerDepotId() == depotId)
                     .collect(Collectors.toList());
@@ -47,9 +47,9 @@ public class Report {
             return ticketsAsBuyer;
         } else {
 
-            List<Ticket> ticketsAsSeller = getTickets().stream()
-                    .filter(ticket -> ticket.getBuyer().equals(getCompanyName()) &&
-                            ticket.getBuyerDepotId() == depotId)
+            List<Ticket> ticketsAsSeller = tickets.stream()
+                    .filter(ticket -> ticket.getSeller().equals(getCompanyName()) &&
+                            ticket.getSellerDepotId() == depotId)
                     .collect(Collectors.toList());
             return ticketsAsSeller;
         }
@@ -61,8 +61,8 @@ public class Report {
         for (int i = 0; i < numberOfDepots; i++) {
             int current = i;
 
-            List<Ticket> filteredBuyer = filterTickets(i, "buyer");
-            List<Ticket> filteredSeller = filterTickets(i, "seller");
+            List<Ticket> filteredBuyer = filterTickets(i, "buyer", getTickets());
+            List<Ticket> filteredSeller = filterTickets(i, "seller", getTickets());
 
             DepotReport newDepotReport = new DepotReport(filteredBuyer, filteredSeller, current);
             addReports(newDepotReport);

@@ -3,6 +3,7 @@ package purchasing;
 import models.Company;
 import models.Depot;
 import models.Product;
+import models.Ticket;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -152,7 +153,7 @@ public class Transaction {
      * @param seller
      * @param buyer
      */
-    public void generateTicket(int quantity, Depot buyer, Depot seller) {
+    public Ticket generateTicket(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
 
@@ -166,7 +167,7 @@ public class Transaction {
         originator.setDelivery(seller.getDelivery());
         originator.setProductCost(productCost);
         originator.setQuantity(quantity);
-        carer.addTicket(originator.saveTicketState());
+        return carer.addTicket(originator.saveTicketState());
     }
 
     /**

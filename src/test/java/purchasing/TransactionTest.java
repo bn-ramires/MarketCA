@@ -2,20 +2,23 @@ package purchasing;
 
 import models.Depot;
 import models.Product;
+import models.Ticket;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class TransactionTest {
 
     Transaction transactionClass = Transaction.getInstance();
-    Depot buyer = new Depot();
-    Depot seller = new Depot();
+    Depot buyerDepot = new Depot();
+    Depot sellerDepot = new Depot();
 
     @Before
     public void setUp() {
@@ -39,37 +42,37 @@ public class TransactionTest {
             storage.add(newProduct);
         }
 
-        buyer.setCashAllowance(75);
-        buyer.setDelivery(5);
-        buyer.setOwner("Buyer Depot");
-        buyer.setStockMax(50);
-        buyer.setStockMin(15);
-        buyer.setStorageMax(80);
-        buyer.setStorageMin(6);
-        buyer.setStorageList(storage);
-        buyer.setStockList(stock);
+        buyerDepot.setCashAllowance(75);
+        buyerDepot.setDelivery(5);
+        buyerDepot.setOwner("Buyer Depot");
+        buyerDepot.setStockMax(50);
+        buyerDepot.setStockMin(15);
+        buyerDepot.setStorageMax(80);
+        buyerDepot.setStorageMin(6);
+        buyerDepot.setStorageList(storage);
+        buyerDepot.setStockList(stock);
 
-        seller.setCashAllowance(60);
-        seller.setDelivery(5);
-        seller.setOwner("Seller Depot");
-        seller.setStockMax(50);
-        seller.setStockMin(15);
-        seller.setStorageMax(80);
-        seller.setStorageMin(6);
-        seller.setStorageList(storage);
-        seller.setStockList(stock);
+        sellerDepot.setCashAllowance(60);
+        sellerDepot.setDelivery(5);
+        sellerDepot.setOwner("Seller Depot");
+        sellerDepot.setStockMax(50);
+        sellerDepot.setStockMin(15);
+        sellerDepot.setStorageMax(80);
+        sellerDepot.setStorageMin(6);
+        sellerDepot.setStorageList(storage);
+        sellerDepot.setStockList(stock);
     }
 
     @Test
     public void should_Be_Ready_To_Buy() {
-        boolean actual = transactionClass.isReadyToBuy(buyer, seller);
+        boolean actual = transactionClass.isReadyToBuy(buyerDepot, sellerDepot);
         assertTrue(actual);
     }
 
     @Test
     public void should_Not_Surpass_Max_Cash_Allowance() {
         int maxSellersCashAllowance = 100;
-        int allowedIncome = (maxSellersCashAllowance - seller.getCashAllowance()) - seller.getDelivery();
+        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
 
         int actual = transactionClass.accountForMaxCashAllowance(
                 10,
@@ -82,12 +85,20 @@ public class TransactionTest {
     @Test
     public void IDontKnowForNow() {
         int maxSellersCashAllowance = 100;
-        int allowedIncome = (maxSellersCashAllowance - seller.getCashAllowance()) - seller.getDelivery();
+        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
 
         int actual = transactionClass.quantityToBuy(
-                seller,
+                sellerDepot,
                 15);
 
         assertEquals(7, actual);
+    }
+
+    @Test
+    public void ticket_Properties_Should_Match_With_Tested_One(){
+        Ticket actual = transactionClass.generateTicket
+                (10, buyerDepot, sellerDepot);
+
+        assertThat(actual, samePropertyValuesAs(expected);
     }
 }

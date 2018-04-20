@@ -9,8 +9,9 @@ public class TicketCarer {
 
     public TicketCarer() { }
 
-    public void addTicket(Ticket ticket){
+    public Ticket addTicket(Ticket ticket){
         ticketList.add(ticket);
+        return ticket;
     }
 
     public Ticket getTicket(int index){

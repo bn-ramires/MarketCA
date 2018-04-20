@@ -80,6 +80,9 @@ public class Ticket {
         this.delivery = delivery;
     }
 
+    public int getProductCost() {
+        return productCost;
+    }
 
     @Override
     public String toString() {

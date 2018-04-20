@@ -36,7 +36,11 @@ public class Input {
     private JsonObject makeSampleFile() {
 
 
-        System.out.println(productCost);
+        System.out.println("||||||||||||||||||||||||||||||||||");
+        System.out.println("Product Cost: "+productCost);
+        System.out.println("Delivery Cost: "+deliveryCost);
+        System.out.println("||||||||||||||||||||||||||||||||||");
+
         JsonObject bigA = new JsonObject();
         bigA.addProperty("name", "BigA");
         bigA.addProperty("numberOfDepots", numberOfDepots);

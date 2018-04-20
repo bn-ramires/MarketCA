@@ -24,7 +24,6 @@ public class DepotReport {
     ) {
         setTotalProductBought(ticketsAsBuyer);
         setTotalProductSold(ticketsAsSeller);
-//        calcCashAllowance();
 
         this.companyName = companyName;
         this.cashAllowance = cashAllowance;

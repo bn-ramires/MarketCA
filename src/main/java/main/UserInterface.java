@@ -3,7 +3,9 @@ package main;
 import com.jakewharton.fliptables.FlipTable;
 import models.CompanyRecord;
 import models.DepotReport;
+import models.Ticket;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,6 +23,25 @@ public class UserInterface {
         System.out.println("  \\_|_|  \\__,_|\\__,_|\\___\\_|  |_/\\__,_|_|  |_|\\_\\___|\\__|     \\___(_\\___/ ");
         System.out.println();
         System.out.println();
+    }
+
+    private static String generateDetailsForBoughtFrom(DepotReport report){
+
+        List<Ticket> tickets = report.getTicketsAsBuyer();
+        String result = "";
+
+        tickets.forEach(ticket -> {
+
+            result.concat("Seller: "+ticket.getSeller());
+            result.concat("Depot ID: "+ticket.getSellerDepotId());
+            result.concat("Qty: "+ticket.getQuantity());
+            result.concat("Price: "+ticket.getProductCost());
+            result.concat("Delivery: "+ticket.getDelivery());
+            result.concat("Total: "+ticket.getTotalCost() + ticket.getDelivery());
+            result.concat("---------------");
+
+        });
+        return result;
     }
 
     public static void printGoodbye() {
@@ -123,9 +144,9 @@ public class UserInterface {
 
         String detailInfo = FlipTable.of(secondTableHeader, secondTableData);
 
-        String[] mainTableHeader = {"Depot", "Sold To", "Bought From"};
+        String[] mainTableHeader = {"Depot", "Details"};
         String[][] mainTableData = {
-                {depotInfo, detailInfo, detailInfo}
+                {depotInfo, generateDetailsForBoughtFrom(depotReport)}
         };
 
         System.out.println(FlipTable.of(mainTableHeader, mainTableData));

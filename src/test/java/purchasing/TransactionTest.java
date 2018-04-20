@@ -34,12 +34,15 @@ public class TransactionTest {
 
             Product newProduct = new Product();
             newProduct.setBrand("test");
+            newProduct.setPrice(5);
             stock.add(newProduct);
         }
 
         for (int i = 0; i < storageMin; i++) {
 
             Product newProduct = new Product();
+            newProduct.setBrand("test");
+            newProduct.setPrice(5);
             storage.add(newProduct);
         }
 
@@ -110,6 +113,8 @@ public class TransactionTest {
                 5
         );
 
+        System.out.println(actual.toString());
+        System.out.println(expected.toString());
         assertThat(actual, samePropertyValuesAs(expected));
     }
 }

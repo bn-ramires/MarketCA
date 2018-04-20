@@ -50,8 +50,9 @@ public class DepotReport {
      * @param ticketsAsBuyer tickets in which a particular depot is the buyer
      */
     public int calcExpenses(List<Ticket> ticketsAsBuyer) {
+        int totalProductCost = ticketsAsBuyer.stream().mapToInt(Ticket::getTotalCost).sum();
         int totalDeliveryCost = ticketsAsBuyer.stream().mapToInt(Ticket::getDelivery).sum();
-        int totalExpenses = getTotalProductBought() + totalDeliveryCost;
+        int totalExpenses = totalProductCost  + totalDeliveryCost;
         return totalExpenses;
     }
 
@@ -73,7 +74,7 @@ public class DepotReport {
      * @param ticketsAsSeller Tickets in which a given depot is the seller
      */
     public void setTotalProductSold(List<Ticket> ticketsAsSeller) {
-        int result = ticketsAsSeller.stream().mapToInt(Ticket::getTotalCost).sum();
+        int result = ticketsAsSeller.stream().mapToInt(Ticket::getQuantity).sum();
         this.totalProductSold = result;
     }
 
@@ -82,7 +83,7 @@ public class DepotReport {
      * @param ticketsAsBuyer Tickets in which a given depot is the buyer
      */
     public void setTotalProductBought(List<Ticket> ticketsAsBuyer) {
-        int result = ticketsAsBuyer.stream().mapToInt(Ticket::getTotalCost).sum();
+        int result = ticketsAsBuyer.stream().mapToInt(Ticket::getQuantity).sum();
         this.totalProductBought = result;
     }
 

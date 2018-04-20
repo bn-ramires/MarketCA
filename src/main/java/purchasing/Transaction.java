@@ -156,18 +156,19 @@ public class Transaction {
     public Ticket generateTicket(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
+        System.out.println(productCost);
 
-        TicketOriginator originator = getOriginator();
-        TicketCarer carer = getTicketCarer();
+//        TicketOriginator originator = getOriginator();
+//         getTicketCarer();
 
-        originator.setBuyer(buyer.getOwner());
-        originator.setSeller(seller.getOwner());
-        originator.setBuyerDepotId(getCurrentBuyerId());
-        originator.setSellerDepotId(getCurrentSellerId());
-        originator.setDelivery(seller.getDelivery());
-        originator.setProductCost(productCost);
-        originator.setQuantity(quantity);
-        return carer.addTicket(originator.saveTicketState());
+        getOriginator().setBuyer(buyer.getOwner());
+        getOriginator().setSeller(seller.getOwner());
+        getOriginator().setBuyerDepotId(getCurrentBuyerId());
+        getOriginator().setSellerDepotId(getCurrentSellerId());
+        getOriginator().setDelivery(seller.getDelivery());
+        getOriginator().setProductCost(productCost);
+        getOriginator().setQuantity(quantity);
+        return getTicketCarer().addTicket(getOriginator().saveTicketState());
     }
 
     /**

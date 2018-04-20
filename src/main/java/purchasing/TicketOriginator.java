@@ -9,7 +9,7 @@ public class TicketOriginator {
     private int buyerDepotId;
     private int sellerDepotId;
     private int productCost;
-    private int totalCost;
+//    private int totalCost;
     private int quantity;
     private int delivery;
 
@@ -24,7 +24,7 @@ public class TicketOriginator {
         this.sellerDepotId = ticket.getSellerDepotId();
         this.quantity = ticket.getQuantity();
         this.delivery = ticket.getDelivery();
-        this.totalCost = productCost * quantity;
+//        this.totalCost = productCost * quantity;
     }
 
     public String getBuyer() {
@@ -81,13 +81,8 @@ public class TicketOriginator {
 
     public void setProductCost(int productCost) {
         this.productCost = productCost;
+        System.out.println(this.productCost);
+        System.out.println(productCost);
     }
 
-    public int getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(int totalCost) {
-        this.totalCost = totalCost;
-    }
 }

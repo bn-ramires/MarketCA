@@ -50,7 +50,7 @@ public class Market {
     // Following Mark's CA parameters
     public void init() {
 
-        while (isActive()) {
+//        while (isActive()) {
 
             // Prompt which style of transaction to be made
             boolean isManualMode = UserInterface.setMode();
@@ -117,10 +117,10 @@ public class Market {
 
             // Printing winner
             UserInterface.printHighestCashflowCompany(companyRecords.get(winnerCompany));
-            // Prompting user to start a new transaction or quit
-            setActive(UserInterface.promptToRestart());
+//            // Prompting user to start a new transaction or quit
+//            setActive(UserInterface.promptToRestart());
 
-        }
+//        }
 
         UserInterface.printGoodbye();
     }

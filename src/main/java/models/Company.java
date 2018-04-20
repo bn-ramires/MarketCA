@@ -59,7 +59,7 @@ public class Company {
      * @return a new CompanyRecord object.
      */
     public Report makeFullReport(TicketCarer carer) {
-        return new Report(getName(), getNumberOfDepots(), carer);
+        return new Report(getName(), getDepots(), carer);
     }
 
     public String getName() {
@@ -70,40 +70,39 @@ public class Company {
         return depots;
     }
 
-    public int getNumberOfDepots() {
-        return depots.size();
-    }
-
     public static class CompanyBuilder {
 
         String name;
         int numberOfDepots;
-        int cashAllowance;
         int stockMax;
         int stockMin;
         int storageMax;
         int storageMin;
+        int minCashAllowance;
+        int maxCashAllowance;
         int productCost;
         int deliveryCost;
 
         public CompanyBuilder(String name,
                               int numberOfDepots,
-                              int cashAllowance,
-                              int productCost,
-                              int deliveryCost,
                               int stockMax,
                               int stockMin,
                               int storageMax,
-                              int storageMin) {
+                              int storageMin,
+                              int minCashAllowance,
+                              int maxCashAllowance,
+                              int productCost,
+                              int deliveryCost) {
             this.name = name;
             this.numberOfDepots = numberOfDepots;
-            this.cashAllowance = cashAllowance;
-            this.productCost = productCost;
-            this.deliveryCost = deliveryCost;
             this.stockMax = stockMax;
             this.stockMin = stockMin;
             this.storageMax = storageMax;
             this.storageMin = storageMin;
+            this.minCashAllowance = minCashAllowance;
+            this.maxCashAllowance = maxCashAllowance;
+            this.productCost = productCost;
+            this.deliveryCost = deliveryCost;
         }
 
         public Company build() {

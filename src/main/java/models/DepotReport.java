@@ -21,17 +21,18 @@ public class DepotReport {
     private List<Ticket> ticketsAsBuyer;
     private List<Ticket> ticketsAsSeller;
 
-    public DepotReport(List<Ticket> ticketsAsBuyer, List<Ticket> ticketsAsSeller, int depotId) {
+    public DepotReport(List<Ticket> ticketsAsBuyer, List<Ticket> ticketsAsSeller, int depotId, int cashAllowance) {
         setTotalProductBought(ticketsAsBuyer);
         setTotalProductSold(ticketsAsSeller);
-        calcCashAllowance();
+//        calcCashAllowance();
 
+        this.cashAllowance = cashAllowance;
         this.ticketsAsBuyer = ticketsAsBuyer;
         this.ticketsAsSeller = ticketsAsSeller;
         this.income = calcIncome(ticketsAsSeller);
         this.expenses = calcExpenses(ticketsAsBuyer);
-        this.cashFlow = calcCashFlow(income, expenses);
         this.depotId = depotId;
+        this.cashFlow = calcCashFlow(income, expenses);
 
 
     }
@@ -65,13 +66,6 @@ public class DepotReport {
 
     public int getCashAllowance() {
         return cashAllowance;
-    }
-
-    /**
-     * sets the cashAllowance property with the cashAllowance value retrieved  from the InputClass.
-     */
-    public void calcCashAllowance() {
-        this.cashAllowance = Input.getCashAllowance();
     }
 
     /**

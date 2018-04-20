@@ -22,7 +22,8 @@ public class Input {
     private int stockMin = 15;
     private int storageMax = 80;
     private int storageMin = 6;
-    private static int cashAllowance = getRandomNumber(100, 50);
+    private int minCashAllowance = 50;
+    private int maxCashAllowance = 100;
     private int deliveryCost = getRandomNumber(10, 1);
     private int productCost = getRandomNumber(10, 1);
 
@@ -39,20 +40,21 @@ public class Input {
         JsonObject bigA = new JsonObject();
         bigA.addProperty("name", "BigA");
         bigA.addProperty("numberOfDepots", numberOfDepots);
-        bigA.addProperty("cashAllowance", cashAllowance);
         bigA.addProperty("productCost", productCost);
         bigA.addProperty("deliveryCost", deliveryCost);
+        bigA.addProperty("maxCashAllowance", maxCashAllowance);
+        bigA.addProperty("minCashAllowance", minCashAllowance);
         bigA.addProperty("stockMax", stockMax);
         bigA.addProperty("stockMin", stockMin);
         bigA.addProperty("storageMax", storageMax);
         bigA.addProperty("storageMin", storageMin);
 
         JsonObject bigB = new JsonObject();
-        bigB.addProperty("name", "BigB");
         bigB.addProperty("numberOfDepots", numberOfDepots);
-        bigB.addProperty("cashAllowance", cashAllowance);
         bigB.addProperty("productCost", productCost);
         bigB.addProperty("deliveryCost", deliveryCost);
+        bigB.addProperty("maxCashAllowance", maxCashAllowance);
+        bigB.addProperty("minCashAllowance", minCashAllowance);
         bigB.addProperty("stockMax", stockMax);
         bigB.addProperty("stockMin", stockMin);
         bigB.addProperty("storageMax", storageMax);
@@ -61,9 +63,10 @@ public class Input {
         JsonObject bigC = new JsonObject();
         bigC.addProperty("name", "BigC");
         bigC.addProperty("numberOfDepots", numberOfDepots);
-        bigC.addProperty("cashAllowance", cashAllowance);
         bigC.addProperty("productCost", productCost);
         bigC.addProperty("deliveryCost", deliveryCost);
+        bigC.addProperty("maxCashAllowance", maxCashAllowance);
+        bigC.addProperty("minCashAllowance", minCashAllowance);
         bigC.addProperty("stockMax", stockMax);
         bigC.addProperty("stockMin", stockMin);
         bigC.addProperty("storageMax", storageMax);
@@ -86,9 +89,5 @@ public class Input {
 
     public JsonObject getJson() {
         return json;
-    }
-
-    public static int getCashAllowance() {
-        return cashAllowance;
     }
 }

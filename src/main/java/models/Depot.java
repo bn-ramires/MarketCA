@@ -42,7 +42,7 @@ public class Depot {
         this.owner = builder.input.name;
         this.stockList = initStock(builder);
         this.storageList = initStorage(builder);
-        this.cashAllowance = builder.input.cashAllowance;
+        this.cashAllowance = getRandomNumber(builder.input.maxCashAllowance, builder.input.maxCashAllowance);
         this.delivery = builder.input.deliveryCost;
         this.stockMax = builder.input.stockMax;
         this.stockMin = builder.input.stockMin;

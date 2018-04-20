@@ -29,11 +29,11 @@ public class Report {
     int totalDeliveryCost;
 
 
-    public Report(String companyName, int numberOfDepots, TicketCarer carer) {
+    public Report(String companyName, List<Depot> depots, TicketCarer carer) {
         this.companyName = companyName;
         this.tickets = carer.getTicketList();
 
-        generateFullReport(numberOfDepots);
+        generateFullReport(depots);
     }
 
     /**
@@ -62,20 +62,17 @@ public class Report {
         }
     }
 
-    /**
-     * It returns a list of DepotReports
-     * @param numberOfDepots the number of depots for which depotRepots should be generated
-     */
+    public List<DepotReport> generateFullReport(List<Depot> depots) {
 
-    public List<DepotReport> generateFullReport(int numberOfDepots) {
+        for (int i = 0; i < depots.size(); i++) {
 
-        for (int i = 0; i < numberOfDepots; i++) {
-            int current = i;
+            int depotId = i;
 
             List<Ticket> filteredBuyer = filterTickets(i, "buyer", getTickets());
             List<Ticket> filteredSeller = filterTickets(i, "seller", getTickets());
 
-            DepotReport newDepotReport = new DepotReport(filteredBuyer, filteredSeller, current);
+            int cashAllowance = depots.get(i).getCashAllowance();
+            DepotReport newDepotReport = new DepotReport(filteredBuyer, filteredSeller, depotId, cashAllowance);
             addReports(newDepotReport);
 
         }

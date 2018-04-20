@@ -50,6 +50,7 @@ public class Input {
         bigA.addProperty("storageMin", storageMin);
 
         JsonObject bigB = new JsonObject();
+        bigB.addProperty("name", "BigB");
         bigB.addProperty("numberOfDepots", numberOfDepots);
         bigB.addProperty("productCost", productCost);
         bigB.addProperty("deliveryCost", deliveryCost);

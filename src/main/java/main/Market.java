@@ -72,8 +72,7 @@ public class Market {
 
             setCarer(transaction.getTicketCarer());
 
-            // Adding company records to the list
-            companyRecords.clear();
+        System.out.println(companies);
             companies.forEach(company -> {
                 CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
                 addCompanyRecords(companyRecord);
@@ -101,6 +100,7 @@ public class Market {
 
             // Print financial records for all companies involved in the market
             UserInterface.printCompanyResultsTitle();
+        System.out.println(companyRecords);
             companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
 
 

@@ -12,6 +12,7 @@ public class DepotReportTest {
 
     private List<Ticket> ticketsAsBuyer = new ArrayList<>();
     private List<Ticket> ticketsAsSeller = new ArrayList<>();
+    int cashAllowance = 75;
 
     @Before
     public void populateTicketAsBuyer(){
@@ -39,7 +40,7 @@ public class DepotReportTest {
 
     @Test
     public void shouldReturnTheCorrectTotalIncomeDueToProductSold() {
-        DepotReport depotReport = new DepotReport(ticketsAsBuyer,ticketsAsSeller,1, 75);
+        DepotReport depotReport = new DepotReport(ticketsAsBuyer,ticketsAsSeller,1, cashAllowance);
         int expected = 15 + 30 + 10 + 15;
         int actual = depotReport.calcIncome(ticketsAsSeller);
         assertEquals(expected,actual);
@@ -47,7 +48,7 @@ public class DepotReportTest {
 
     @Test
     public void shouldReturnTheCorrectTotalExpensesAmountDueToProductBoughtPlusDeliveryCost(){
-        DepotReport depotReport = new DepotReport(ticketsAsBuyer,ticketsAsSeller,1, 75);
+        DepotReport depotReport = new DepotReport(ticketsAsBuyer,ticketsAsSeller,1, cashAllowance);
         int totalDelivery = 4 * 5;
         int totalProductCost = 5 + 10 + 10 + 15;
         int expected = totalProductCost + totalDelivery;

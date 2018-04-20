@@ -108,7 +108,8 @@ public class UserInterface {
                 {"Products Bought", String.valueOf(depotReport.getTotalProductBought())},
                 {"Income", String.valueOf(depotReport.getIncome()) + "€"},
                 {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
-                {"Cash Allowance", String.valueOf(depotReport.getCashAllowance()) + "€"},
+                {"Initial cash", String.valueOf(depotReport.getCashAllowance()) + "€"},
+                {"Current Balance", String.valueOf(depotReport.getCurrentBalance())+ "€"},
                 {"Cashflow", String.valueOf(depotReport.getCashFlow()) + "€"}
         };
 

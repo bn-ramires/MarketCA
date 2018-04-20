@@ -62,6 +62,10 @@ public class Report {
         }
     }
 
+    /**
+     * It generates a financial report for each Depot of a selected company
+     * @param depots List of Depot of the selected company
+     */
     public List<DepotReport> generateFullReport(List<Depot> depots) {
 
         for (int i = 0; i < depots.size(); i++) {

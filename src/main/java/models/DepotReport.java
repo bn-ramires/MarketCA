@@ -1,7 +1,5 @@
 package models;
 
-import main.Input;
-
 import java.util.List;
 
 public class DepotReport {
@@ -16,6 +14,7 @@ public class DepotReport {
     //    private int totalDeliveryCost;
     private int cashAllowance;
     private int cashFlow;
+    private int currentBalance;
 
 
     private List<Ticket> ticketsAsBuyer;
@@ -32,8 +31,8 @@ public class DepotReport {
         this.income = calcIncome(ticketsAsSeller);
         this.expenses = calcExpenses(ticketsAsBuyer);
         this.depotId = depotId;
-        this.cashFlow = calcCashFlow(income, expenses);
-
+        this.cashFlow = calcCashFlow(getIncome(), getExpenses());
+        this.currentBalance = calcCurrentBalance(cashAllowance, getCashFlow());
 
     }
 
@@ -87,6 +86,10 @@ public class DepotReport {
         this.totalProductBought = result;
     }
 
+    public int calcCurrentBalance(int cashAllowance, int cashFlow){
+        return cashAllowance + cashFlow;
+    }
+
     public int getDepotId() {
         return depotId;
     }
@@ -117,6 +120,10 @@ public class DepotReport {
 
     public List<Ticket> getTicketsAsSeller() {
         return ticketsAsSeller;
+    }
+
+    public int getCurrentBalance() {
+        return currentBalance;
     }
 }
 

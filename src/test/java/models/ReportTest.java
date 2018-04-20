@@ -7,7 +7,9 @@ import purchasing.TicketCarer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class ReportTest {
 
@@ -34,15 +36,29 @@ public class ReportTest {
     }
 
     @Test
-    public void should_only_return_tickets_where_the_selected_comany_is_either_seller_or_buyer() {
+    public void should_only_return_tickets_where_the_selected_comany_is_a_buyer() {
         Report report = new Report("BigA",100, new TicketCarer());
 
 
         List<Ticket> actual = report.filterTickets(1,"buyer", getFakeTickets());
 
+
         assertEquals(2, actual.size());
-        assertEquals(fakeTickets.get(0),actual.get(0));
-        assertEquals(fakeTickets.get(6),actual.get(1));
+        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(0)));
+        assertThat(actual.get(1), samePropertyValuesAs(fakeTickets.get(6)));
+    }
+
+    @Test
+    public void should_only_return_tickets_where_the_selected_comany_is_a_seller() {
+        Report report = new Report("BigA",100, new TicketCarer());
+
+
+        List<Ticket> actual = report.filterTickets(5,"seller", getFakeTickets());
+
+
+        assertEquals(1, actual.size());
+        assertThat(actual.get(0), samePropertyValuesAs(fakeTickets.get(5)));
+
     }
 
     public List<Ticket> getFakeTickets() {

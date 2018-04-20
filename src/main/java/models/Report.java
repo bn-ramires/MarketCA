@@ -36,6 +36,14 @@ public class Report {
         generateFullReport(numberOfDepots);
     }
 
+    /**
+     *
+     * @param depotId
+     * @param role
+     * @param tickets
+     * @return
+     */
+
     public List<Ticket> filterTickets(int depotId, String role, List<Ticket> tickets) {
 
         if (role.equals("buyer")) {
@@ -66,22 +74,6 @@ public class Report {
 
             DepotReport newDepotReport = new DepotReport(filteredBuyer, filteredSeller, current);
             addReports(newDepotReport);
-
-
-//            setProdSold(filtered.stream().filter(ticket -> current ==
-//                    ticket.getSellerDepotId()).mapToInt(Ticket::getQuantity).sum());
-//
-//            setProdBought(filtered.stream().filter(ticket -> current ==
-//                    ticket.getBuyerDepotId()).mapToInt(Ticket::getQuantity).sum());
-//
-//            setIncome(filtered.stream().filter(ticket -> current ==
-//                    ticket.getSellerDepotId()).mapToInt(Ticket::getTotalCost).sum());
-//
-//            setCostProductsBought(filtered.stream().filter(ticket -> current ==
-//                    ticket.getBuyerDepotId()).mapToInt(Ticket::getTotalCost).sum());
-//
-//            setTotalDeliveryCost(filtered.stream().filter(ticket -> current ==
-//                    ticket.getBuyerDepotId()).mapToInt(Ticket::getDelivery).sum());
 
         }
         return getReportList();

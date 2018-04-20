@@ -102,18 +102,33 @@ public class UserInterface {
 
     public static void printDepotReport(DepotReport depotReport) {
 
-        String[] headers = {"Depot ID", String.valueOf(depotReport.getDepotId())};
-        String[][] data = {
+        String[] firstTableHeader = {"Depot ID", String.valueOf(depotReport.getDepotId())};
+        String[][] firstTableData = {
                 {"Products Sold", String.valueOf(depotReport.getTotalProductSold())},
                 {"Products Bought", String.valueOf(depotReport.getTotalProductBought())},
                 {"Income", String.valueOf(depotReport.getIncome()) + "€"},
                 {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
                 {"Initial cash", String.valueOf(depotReport.getCashAllowance()) + "€"},
-                {"Current Balance", String.valueOf(depotReport.getCurrentBalance())+ "€"},
+                {"Current Balance", String.valueOf(depotReport.getCurrentBalance()) + "€"},
                 {"Cashflow", String.valueOf(depotReport.getCashFlow()) + "€"}
         };
 
-        System.out.println(FlipTable.of(headers, data));
+        String depotInfo = FlipTable.of(firstTableHeader, firstTableData);
+
+        String[] secondTableHeader = {"Company", "dummy"};
+        String[][] secondTableData = {
+                {"Products Sold", "Dummy"},
+                {"Cashflow", "Dummy"}
+        };
+
+        String detailInfo = FlipTable.of(secondTableHeader, secondTableData);
+
+        String[] mainTableHeader = {"Depot", "Sold To", "Bought From"};
+        String[][] mainTableData = {
+                {depotInfo, detailInfo, detailInfo}
+        };
+
+        System.out.println(FlipTable.of(mainTableHeader, mainTableData));
     }
 
     public static void printTitles() {

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * @see Report#reportList
  * <p>
  * The method responsible for the full report generation.
- * @see Report#generateFullReport(int)
+ * @see Report#generateFullReport(List)
  */
 public class Report {
 
@@ -76,7 +76,14 @@ public class Report {
             List<Ticket> filteredSeller = filterTickets(i, "seller", getTickets());
 
             int cashAllowance = depots.get(i).getCashAllowance();
-            DepotReport newDepotReport = new DepotReport(filteredBuyer, filteredSeller, depotId, cashAllowance);
+
+            DepotReport newDepotReport = new DepotReport(
+                    filteredBuyer,
+                    filteredSeller,
+                    depotId,
+                    cashAllowance,
+                    getCompanyName());
+
             addReports(newDepotReport);
 
         }

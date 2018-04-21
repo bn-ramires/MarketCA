@@ -156,10 +156,6 @@ public class Transaction {
     public Ticket generateTicket(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
-        System.out.println(productCost);
-
-//        TicketOriginator originator = getOriginator();
-//         getTicketCarer();
 
         getOriginator().setBuyer(buyer.getOwner());
         getOriginator().setSeller(seller.getOwner());

@@ -81,8 +81,6 @@ public class TicketOriginator {
 
     public void setProductCost(int productCost) {
         this.productCost = productCost;
-        System.out.println(this.productCost);
-        System.out.println(productCost);
     }
 
 }

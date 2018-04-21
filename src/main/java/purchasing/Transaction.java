@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Responssible for carrying out all necessary transactions automatically.
+ * Responsible for carrying out all necessary transactions automatically.
  * <p>
  * For that to happen. The usage of the following method is necessary:
  *
@@ -101,18 +101,18 @@ public class Transaction {
      * Performs a purchase between two depots.
      * All necessary considerations are accounted for.
      *
-     * @param quatity
+     * @param quantity
      * @param seller
      * @param buyer
      */
-    public void buy(int quatity, Depot buyer, Depot seller) {
+    public void buy(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
-        int totalCost = (quatity * productCost) + seller.getDelivery();
+        int totalCost = (quantity * productCost) + seller.getDelivery();
 
         pay(totalCost, buyer, seller);
-        ship(quatity, buyer, seller);
-        generateTicket(quatity, buyer, seller);
+        ship(quantity, buyer, seller);
+        generateTicket(quantity, buyer, seller);
 
     }
 

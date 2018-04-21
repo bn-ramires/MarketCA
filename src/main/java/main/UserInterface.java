@@ -14,6 +14,8 @@ import java.util.Scanner;
  */
 public class UserInterface {
 
+    static String detailsData = "";
+
     public static void printWelcomeMessage() {
         System.out.println(" _____             _     ___  ___           _        _         __   _____ ");
         System.out.println("|_   _|           | |    |  \\/  |          | |      | |       /  | |  _  |");
@@ -25,23 +27,77 @@ public class UserInterface {
         System.out.println();
     }
 
-    private static String generateDetailsForBoughtFrom(DepotReport report){
+    private static String printDetails(DepotReport report) {
+
+        detailsData = "";
+
+        detailsData = detailsData.concat(generateDetailsForBoughtFrom(report));
+        detailsData = detailsData.concat(generateDetailsForSoldTo(report));
+
+        if (detailsData.isEmpty()) {
+            detailsData = "\n\n\n\n\n\n\n" +
+                    "  No transactions made.  ";
+        }
+
+        return detailsData;
+
+    }
+
+    private static String generateDetailsForBoughtFrom(DepotReport report) {
 
         List<Ticket> tickets = report.getTicketsAsBuyer();
         String result = "";
 
-        tickets.forEach(ticket -> {
-
-            result.concat("Seller: "+ticket.getSeller());
-            result.concat("Depot ID: "+ticket.getSellerDepotId());
-            result.concat("Qty: "+ticket.getQuantity());
-            result.concat("Price: "+ticket.getProductCost());
-            result.concat("Delivery: "+ticket.getDelivery());
-            result.concat("Total: "+ticket.getTotalCost() + ticket.getDelivery());
-            result.concat("---------------");
-
-        });
+        for (Ticket ticket : tickets) {
+            result = result.concat("\n     Bought From: " + ticket.getSeller());
+            result = result.concat("\n     Depot ID: " + ticket.getSellerDepotId());
+            result = result.concat("\n     Qty: " + ticket.getQuantity());
+            result = result.concat("\n     Price: " + ticket.getProductCost() + "€");
+            result = result.concat("\n     Delivery: " + ticket.getDelivery() + "€");
+            result = result.concat("\n     Total: " + (ticket.getTotalCost() + ticket.getDelivery()) + "€");
+            result = result.concat("\n-----------------------");
+        }
         return result;
+    }
+
+    private static String generateDetailsForSoldTo(DepotReport report) {
+
+        List<Ticket> tickets = report.getTicketsAsSeller();
+        String result = "";
+
+        for (Ticket ticket : tickets) {
+            result = result.concat("\n     Sold To: " + ticket.getBuyer());
+            result = result.concat("\n     Depot ID: " + ticket.getBuyerDepotId());
+            result = result.concat("\n     Qty: " + ticket.getQuantity());
+            result = result.concat("\n     Price: " + ticket.getProductCost() + "€");
+            result = result.concat("\n     Delivery: " + ticket.getDelivery() + "€");
+            result = result.concat("\n     Total: " + ticket.getTotalCost() + "€");
+            result = result.concat("\n-----------------------");
+        }
+        return result;
+    }
+
+    public static void printDepotReport(DepotReport depotReport) {
+
+        String[] firstTableHeader = {"Depot ID", String.valueOf(depotReport.getDepotId())};
+        String[][] firstTableData = {
+                {"Products Sold", String.valueOf(depotReport.getTotalProductSold())},
+                {"Products Bought", String.valueOf(depotReport.getTotalProductBought())},
+                {"Income", String.valueOf(depotReport.getIncome()) + "€"},
+                {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
+                {"Initial cash", String.valueOf(depotReport.getCashAllowance()) + "€"},
+                {"Current Balance", String.valueOf(depotReport.getCurrentBalance()) + "€"},
+                {"Cashflow", String.valueOf(depotReport.getCashFlow()) + "€"}
+        };
+
+        String depotInfo = FlipTable.of(firstTableHeader, firstTableData);
+
+        String[] mainTableHeader = {"Depot", "Details"};
+        String[][] mainTableData = {
+                {depotInfo, printDetails(depotReport)}
+        };
+
+        System.out.println(FlipTable.of(mainTableHeader, mainTableData));
     }
 
     public static void printGoodbye() {
@@ -119,37 +175,6 @@ public class UserInterface {
         };
 
         System.out.println(FlipTable.of(headers, data));
-    }
-
-    public static void printDepotReport(DepotReport depotReport) {
-
-        String[] firstTableHeader = {"Depot ID", String.valueOf(depotReport.getDepotId())};
-        String[][] firstTableData = {
-                {"Products Sold", String.valueOf(depotReport.getTotalProductSold())},
-                {"Products Bought", String.valueOf(depotReport.getTotalProductBought())},
-                {"Income", String.valueOf(depotReport.getIncome()) + "€"},
-                {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
-                {"Initial cash", String.valueOf(depotReport.getCashAllowance()) + "€"},
-                {"Current Balance", String.valueOf(depotReport.getCurrentBalance()) + "€"},
-                {"Cashflow", String.valueOf(depotReport.getCashFlow()) + "€"}
-        };
-
-        String depotInfo = FlipTable.of(firstTableHeader, firstTableData);
-
-        String[] secondTableHeader = {"Company", "dummy"};
-        String[][] secondTableData = {
-                {"Products Sold", "Dummy"},
-                {"Cashflow", "Dummy"}
-        };
-
-        String detailInfo = FlipTable.of(secondTableHeader, secondTableData);
-
-        String[] mainTableHeader = {"Depot", "Details"};
-        String[][] mainTableData = {
-                {depotInfo, generateDetailsForBoughtFrom(depotReport)}
-        };
-
-        System.out.println(FlipTable.of(mainTableHeader, mainTableData));
     }
 
     public static void printTitles() {

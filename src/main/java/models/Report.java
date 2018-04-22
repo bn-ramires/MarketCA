@@ -81,8 +81,7 @@ public class Report {
                     filteredBuyer,
                     filteredSeller,
                     depotId,
-                    cashAllowance,
-                    getCompanyName());
+                    cashAllowance);
 
             addReports(newDepotReport);
 

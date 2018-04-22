@@ -19,11 +19,10 @@ public class DepotReport {
     public DepotReport(List<Ticket> ticketsAsBuyer,
                        List<Ticket> ticketsAsSeller,
                        int depotId,
-                       int cashAllowance,
-                       String companyName
-    ) {
-        setTotalProductBought(ticketsAsBuyer);
-        setTotalProductSold(ticketsAsSeller);
+                       int cashAllowance) {
+
+        calcTotalProductBought(ticketsAsBuyer);
+        calcTotalProductSold(ticketsAsSeller);
 
         this.companyName = companyName;
         this.cashAllowance = cashAllowance;
@@ -38,7 +37,7 @@ public class DepotReport {
     }
 
     /**
-     * It returns the total income from a list of tickets.
+     * It returns the income of a depot after transactions are made.
      *
      * @param ticketsAsSeller ticket in which a particular depot is the seller.
      */
@@ -47,9 +46,9 @@ public class DepotReport {
     }
 
     /**
-     * It returns total amount of money expent from a list of tickets
+     * It returns the expenses of a depot after transactions are made.
      *
-     * @param ticketsAsBuyer tickets in which a particular depot is the buyer
+     * @param ticketsAsBuyer tickets in which a particular depot is the buyer.
      */
     public int calcExpenses(List<Ticket> ticketsAsBuyer) {
         int totalProductCost = ticketsAsBuyer.stream().mapToInt(Ticket::getTotalCost).sum();
@@ -59,10 +58,10 @@ public class DepotReport {
     }
 
     /**
-     * I returns cashflow
+     * It returns the cash flow of a depot after transactions are made.
      *
-     * @param income   the total income of a given depot
-     * @param expenses total expences of a given depot
+     * @param income   the total income of a given depot.
+     * @param expenses total expenses of a given depot.
      */
     public int calcCashFlow(int income, int expenses) {
         return income - expenses;
@@ -73,25 +72,32 @@ public class DepotReport {
     }
 
     /**
-     * Sets the totalProductSold property with a value obtained from the ticketsAsSeller list
+     * Calculates the quantity of products sold by a depot after transactions are made.
      *
-     * @param ticketsAsSeller Tickets in which a given depot is the seller
+     * @param ticketsAsSeller Tickets in which a given depot is the seller.
      */
-    public void setTotalProductSold(List<Ticket> ticketsAsSeller) {
+    public void calcTotalProductSold(List<Ticket> ticketsAsSeller) {
         int result = ticketsAsSeller.stream().mapToInt(Ticket::getQuantity).sum();
         this.totalProductSold = result;
     }
 
     /**
-     * Sets the totalProductBought property with a value obtained from the ticketsAsBuyer list
+     * Calculates the quantity of products bought by a depot after transactions are made.
      *
-     * @param ticketsAsBuyer Tickets in which a given depot is the buyer
+     * @param ticketsAsBuyer Tickets in which a given depot is the buyer.
      */
-    public void setTotalProductBought(List<Ticket> ticketsAsBuyer) {
+    public void calcTotalProductBought(List<Ticket> ticketsAsBuyer) {
         int result = ticketsAsBuyer.stream().mapToInt(Ticket::getQuantity).sum();
         this.totalProductBought = result;
     }
 
+    /**
+     * Calculates the current balance of a depot after transactions are made.
+     *
+     * @param cashAllowance
+     * @param cashFlow
+     * @return
+     */
     public int calcCurrentBalance(int cashAllowance, int cashFlow) {
         return cashAllowance + cashFlow;
     }

@@ -3,6 +3,7 @@ package purchasing;
 import models.Depot;
 import models.Product;
 import models.Ticket;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,6 +66,15 @@ public class TransactionTest {
         sellerDepot.setStorageMin(6);
         sellerDepot.setStorageList(storage);
         sellerDepot.setStockList(stock);
+
+        System.out.println("Before: \n" + buyerDepot.toString());
+        System.out.println("Before: \n" + sellerDepot.toString());
+    }
+
+    @After
+    public void tearDown(){
+        System.out.println("After: \n" + buyerDepot.toString());
+        System.out.println("After: \n" + sellerDepot.toString());
     }
 
     @Test
@@ -87,15 +97,12 @@ public class TransactionTest {
     }
 
     @Test
-    public void IDontKnowForNow() {
-        int maxSellersCashAllowance = 100;
-        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
+    public void should_Perform_Purchase_With_All_Requirements_Accounted_For() {
+//        int maxSellersCashAllowance = 100;
+//        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
 
-        int actual = transactionClass.quantityToBuy(
-                sellerDepot,
-                15);
+        transactionClass.buy(25, buyerDepot, sellerDepot);
 
-        assertEquals(7, actual);
     }
 
     @Test

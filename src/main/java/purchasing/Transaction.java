@@ -193,7 +193,7 @@ public class Transaction {
     }
 
     /**
-     * Determines how many products the Buyer's depot is capable of buying.
+     * Determines how many products a depot is capable of buying.
      * Ensuring the depot will not be left with its stock capacity below the required minimum amount.
      *
      * @param buyer
@@ -262,10 +262,10 @@ public class Transaction {
 
         int cash = buyer.getCashAllowance();
         int currentAmountOfProductsBought = buyer.getStorageList().size();
-        int storageMax = buyer.getStorageMax();
+        int maxStorageSpace = buyer.getStorageMax();
         int productPrice = seller.getStockList().get(0).getPrice();
-        int delivery = seller.getDelivery();
-        int costOfPurchase = productPrice + delivery;
+        int deliveryCost = seller.getDelivery();
+        int costOfPurchase = productPrice + deliveryCost;
         int purchasingPower = cash - getMinCashAllowance();
 
         /*
@@ -274,7 +274,7 @@ public class Transaction {
         3: Has enough money to buy at least one product from the seller and pay for delivery.
          */
         return cash > getMinCashAllowance() &&
-                currentAmountOfProductsBought < storageMax &&
+                currentAmountOfProductsBought < maxStorageSpace &&
                 purchasingPower >= costOfPurchase;
     }
 
@@ -287,8 +287,8 @@ public class Transaction {
     public Boolean isReadyToSell(Depot seller) {
 
         int cash = seller.getCashAllowance();
-        int stock = seller.getStockList().size();
-        int minimum = seller.getStockMin();
+        int stockSpace = seller.getStockList().size();
+        int minStockSpace = seller.getStockMin();
         int productCost = seller.getStockList().get(0).getPrice();
         int minimumCharge = productCost + seller.getDelivery();
         int newBalance = cash + minimumCharge;
@@ -297,12 +297,12 @@ public class Transaction {
         If selling one single item already leaves this seller with too much money.
         It won't be able to sell anything to anyone.
          */
-        if (newBalance >= getMaxCashAllowance()) {
+        if (newBalance > getMaxCashAllowance()) {
             return false;
         }
 
         // Also, it can only sell products if its stock capacity is above the minimum required.
-        return stock > minimum;
+        return stockSpace > minStockSpace;
     }
 
     public List<Company> getSellers() {

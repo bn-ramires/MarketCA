@@ -52,6 +52,7 @@ public class Transaction {
         currentBuyerId = 0;
         setSellers(firstSeller, secondSeller);
         List<Company> sellers = getSellers();
+        // Shuffling the sellers. This way, the output is much less predictable.
         Collections.shuffle(sellers);
 
         // Looping through buyer's depots

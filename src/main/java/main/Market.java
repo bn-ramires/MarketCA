@@ -17,12 +17,12 @@ import java.util.List;
  * All CA's requirements are attempted to be fulfilled by simply calling this class.
  * Also, this class is a singleton and can't be initialized multiple times.
  * <p>
+ *
  * @see Market#init() Initialization based on CA's requirements.
  * @see Market#instance instance of this class. (singleton pattern).
  * @see Market#companies list of all company objects.
  * @see Market#companyRecords list of all company's financial records.
  * @see Market#carer holds all tickets for all transactions performed.
- * @see Market#isActive determines if the software should keep running or not.
  */
 public class Market {
 
@@ -30,7 +30,6 @@ public class Market {
     private ArrayList<Company> companies = new ArrayList<>();
     private List<CompanyRecord> companyRecords = new ArrayList<>();
     private TicketCarer carer;
-    private boolean isActive = true;
 
     private Market() {
 
@@ -39,8 +38,8 @@ public class Market {
         UserInterface.promptToPressEnter();
 
         // Acquire input and initialize companies based on it
-        Input db = new Input();
-        JsonObject input = db.getJson();
+        Input source = new Input();
+        JsonObject input = source.getJson();
         initCompanies(input);
 
         init();
@@ -50,74 +49,70 @@ public class Market {
     // Following Mark's CA parameters
     public void init() {
 
-            // Prompt which style of transaction to be made
-            boolean isManualMode = UserInterface.setMode();
-            
-            // Making all necessary transactions
-            Transaction transaction = Transaction.getInstance();
-            transaction.makeTransactions(
-                    companies.get(0), 
-                    companies.get(2), 
-                    companies.get(1));
-            transaction.makeTransactions(
-                    companies.get(1), 
-                    companies.get(0), 
-                    companies.get(2));
-            transaction.makeTransactions(
-                    companies.get(2), 
-                    companies.get(1), 
-                    companies.get(0));
+        // Prompt which style of transaction to be made
+        boolean isManualMode = UserInterface.setMode();
 
-            setCarer(transaction.getTicketCarer());
+        // Making all necessary transactions. All companies trade between each other.
+        Transaction transaction = Transaction.getInstance();
+        transaction.makeTransactions(
+                getCompanies().get(0),
+                getCompanies().get(2),
+                getCompanies().get(1));
+        transaction.makeTransactions(
+                getCompanies().get(1),
+                getCompanies().get(0),
+                getCompanies().get(2));
+        transaction.makeTransactions(
+                getCompanies().get(2),
+                getCompanies().get(1),
+                getCompanies().get(0));
 
-            companies.forEach(company -> {
-                CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
-                addCompanyRecords(companyRecord);
-            });
+        setCarer(transaction.getTicketCarer());
 
-            // If the user chooses manual mode.
-            if (isManualMode) {
+        getCompanies().forEach(company -> {
+            CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
+            addCompanyRecords(companyRecord);
+        });
 
-                int index = UserInterface.selectCompany();
+        // If the user chooses manual mode.
+        if (isManualMode) {
 
-                // Handling input error.
-                if (index != -1) {
+            int index = UserInterface.selectCompany();
 
-                    UserInterface.printCompanyName(companies.get(index).getName());
-                    UserInterface.printTitles();
+            // Handling input error.
+            if (index != -1) {
 
-                    // Generate a Report for the selected company
-                    Report report = companies.get(index).makeFullReport(getCarer());
-                    // Print the report, containing details of all depots
-                    report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
-                }
+                UserInterface.printCompanyName(getCompanies().get(index).getName());
+                UserInterface.printTitles();
 
-            } // If the user chooses automatic mode.
-
-            // Print financial records for all companies involved in the market
-            UserInterface.printCompanyResultsTitle();
-            companyRecords.forEach(companyRecord -> UserInterface.printRecord(companyRecord));
-
-
-            // Determining the company that has the best cashflow
-            int winnerCompany = 0;
-            int highestCashflow = 0;
-            for (int i = 0; i < companyRecords.size(); i++) {
-
-                if (highestCashflow < companyRecords.get(i).getCashflow()) {
-                    highestCashflow = companyRecords.get(i).getCashflow();
-                    winnerCompany = i;
-                }
+                // Generate a Report for the selected company
+                Report report = getCompanies().get(index).makeFullReport(getCarer());
+                // Print the report, containing details of all depots
+                report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
             }
 
-            // Printing winner
-            UserInterface.printHighestCashflowCompany(companyRecords.get(winnerCompany));
+        } // If the user chooses automatic mode.
+
+        // Print financial records for all companies involved in the market
+        UserInterface.printCompanyResultsTitle();
+        getCompanyRecords().forEach(companyRecord -> UserInterface.printRecord(companyRecord));
+
+
+        // Determining the company that has the best cash flow
+        int winnerCompany = 0;
+        int highestCashflow = 0;
+        for (int i = 0; i < getCompanyRecords().size(); i++) {
+
+            if (highestCashflow < getCompanyRecords().get(i).getCashflow()) {
+                highestCashflow = getCompanyRecords().get(i).getCashflow();
+                winnerCompany = i;
+            }
+        }
+
+        // Printing winner
+        UserInterface.printHighestCashflowCompany(getCompanyRecords().get(winnerCompany));
 
         UserInterface.printGoodbye();
-    }
-
-    public ArrayList<Company> getCompanies() {
-        return companies;
     }
 
     /**
@@ -140,10 +135,6 @@ public class Market {
         });
     }
 
-    private List<CompanyRecord> getCompanyRecords() {
-        return companyRecords;
-    }
-
     private void addCompanyRecords(CompanyRecord companyRecord) {
         companyRecords.add(companyRecord);
     }
@@ -163,11 +154,11 @@ public class Market {
         this.carer = carer;
     }
 
-    private boolean isActive() {
-        return isActive;
+    public ArrayList<Company> getCompanies() {
+        return companies;
     }
 
-    private void setActive(boolean active) {
-        isActive = active;
+    public List<CompanyRecord> getCompanyRecords() {
+        return companyRecords;
     }
 }

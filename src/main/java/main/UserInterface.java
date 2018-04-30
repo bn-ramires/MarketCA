@@ -14,8 +14,6 @@ import java.util.Scanner;
  */
 public class UserInterface {
 
-    static String detailsData = "";
-
     public static void printWelcomeMessage() {
         System.out.println(" _____             _     ___  ___           _        _         __   _____ ");
         System.out.println("|_   _|           | |    |  \\/  |          | |      | |       /  | |  _  |");
@@ -29,11 +27,12 @@ public class UserInterface {
 
     private static String printDetails(DepotReport report) {
 
-        detailsData = "";
+        String detailsData = "";
 
         detailsData = detailsData.concat(generateDetailsForBoughtFrom(report));
         detailsData = detailsData.concat(generateDetailsForSoldTo(report));
 
+        // If there are no transactions made by the depot. Do not display detailed info.
         if (detailsData.isEmpty()) {
             detailsData = "\n\n\n\n\n\n\n" +
                     "  No transactions made.  ";
@@ -70,7 +69,6 @@ public class UserInterface {
             result = result.concat("\n     Depot ID: " + ticket.getBuyerDepotId());
             result = result.concat("\n     Qty: " + ticket.getQuantity());
             result = result.concat("\n     Price: " + ticket.getProductCost() + "€");
-            result = result.concat("\n     Delivery: " + ticket.getDelivery() + "€");
             result = result.concat("\n     Total: " + ticket.getTotalCost() + "€");
             result = result.concat("\n-----------------------");
         }
@@ -171,7 +169,7 @@ public class UserInterface {
         String[][] data = {
                 {"Income", String.valueOf(record.getIncome()) + "€"},
                 {"Expenses", String.valueOf(record.getExpenses()) + "€"},
-                {"Cashflow", String.valueOf(record.getCashflow()) + "€"}
+                {"Cash Flow", String.valueOf(record.getCashflow()) + "€"}
         };
 
         System.out.println(FlipTable.of(headers, data));
@@ -200,25 +198,7 @@ public class UserInterface {
         System.out.println("Best Performance Company");
         System.out.println("=========================");
         System.out.println("Company name: " + winner.getCompanyName());
-        System.out.println("Cashflow:     " + winner.getCashflow() + "€");
+        System.out.println("Cash Flow:     " + winner.getCashflow() + "€");
         System.out.println("-------------------------");
-    }
-
-    public static boolean promptToRestart() {
-        boolean flag = true;
-        System.out.println();
-        System.out.println("Do you want to restart? (y/n)");
-        while (flag) {
-            Scanner option = new Scanner(System.in);
-            switch (option.nextLine().toUpperCase()) {
-                case "Y":
-                    return true;
-                case "N":
-                    return false;
-                default:
-                    printTryAgain();
-            }
-        }
-        return false;
     }
 }

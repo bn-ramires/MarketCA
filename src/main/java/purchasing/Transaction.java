@@ -21,20 +21,14 @@ import java.util.List;
  */
 public class Transaction {
 
-    // Instance of this class for the Singleton pattern
     private static Transaction instance = null;
-    // List of sellers to be looped through as a buyer
     public ArrayList<Company> sellers = new ArrayList<>();
-    // Instance of the Originator and Carer as part of the Memento design pattern
     public TicketOriginator originator = new TicketOriginator();
     public static TicketCarer ticketCarer = new TicketCarer();
-    //
     public int currentBuyerId = -1;
     public int currentSellerId = -1;
-
-    // Mark's requirements. Will greatly restrict the number of transactions a depot will perform.
-    public int minCashAllowance = 50;
-    public int maxCashAllowance = 100;
+    public int minCashAllowance;
+    public int maxCashAllowance;
 
     private Transaction() {
     }
@@ -42,16 +36,20 @@ public class Transaction {
     /**
      * Performs all transactions/operations as required for the assignment.
      *
-     * @param firstSeller
-     * @param secondSeller
-     * @param buyer
+     * @param buyer        the company assigned to be the buyer on all transactions.
+     * @param firstSeller  a company to act as a possible seller on all transactions.
+     * @param secondSeller the other possible choice.
      */
     public void makeTransactions(Company buyer, Company firstSeller, Company secondSeller) {
 
-        currentSellerId = 0;
-        currentBuyerId = 0;
+        setCurrentSellerId(0);
+        setCurrentBuyerId(0);
+        setMinCashAllowance(buyer.getDepots().get(0).getMinCashAllowance());
+        setMaxCashAllowance(buyer.getDepots().get(0).getMaxCashAllowance());
+
         setSellers(firstSeller, secondSeller);
         List<Company> sellers = getSellers();
+
         // Shuffling the sellers. This way, the output is much less predictable.
         Collections.shuffle(sellers);
 
@@ -332,6 +330,22 @@ public class Transaction {
 
     public int getMaxCashAllowance() {
         return maxCashAllowance;
+    }
+
+    public void setCurrentBuyerId(int currentBuyerId) {
+        this.currentBuyerId = currentBuyerId;
+    }
+
+    public void setCurrentSellerId(int currentSellerId) {
+        this.currentSellerId = currentSellerId;
+    }
+
+    public void setMinCashAllowance(int minCashAllowance) {
+        this.minCashAllowance = minCashAllowance;
+    }
+
+    public void setMaxCashAllowance(int maxCashAllowance) {
+        this.maxCashAllowance = maxCashAllowance;
     }
 
     /**

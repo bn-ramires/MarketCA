@@ -31,6 +31,8 @@ public class Depot {
     List<Product> storageList;
     String owner;
     int cashAllowance;
+    int minCashAllowance;
+    int maxCashAllowance;
     int delivery;
     int stockMax;
     int stockMin;
@@ -42,7 +44,9 @@ public class Depot {
         this.owner = builder.input.name;
         this.stockList = initStock(builder);
         this.storageList = initStorage(builder);
-        this.cashAllowance = getRandomNumber(builder.input.maxCashAllowance, builder.input.minCashAllowance);
+        this.minCashAllowance = builder.input.minCashAllowance;
+        this.maxCashAllowance = builder.input.maxCashAllowance;
+        this.cashAllowance = getRandomNumber(getMaxCashAllowance(), getMinCashAllowance());
         this.delivery = builder.input.deliveryCost;
         this.stockMax = builder.input.stockMax;
         this.stockMin = builder.input.stockMin;
@@ -50,7 +54,6 @@ public class Depot {
         this.storageMin = builder.input.storageMin;
     }
 
-    // This constructor is for testing purposes
     public Depot() {
     }
 
@@ -192,6 +195,14 @@ public class Depot {
 
     public void setStorageMin(int storageMin) {
         this.storageMin = storageMin;
+    }
+
+    public int getMinCashAllowance() {
+        return minCashAllowance;
+    }
+
+    public int getMaxCashAllowance() {
+        return maxCashAllowance;
     }
 
     public static class DepotBuilder {

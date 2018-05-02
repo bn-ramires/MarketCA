@@ -1,6 +1,9 @@
 package models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This is a model for a Depot and it holds all necessary information about it.
@@ -109,17 +112,28 @@ public class Depot {
 
         List<Product> initializedList = new ArrayList<>();
 
+        // All products are created and named accordingly.
         for (int i = 0; i < numberOfProducts; i++) {
 
             Product firstNewProduct = new Product.ProductBuilder(builder.input).build();
-
             Product secondNewProduct = new Product.ProductBuilder(builder.input).build();
+
+            if (getOwner().equals("BigA")) {
+                firstNewProduct.setBrand("BigB");
+                secondNewProduct.setBrand("BigC");
+            } else if (getOwner().equals("BigB")) {
+                firstNewProduct.setBrand("BigA");
+                secondNewProduct.setBrand("BigC");
+            } else if (getOwner().equals("BigC")) {
+                firstNewProduct.setBrand("BigA");
+                secondNewProduct.setBrand("BigB");
+            }
 
             initializedList.add(firstNewProduct);
             initializedList.add(secondNewProduct);
         }
 
-        // Randomizing the list
+        // Shuffling the list to be less predictable.
         Collections.shuffle(initializedList);
 
         return initializedList;

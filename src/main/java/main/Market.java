@@ -47,10 +47,15 @@ public class Market {
 
     }
 
-    // Following Mark's CA parameters
+    /**
+     * This method is responsible for initializing the whole logic behind the assignment.
+     * <p>
+     * All requirements should be fulfilled by calling this. Meaning all transactions should be performed,
+     * statistics should be generated, messages should be displayed to the screen, etc.
+     */
     public void init() {
 
-        // Prompt which style of transaction to be made
+        // Prompts user to choose between auto/manual mode.
         boolean isManualMode = UserInterface.setMode();
 
         // Making all necessary transactions. All companies trade between each other.
@@ -68,38 +73,56 @@ public class Market {
                 getCompanies().get(1),
                 getCompanies().get(0));
 
+        // Grabbing the ticket carer for future usage.
         setCarer(transaction.getTicketCarer());
 
-        getCompanies().forEach(company -> {
-            CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
-            addCompanyRecords(companyRecord);
-        });
+        // Generating financial records for all companies after transactions are made.
+        initCompanyRecords();
 
         // If the user chooses manual mode.
         if (isManualMode) {
 
+            // User selects which company they want to see detailed info of.
             int index = UserInterface.selectCompany();
 
-            // Handling input error.
-            if (index != -1) {
+            // Prints a banner to the screen
+            UserInterface.printCompanyName(getCompanies().get(index).getName());
+            UserInterface.printFullReportTitle();
 
-                UserInterface.printCompanyName(getCompanies().get(index).getName());
-                UserInterface.printTitles();
-
-                // Generate a Report for the selected company
-                Report report = getCompanies().get(index).makeFullReport(getCarer());
-                // Print the report, containing details of all depots
-                report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
-            }
+            // Prints a list of depot reports, only for the selected company.
+            Report report = getCompanies().get(index).makeFullReport(getCarer());
+            report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
 
         } // If the user chooses automatic mode.
 
-        // Print financial records for all companies involved in the market
+        // Prints financial records for all companies involved in the market
         UserInterface.printCompanyResultsTitle();
         getCompanyRecords().forEach(companyRecord -> UserInterface.printRecord(companyRecord));
 
+        // Prints the company with the best cash flow.
+        calcWinnerCompany();
 
-        // Determining the company that has the best cash flow
+        // Prints a goodbye message.
+        UserInterface.printGoodbye();
+    }
+
+    /**
+     * Initializing the list with the company records of all companies.
+     *
+     * @see Market#companyRecords the list containing all data at the end.
+     */
+    private void initCompanyRecords() {
+        getCompanies().forEach(company -> {
+            CompanyRecord companyRecord = company.makeCompanyRecord(getCarer());
+            companyRecords.add(companyRecord);
+        });
+    }
+
+    /**
+     * Calculates the winner company. Based on which company has the best cash flow at the end.
+     */
+    private void calcWinnerCompany() {
+
         int winnerCompany = 0;
         int highestCashflow = 0;
         for (int i = 0; i < getCompanyRecords().size(); i++) {
@@ -113,7 +136,6 @@ public class Market {
         // Printing winner
         UserInterface.printHighestCashflowCompany(getCompanyRecords().get(winnerCompany));
 
-        UserInterface.printGoodbye();
     }
 
     /**
@@ -136,14 +158,23 @@ public class Market {
         });
     }
 
-    private void addCompanyRecords(CompanyRecord companyRecord) {
-        companyRecords.add(companyRecord);
-    }
-
+    /**
+     * @return The ticket carer object. Used to calculate company records and depot reports.
+     */
     private TicketCarer getCarer() {
         return carer;
     }
 
+    /**
+     * @param carer Object used to calculate company records and depot reports.
+     */
+    private void setCarer(TicketCarer carer) {
+        this.carer = carer;
+    }
+
+    /**
+     * @return An instance of this class. (Singleton pattern).
+     */
     public static Market getInstance() {
         if (instance == null) {
             instance = new Market();
@@ -151,14 +182,16 @@ public class Market {
         return instance;
     }
 
-    private void setCarer(TicketCarer carer) {
-        this.carer = carer;
-    }
-
+    /**
+     * @return a list of all companies.
+     */
     public ArrayList<Company> getCompanies() {
         return companies;
     }
 
+    /**
+     * @return a list of all company records.
+     */
     public List<CompanyRecord> getCompanyRecords() {
         return companyRecords;
     }

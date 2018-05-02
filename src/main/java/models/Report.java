@@ -37,10 +37,10 @@ public class Report {
     }
 
     /**
-     * Returns only the tickets in which the current depot is either the buyer or the seller
-     * @param depotId  Id of the depot being audited
-     * @param role     specifies whether the current depot is the buyer or the seller
-     * @param tickets  List of tickets containing only tickets in which the selected company is involved
+     * Returns only the tickets in which the current depot is either the buyer or the seller.
+     * @param depotId  Id of the depot being audited.
+     * @param role     specifies whether the current depot is the buyer or the seller.
+     * @param tickets  List of tickets containing only tickets in which the selected company is involved.
      */
 
     public List<Ticket> filterTickets(int depotId, String role, List<Ticket> tickets) {

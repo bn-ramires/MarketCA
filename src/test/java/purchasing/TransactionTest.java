@@ -31,21 +31,8 @@ public class TransactionTest {
         List<Product> stock = new ArrayList<>();
 
 
-        for (int i = 0; i < stockMin; i++) {
-
-            Product newProduct = new Product();
-            newProduct.setBrand("test");
-            newProduct.setPrice(5);
-            stock.add(newProduct);
-        }
-
-        for (int i = 0; i < storageMin; i++) {
-
-            Product newProduct = new Product();
-            newProduct.setBrand("test");
-            newProduct.setPrice(5);
-            storage.add(newProduct);
-        }
+        initProducts(stockMin, stock);
+        initProducts(storageMin, storage);
 
         buyerDepot.setCashAllowance(75);
         buyerDepot.setDelivery(5);
@@ -71,6 +58,16 @@ public class TransactionTest {
         System.out.println("Before: \n" + sellerDepot.toString());
     }
 
+    private void initProducts(int stockMin, List<Product> stock) {
+        for (int i = 0; i < stockMin; i++) {
+
+            Product newProduct = new Product();
+            newProduct.setBrand("test");
+            newProduct.setPrice(5);
+            stock.add(newProduct);
+        }
+    }
+
     @After
     public void tearDown(){
         System.out.println("After: \n" + buyerDepot.toString());
@@ -79,7 +76,7 @@ public class TransactionTest {
 
     @Test
     public void should_Be_Ready_To_Buy() {
-        boolean actual = transactionClass.isReadyToBuy(buyerDepot, sellerDepot);
+        boolean actual = transactionClass.isCapableOfBuying(buyerDepot, sellerDepot);
         assertTrue(actual);
     }
 
@@ -98,8 +95,8 @@ public class TransactionTest {
 
     @Test
     public void should_Perform_Purchase_With_All_Requirements_Accounted_For() {
-//        int maxSellersCashAllowance = 100;
-//        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
+        int maxSellersCashAllowance = 100;
+        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
 
         transactionClass.buy(25, buyerDepot, sellerDepot);
 

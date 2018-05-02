@@ -41,6 +41,11 @@ public class Input {
         productCost = getRandomNumber(10, 1);
     }
 
+    /**
+     * Making an arbitrary JSON object with the necessary requirements for the assignment.
+     *
+     * @return JsonObject to be used as the data source for the program.
+     */
     public JsonObject makeSampleFile() {
 
         JsonObject bigA = new JsonObject();
@@ -89,83 +94,146 @@ public class Input {
         return json;
     }
 
+    /**
+     * Generates a random number between two parameters.
+     *
+     * @param max maximum result.
+     * @param min minimum result.
+     * @return randomized number
+     */
     public static int getRandomNumber(int max, int min) {
         return new Random().nextInt(max - min + 1) + min;
-
     }
 
+    /**
+     * @return JsonObject with necessary information of all companies.
+     */
     public JsonObject getJson() {
         return json;
     }
 
+    /**
+     * @return the number of depots to be created. Required: 100.
+     */
     public int getNumberOfDepots() {
         return numberOfDepots;
     }
 
+    /**
+     * @param numberOfDepots the number of depots to be created. Required: 100.
+     */
     public void setNumberOfDepots(int numberOfDepots) {
         this.numberOfDepots = numberOfDepots;
     }
 
+    /**
+     * @return the maximum size of a depot's stock. Required: 50.
+     */
     public int getStockMax() {
         return stockMax;
     }
 
+    /**
+     * @param stockMax the maximum size of a depot's stock. Required: 50.
+     */
     public void setStockMax(int stockMax) {
         this.stockMax = stockMax;
     }
 
+    /**
+     * @return the minimum size of a depot's stock. Required: 15.
+     */
     public int getStockMin() {
         return stockMin;
     }
 
+    /**
+     * @param stockMin the minimum size of a depot's stock. Required: 15.
+     */
     public void setStockMin(int stockMin) {
         this.stockMin = stockMin;
     }
 
+    /**
+     * @return the maximum size of a depot's storage (other company's products). Required: 40.
+     */
     public int getStorageMax() {
         return storageMax;
     }
 
+    /**
+     * @param storageMax the maximum size of a depot's storage (other company's products). Required: 40.
+     */
     public void setStorageMax(int storageMax) {
         this.storageMax = storageMax;
     }
 
+    /**
+     * @return the minimum size of a depot's storage (other company's products). Required: 3.
+     */
     public int getStorageMin() {
         return storageMin;
     }
 
+    /**
+     * @param storageMin the minimum size of a depot's storage (other company's products). Required: 3.
+     */
     public void setStorageMin(int storageMin) {
         this.storageMin = storageMin;
     }
 
+    /**
+     * @return the minimum amount of cash a depot will be initialized with. Required: 50.
+     */
     public int getMinCashAllowance() {
         return minCashAllowance;
     }
 
+    /**
+     * @param minCashAllowance the minimum amount of cash a depot will be initialized with. Required: 50.
+     */
     public void setMinCashAllowance(int minCashAllowance) {
         this.minCashAllowance = minCashAllowance;
     }
 
+    /**
+     * @return the maximum amount of cash a depot will be initialized with. Required: 100.
+     */
     public int getMaxCashAllowance() {
         return maxCashAllowance;
     }
 
+    /**
+     * @param maxCashAllowance the maximum amount of cash a depot will be initialized with. Required: 100.
+     */
     public void setMaxCashAllowance(int maxCashAllowance) {
         this.maxCashAllowance = maxCashAllowance;
     }
 
+    /**
+     * @return the cost of delivery for each transaction. Required: 1-10.
+     */
     public int getDeliveryCost() {
         return deliveryCost;
     }
 
+    /**
+     * @param deliveryCost the cost of delivery for each transaction. Required: 1-10.
+     */
     public void setDeliveryCost(int deliveryCost) {
         this.deliveryCost = deliveryCost;
     }
 
+    /**
+     * @return the cost of products for each transaction. Required: 1-10.
+     */
     public int getProductCost() {
         return productCost;
     }
 
+    /**
+     * @return the cost of products for each transaction. Required: 1-10.
+     */
     public void setProductCost(int productCost) {
         this.productCost = productCost;
     }

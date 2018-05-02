@@ -31,7 +31,6 @@ public class CompanyRecord {
         calculateCashflow();
     }
 
-
     /**
      * Determines how much money a company has made after all transactions have been carried out.
      *

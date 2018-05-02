@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 public class UserInterface {
 
+    /**
+     * Prints the first message seen on screen.
+     */
     public static void printWelcomeMessage() {
         System.out.println(" _____             _     ___  ___           _        _         __   _____ ");
         System.out.println("|_   _|           | |    |  \\/  |          | |      | |       /  | |  _  |");
@@ -25,12 +28,18 @@ public class UserInterface {
         System.out.println();
     }
 
-    private static String printDetails(DepotReport report) {
+    /**
+     * Formats reports to be eventually printed to screen properly.
+     *
+     * @param report Depot report with the necessary data.
+     * @return string to be printed.
+     */
+    private static String formatedReport(DepotReport report) {
 
         String detailsData = "";
 
-        detailsData = detailsData.concat(generateDetailsForBoughtFrom(report));
-        detailsData = detailsData.concat(generateDetailsForSoldTo(report));
+        detailsData = detailsData.concat(formatDetailsForBoughtFrom(report));
+        detailsData = detailsData.concat(formatDetailsForSoldTo(report));
 
         // If there are no transactions made by the depot. Do not display detailed info.
         if (detailsData.isEmpty()) {
@@ -42,7 +51,14 @@ public class UserInterface {
 
     }
 
-    private static String generateDetailsForBoughtFrom(DepotReport report) {
+    /**
+     * Formats the data necessary for the "Bought From" transaction details section
+     * to be eventually displayed to the screen if/when necessary.
+     *
+     * @param report Depot report with the necessary data.
+     * @return formatted string.
+     */
+    private static String formatDetailsForBoughtFrom(DepotReport report) {
 
         List<Ticket> tickets = report.getTicketsAsBuyer();
         String result = "";
@@ -59,7 +75,14 @@ public class UserInterface {
         return result;
     }
 
-    private static String generateDetailsForSoldTo(DepotReport report) {
+    /**
+     * Formats the data necessary for the "Sold To" transaction details section
+     * to be eventually displayed to the screen if/when necessary.
+     *
+     * @param report Depot report with the necessary data.
+     * @return formatted string.
+     */
+    private static String formatDetailsForSoldTo(DepotReport report) {
 
         List<Ticket> tickets = report.getTicketsAsSeller();
         String result = "";
@@ -75,60 +98,94 @@ public class UserInterface {
         return result;
     }
 
-    public static void printDepotReport(DepotReport depotReport) {
+    /**
+     * Prints a report of a depot to the screen. If there was at least one transaction made by the depot,
+     * it will also contain the additional details of each individual transaction.
+     *
+     * @param report data necessary to be shown to the user.
+     */
+    public static void printDepotReport(DepotReport report) {
 
-        String[] firstTableHeader = {"Depot ID", String.valueOf(depotReport.getDepotId())};
+        /*
+        First table. Contains the basic report for a depot.
+        This data is shown in the left side of the screen, for each individual depot.
+         */
+        String[] firstTableHeader = {"Depot ID", String.valueOf(report.getDepotId())};
         String[][] firstTableData = {
-                {"Products Sold", String.valueOf(depotReport.getTotalProductSold())},
-                {"Products Bought", String.valueOf(depotReport.getTotalProductBought())},
-                {"Income", String.valueOf(depotReport.getIncome()) + "€"},
-                {"Expenses", String.valueOf(depotReport.getExpenses()) + "€"},
-                {"Initial cash", String.valueOf(depotReport.getCashAllowance()) + "€"},
-                {"Current Balance", String.valueOf(depotReport.getCurrentBalance()) + "€"},
-                {"Cashflow", String.valueOf(depotReport.getCashFlow()) + "€"}
+                {"Products Sold", String.valueOf(report.getTotalProductSold())},
+                {"Products Bought", String.valueOf(report.getTotalProductBought())},
+                {"Income", String.valueOf(report.getIncome()) + "€"},
+                {"Expenses", String.valueOf(report.getExpenses()) + "€"},
+                {"Initial cash", String.valueOf(report.getCashAllowance()) + "€"},
+                {"Current Balance", String.valueOf(report.getCurrentBalance()) + "€"},
+                {"Cash Flow", String.valueOf(report.getCashFlow()) + "€"}
         };
 
         String depotInfo = FlipTable.of(firstTableHeader, firstTableData);
 
-        String[] mainTableHeader = {"Depot", "Details"};
-        String[][] mainTableData = {
-                {depotInfo, printDetails(depotReport)}
+        /*
+        Second table. Contains detailed info on individual transactions of a depot.
+        This data is shown in the right side of the screen, for each individual depot.
+         */
+        String[] secondTableHeader = {"Depot", "Details"};
+        String[][] secondTableData = {
+                {depotInfo, formatedReport(report)}
         };
 
-        System.out.println(FlipTable.of(mainTableHeader, mainTableData));
+        // Printing both the first and second tables inside the main one.
+        System.out.println(FlipTable.of(secondTableHeader, secondTableData));
     }
 
+    /**
+     * Prints the goodbye message in the end of the program's execution.
+     */
     public static void printGoodbye() {
-        System.out.println("Goodbye");
+        System.out.println("Goodbye!");
     }
 
+    /**
+     * Asks user to press enter and continue the execution of the program.
+     */
     public static void promptToPressEnter() {
         System.out.println("                        Press Enter to continue. ");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        new Scanner(System.in).nextLine();
     }
 
+    /**
+     * Prompts user to select between autonomous or manual mode before transactions start.
+     *
+     * @return if isManualMode is true or false.
+     */
     public static boolean setMode() {
+
         boolean flag = true;
+        boolean isManualMode = true;
+
         while (flag) {
             System.out.println("-------------------------------------------------------");
             System.out.println("Select one of the following options and press enter: ");
             System.out.println("1)  Autonomous");
             System.out.println("2)  Manual\n");
-            Scanner scanner = new Scanner(System.in);
-            String option = scanner.nextLine();
+
+            String option = new Scanner(System.in).nextLine();
+
             switch (option) {
                 case "1":
-                    return false;
+                    return !isManualMode;
                 case "2":
-                    return true;
+                    return isManualMode;
                 default:
                     printTryAgain();
             }
         }
-        return false;
+        return isManualMode;
     }
 
+    /**
+     * Prompts user to select which company will be extra information when choosing Manual mode.
+     *
+     * @return the chosen company.
+     */
     public static int selectCompany() {
         boolean flag = true;
 
@@ -138,8 +195,9 @@ public class UserInterface {
             System.out.println("a)  Big A");
             System.out.println("b)  Big B");
             System.out.println("c)  Big C\n");
-            Scanner scanner = new Scanner(System.in);
-            String company = scanner.nextLine();
+
+            String company = new Scanner(System.in).nextLine();
+
             switch (company.toUpperCase()) {
                 case "A":
                     return 0;
@@ -154,15 +212,23 @@ public class UserInterface {
         return -1;
     }
 
+    /**
+     * Prints an error message for when choosing a wrong option on any prompt.
+     */
     public static void printTryAgain() {
+
         System.out.println("-------------------------------------------------------");
-        System.out.println("You have selected an incorrect option. ");
-        System.out.println();
+        System.out.println("You have selected an incorrect option.\n");
         System.out.println("Press Enter and try again.");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+
+        new Scanner(System.in).nextLine();
     }
 
+    /**
+     * Prints each individual company record as a table.
+     *
+     * @param record necessary record data.
+     */
     public static void printRecord(CompanyRecord record) {
 
         String[] headers = {"Company", record.getCompanyName()};
@@ -175,23 +241,37 @@ public class UserInterface {
         System.out.println(FlipTable.of(headers, data));
     }
 
-    public static void printTitles() {
+    /**
+     * Prints a banner for the report section.
+     */
+    public static void printFullReportTitle() {
         System.out.println("=================================================");
         System.out.println("================== FULL REPORT ==================");
         System.out.println("=================================================");
     }
 
+    /**
+     * Prints a banner for the company results section.
+     */
     public static void printCompanyResultsTitle() {
         System.out.println("=================================================");
         System.out.println("================ COMPANY RESULTS ================");
         System.out.println("=================================================");
     }
 
+    /**
+     * Prints a banner with the chosen company name.
+     */
     public static void printCompanyName(String companyName) {
         System.out.println("=================================================");
         System.out.println("====================== " + companyName.toUpperCase() + " =====================");
     }
 
+    /**
+     * Prints a section with the winning company, based on best cash flow.
+     *
+     * @param winner the record of the winning company.
+     */
     public static void printHighestCashflowCompany(CompanyRecord winner) {
 
         System.out.println("=========================");
@@ -200,5 +280,6 @@ public class UserInterface {
         System.out.println("Company name: " + winner.getCompanyName());
         System.out.println("Cash Flow:     " + winner.getCashflow() + "€");
         System.out.println("-------------------------");
+
     }
 }

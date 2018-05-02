@@ -39,6 +39,7 @@ public class Market {
 
         // Acquire input and initialize companies based on it
         Input source = new Input();
+        source.makeSampleFile();
         JsonObject input = source.getJson();
         initCompanies(input);
 

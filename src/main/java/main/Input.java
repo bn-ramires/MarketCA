@@ -17,65 +17,67 @@ import java.util.Random;
  */
 public class Input {
 
-    private int numberOfDepots = 100;
-    private int stockMax = 50;
-    private int stockMin = 15;
-    private int storageMax = 80;
-    private int storageMin = 6;
-    private int minCashAllowance = 50;
-    private int maxCashAllowance = 100;
-    private int deliveryCost = getRandomNumber(10, 1);
-    private int productCost = getRandomNumber(10, 1);
-
+    private int numberOfDepots;
+    private int stockMax;
+    private int stockMin;
+    private int storageMax;
+    private int storageMin;
+    private int minCashAllowance;
+    private int maxCashAllowance;
+    private int deliveryCost;
+    private int productCost;
     private JsonObject json = new JsonObject();
 
     public Input() {
-        makeSampleFile();
+
+        numberOfDepots = 100;
+        stockMax = 50;
+        stockMin = 15;
+        storageMax = 80;
+        storageMin = 6;
+        minCashAllowance = 50;
+        maxCashAllowance = 100;
+        deliveryCost = getRandomNumber(10, 1);
+        productCost = getRandomNumber(10, 1);
     }
 
-    private JsonObject makeSampleFile() {
-
-
-        System.out.println("||||||||||||||||||||||||||||||||||");
-        System.out.println("Product Cost: "+productCost);
-        System.out.println("Delivery Cost: "+deliveryCost);
-        System.out.println("||||||||||||||||||||||||||||||||||");
+    public JsonObject makeSampleFile() {
 
         JsonObject bigA = new JsonObject();
         bigA.addProperty("name", "BigA");
-        bigA.addProperty("numberOfDepots", numberOfDepots);
-        bigA.addProperty("productCost", productCost);
-        bigA.addProperty("deliveryCost", deliveryCost);
-        bigA.addProperty("maxCashAllowance", maxCashAllowance);
-        bigA.addProperty("minCashAllowance", minCashAllowance);
-        bigA.addProperty("stockMax", stockMax);
-        bigA.addProperty("stockMin", stockMin);
-        bigA.addProperty("storageMax", storageMax);
-        bigA.addProperty("storageMin", storageMin);
+        bigA.addProperty("numberOfDepots", getNumberOfDepots());
+        bigA.addProperty("productCost", getProductCost());
+        bigA.addProperty("deliveryCost", getDeliveryCost());
+        bigA.addProperty("maxCashAllowance", getMaxCashAllowance());
+        bigA.addProperty("minCashAllowance", getMinCashAllowance());
+        bigA.addProperty("stockMax", getStockMax());
+        bigA.addProperty("stockMin", getStockMin());
+        bigA.addProperty("storageMax", getStorageMax());
+        bigA.addProperty("storageMin", getStorageMin());
 
         JsonObject bigB = new JsonObject();
         bigB.addProperty("name", "BigB");
-        bigB.addProperty("numberOfDepots", numberOfDepots);
-        bigB.addProperty("productCost", productCost);
-        bigB.addProperty("deliveryCost", deliveryCost);
-        bigB.addProperty("maxCashAllowance", maxCashAllowance);
-        bigB.addProperty("minCashAllowance", minCashAllowance);
-        bigB.addProperty("stockMax", stockMax);
-        bigB.addProperty("stockMin", stockMin);
-        bigB.addProperty("storageMax", storageMax);
-        bigB.addProperty("storageMin", storageMin);
+        bigB.addProperty("numberOfDepots", getNumberOfDepots());
+        bigB.addProperty("productCost", getProductCost());
+        bigB.addProperty("deliveryCost", getDeliveryCost());
+        bigB.addProperty("maxCashAllowance", getMaxCashAllowance());
+        bigB.addProperty("minCashAllowance", getMinCashAllowance());
+        bigB.addProperty("stockMax", getStockMax());
+        bigB.addProperty("stockMin", getStockMin());
+        bigB.addProperty("storageMax", getStorageMax());
+        bigB.addProperty("storageMin", getStorageMin());
 
         JsonObject bigC = new JsonObject();
         bigC.addProperty("name", "BigC");
-        bigC.addProperty("numberOfDepots", numberOfDepots);
-        bigC.addProperty("productCost", productCost);
-        bigC.addProperty("deliveryCost", deliveryCost);
-        bigC.addProperty("maxCashAllowance", maxCashAllowance);
-        bigC.addProperty("minCashAllowance", minCashAllowance);
-        bigC.addProperty("stockMax", stockMax);
-        bigC.addProperty("stockMin", stockMin);
-        bigC.addProperty("storageMax", storageMax);
-        bigC.addProperty("storageMin", storageMin);
+        bigC.addProperty("numberOfDepots", getNumberOfDepots());
+        bigC.addProperty("productCost", getProductCost());
+        bigC.addProperty("deliveryCost", getDeliveryCost());
+        bigC.addProperty("maxCashAllowance", getMaxCashAllowance());
+        bigC.addProperty("minCashAllowance", getMinCashAllowance());
+        bigC.addProperty("stockMax", getStockMax());
+        bigC.addProperty("stockMin", getStockMin());
+        bigC.addProperty("storageMax", getStorageMax());
+        bigC.addProperty("storageMin", getStorageMin());
 
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(bigA);
@@ -94,5 +96,77 @@ public class Input {
 
     public JsonObject getJson() {
         return json;
+    }
+
+    public int getNumberOfDepots() {
+        return numberOfDepots;
+    }
+
+    public void setNumberOfDepots(int numberOfDepots) {
+        this.numberOfDepots = numberOfDepots;
+    }
+
+    public int getStockMax() {
+        return stockMax;
+    }
+
+    public void setStockMax(int stockMax) {
+        this.stockMax = stockMax;
+    }
+
+    public int getStockMin() {
+        return stockMin;
+    }
+
+    public void setStockMin(int stockMin) {
+        this.stockMin = stockMin;
+    }
+
+    public int getStorageMax() {
+        return storageMax;
+    }
+
+    public void setStorageMax(int storageMax) {
+        this.storageMax = storageMax;
+    }
+
+    public int getStorageMin() {
+        return storageMin;
+    }
+
+    public void setStorageMin(int storageMin) {
+        this.storageMin = storageMin;
+    }
+
+    public int getMinCashAllowance() {
+        return minCashAllowance;
+    }
+
+    public void setMinCashAllowance(int minCashAllowance) {
+        this.minCashAllowance = minCashAllowance;
+    }
+
+    public int getMaxCashAllowance() {
+        return maxCashAllowance;
+    }
+
+    public void setMaxCashAllowance(int maxCashAllowance) {
+        this.maxCashAllowance = maxCashAllowance;
+    }
+
+    public int getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(int deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
+    public int getProductCost() {
+        return productCost;
+    }
+
+    public void setProductCost(int productCost) {
+        this.productCost = productCost;
     }
 }

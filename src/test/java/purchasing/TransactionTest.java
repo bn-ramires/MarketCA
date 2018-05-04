@@ -35,7 +35,7 @@ public class TransactionTest {
         initProducts(storageMin, storage);
 
         buyerDepot.setCashAllowance(75);
-        buyerDepot.setDelivery(5);
+        buyerDepot.setDeliveryCost(5);
         buyerDepot.setOwner("Buyer Depot");
         buyerDepot.setStockMax(50);
         buyerDepot.setStockMin(15);
@@ -45,7 +45,7 @@ public class TransactionTest {
         buyerDepot.setStockList(stock);
 
         sellerDepot.setCashAllowance(60);
-        sellerDepot.setDelivery(5);
+        sellerDepot.setDeliveryCost(5);
         sellerDepot.setOwner("Seller Depot");
         sellerDepot.setStockMax(50);
         sellerDepot.setStockMin(15);
@@ -83,7 +83,7 @@ public class TransactionTest {
     @Test
     public void should_Not_Surpass_Max_Cash_Allowance() {
         int maxSellersCashAllowance = 100;
-        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
+        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDeliveryCost();
 
         int actual = transactionClass.accountForMaxCashAllowance(
                 10,
@@ -96,7 +96,7 @@ public class TransactionTest {
     @Test
     public void should_Perform_Purchase_With_All_Requirements_Accounted_For() {
         int maxSellersCashAllowance = 100;
-        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDelivery();
+        int allowedIncome = (maxSellersCashAllowance - sellerDepot.getCashAllowance()) - sellerDepot.getDeliveryCost();
 
         transactionClass.buy(25, buyerDepot, sellerDepot);
 

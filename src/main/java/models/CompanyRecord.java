@@ -6,13 +6,7 @@ import java.util.List;
 
 /**
  * This is a model for a company's record.
- * It contains financial details based on the transactions performed.
- *
- * @see CompanyRecord#companyName
- * @see CompanyRecord#income
- * @see CompanyRecord#expenses
- * @see CompanyRecord#cashflow
- * @see CompanyRecord#tickets
+ * It contains financial details for a company based on transactions performed.
  */
 public class CompanyRecord {
 
@@ -23,18 +17,20 @@ public class CompanyRecord {
     private List<Ticket> tickets;
 
     public CompanyRecord(String companyName, TicketCarer carer) {
+
         this.companyName = companyName;
         this.tickets = carer.getTicketList();
 
         calculateIncome();
         calculateExpenses();
         calculateCashflow();
+
     }
 
     /**
      * Determines how much money a company has made after all transactions have been carried out.
      *
-     * @return company's income
+     * @return company's income.
      */
     private int calculateIncome() {
 
@@ -50,7 +46,7 @@ public class CompanyRecord {
     /**
      * Determines how much money a company has spent after all transactions have been carried out.
      *
-     * @return company's expenses
+     * @return company's expenses.
      */
     private int calculateExpenses() {
 
@@ -64,30 +60,45 @@ public class CompanyRecord {
     }
 
     /**
-     * Determines a company's cashflow after all transactions have been carried out.
+     * Determines a company's cash flow after all transactions have been carried out.
      *
-     * @return company's cashflow
+     * @return company's cash flow.
      */
     private int calculateCashflow() {
         return cashflow = getIncome() - getExpenses();
     }
 
+    /**
+     * @return the company's income.
+     */
     public int getIncome() {
         return income;
     }
 
+    /**
+     * @return the company's expenses.
+     */
     public int getExpenses() {
         return expenses;
     }
 
-    public int getCashflow() {
+    /**
+     * @return the company's cash flow.
+     */
+    public int getCashFlow() {
         return cashflow;
     }
 
+    /**
+     * @return the company's name.
+     */
     public String getCompanyName() {
         return companyName;
     }
 
+    /**
+     * @return a list of all tickets.
+     */
     private List<Ticket> getTickets() {
         return tickets;
     }

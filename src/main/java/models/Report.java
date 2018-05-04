@@ -8,26 +8,12 @@ import java.util.stream.Collectors;
 
 /**
  * This class represents a full financial report after transactions are made.
- * <p>
- * It contains a list of depot reports.
- *
- * @see Report#reportList
- * <p>
- * The method responsible for the full report generation.
- * @see Report#generateFullReport(List)
  */
 public class Report {
 
     private String companyName;
     private List<Ticket> tickets;
-    private List<DepotReport> reportList = new ArrayList<>();
-
-    int prodSold;
-    int income;
-    int prodBought;
-    int costProductsBought;
-    int totalDeliveryCost;
-
+    private List<DepotReport> depotReportList = new ArrayList<>();
 
     public Report(String companyName, List<Depot> depots, TicketCarer carer) {
         this.companyName = companyName;
@@ -38,11 +24,13 @@ public class Report {
 
     /**
      * Returns only the tickets in which the current depot is either the buyer or the seller.
+     *
      * @param depotId  Id of the depot being audited.
      * @param role     specifies whether the current depot is the buyer or the seller.
      * @param tickets  List of tickets containing only tickets in which the selected company is involved.
+     *
+     * @return a filtered list with the desired tickets.
      */
-
     public List<Ticket> filterTickets(int depotId, String role, List<Ticket> tickets) {
 
         if (role.equals("buyer")) {
@@ -65,6 +53,7 @@ public class Report {
     /**
      * It generates a financial report for each Depot of a selected company
      * @param depots List of Depot of the selected company
+     * @return the depot report.
      */
     public List<DepotReport> generateFullReport(List<Depot> depots) {
 
@@ -72,93 +61,53 @@ public class Report {
 
             int depotId = i;
 
+            // Filtering the list of tickets to grab only relevant ones.
             List<Ticket> filteredBuyer = filterTickets(i, "buyer", getTickets());
             List<Ticket> filteredSeller = filterTickets(i, "seller", getTickets());
 
+            // Grabbing the depot's cash allowance.
             int cashAllowance = depots.get(i).getCashAllowance();
 
+            // Initializing a new DepotReport object.
             DepotReport newDepotReport = new DepotReport(
                     filteredBuyer,
                     filteredSeller,
                     depotId,
                     cashAllowance);
 
+            // Adding the new DepotReport to the list.
             addReports(newDepotReport);
 
         }
-        return getReportList();
+        return getDepotReportList();
     }
 
+    /**
+     * @return the name of the company that generated this report.
+     */
     public String getCompanyName() {
         return companyName;
     }
 
+    /**
+     * @return a list containing all tickets for any transaction made.
+     */
     public List<Ticket> getTickets() {
         return tickets;
     }
 
-    public List<DepotReport> getReportList() {
-        return reportList;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    /**
+     * @return a list containing all depot reports of a company.
+     */
+    public List<DepotReport> getDepotReportList() {
+        return depotReportList;
     }
 
     /**
-     * It adds a report to the reportList
-     * @param report DeportReport object of a given depot
+     * @param report a depot report to be added to the depot report list.
      */
     public void addReports(DepotReport report) {
-        this.reportList.add(report);
-    }
-
-    public int getProdSold() {
-        return prodSold;
-    }
-
-    public void setProdSold(int prodSold) {
-        this.prodSold = prodSold;
-    }
-
-    public int getIncome() {
-        return income;
-    }
-
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public int getProdBought() {
-        return prodBought;
-    }
-
-    public void setProdBought(int prodBought) {
-        this.prodBought = prodBought;
-    }
-
-    public int getCostProductsBought() {
-        return costProductsBought;
-    }
-
-    public void setCostProductsBought(int costProductsBought) {
-        this.costProductsBought = costProductsBought;
-    }
-
-    public int getTotalDeliveryCost() {
-        return totalDeliveryCost;
-    }
-
-    public void setTotalDeliveryCost(int totalDeliveryCost) {
-        this.totalDeliveryCost = totalDeliveryCost;
-    }
-
-    public void setReportList(List<DepotReport> reportList) {
-        this.reportList = reportList;
+        this.depotReportList.add(report);
     }
 }
 

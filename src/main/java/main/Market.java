@@ -13,16 +13,9 @@ import java.util.List;
 
 /**
  * This class is responsible for initializing the market. It effectively works as the main class.
- * <p>
+ *
  * All CA's requirements are attempted to be fulfilled by simply calling this class.
  * Also, this class is a singleton and can't be initialized multiple times.
- * <p>
- *
- * @see Market#init() Initialization based on CA's requirements.
- * @see Market#instance instance of this class. (singleton pattern).
- * @see Market#companies list of all company objects.
- * @see Market#companyRecords list of all company's financial records.
- * @see Market#carer holds all tickets for all transactions performed.
  */
 public class Market {
 
@@ -91,7 +84,7 @@ public class Market {
 
             // Prints a list of depot reports, only for the selected company.
             Report report = getCompanies().get(index).makeFullReport(getCarer());
-            report.getReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
+            report.getDepotReportList().forEach(depotReport -> UserInterface.printDepotReport(depotReport));
 
         } // If the user chooses automatic mode.
 
@@ -127,8 +120,8 @@ public class Market {
         int highestCashflow = 0;
         for (int i = 0; i < getCompanyRecords().size(); i++) {
 
-            if (highestCashflow < getCompanyRecords().get(i).getCashflow()) {
-                highestCashflow = getCompanyRecords().get(i).getCashflow();
+            if (highestCashflow < getCompanyRecords().get(i).getCashFlow()) {
+                highestCashflow = getCompanyRecords().get(i).getCashFlow();
                 winnerCompany = i;
             }
         }

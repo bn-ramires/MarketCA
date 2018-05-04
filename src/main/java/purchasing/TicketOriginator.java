@@ -2,6 +2,9 @@ package purchasing;
 
 import models.Ticket;
 
+/**
+ * The originator for the ticket objects. This is part of the memento pattern.
+ */
 public class TicketOriginator {
 
     private String buyer;
@@ -9,76 +12,63 @@ public class TicketOriginator {
     private int buyerDepotId;
     private int sellerDepotId;
     private int productCost;
-//    private int totalCost;
     private int quantity;
-    private int delivery;
+    private int deliveryCost;
 
+    /**
+     * It creates a Ticket object and returns it, properly populated.
+     *
+     * @return the saved ticket.
+     */
     public Ticket saveTicketState() {
-        return new Ticket(buyer, seller, buyerDepotId, sellerDepotId, productCost, quantity, delivery);
+        return new Ticket(buyer, seller, buyerDepotId, sellerDepotId, productCost, quantity, deliveryCost);
     }
 
-    public void getTicketState(Ticket ticket) {
-        this.buyer = ticket.getBuyer();
-        this.seller = ticket.getSeller();
-        this.buyerDepotId = ticket.getBuyerDepotId();
-        this.sellerDepotId = ticket.getSellerDepotId();
-        this.quantity = ticket.getQuantity();
-        this.delivery = ticket.getDelivery();
-//        this.totalCost = productCost * quantity;
-    }
-
-    public String getBuyer() {
-        return buyer;
-    }
-
+    /**
+     * @param buyer The depot who made a purchase.
+     */
     public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
 
-    public String getSeller() {
-        return seller;
-    }
-
+    /**
+     * @param seller The depot who sold the product(s).
+     */
     public void setSeller(String seller) {
         this.seller = seller;
     }
 
-    public int getBuyerDepotId() {
-        return buyerDepotId;
-    }
-
+    /**
+     * @param buyerDepotId The ID number of the buyer depot.
+     */
     public void setBuyerDepotId(int buyerDepotId) {
         this.buyerDepotId = buyerDepotId;
     }
 
-    public int getSellerDepotId() {
-        return sellerDepotId;
-    }
-
+    /**
+     * @param sellerDepotId The ID number of the seller depot.
+     */
     public void setSellerDepotId(int sellerDepotId) {
         this.sellerDepotId = sellerDepotId;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
+    /**
+     * @param quantity The quantity of products bought/sold.
+     */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public int getDelivery() {
-        return delivery;
+    /**
+     * @param deliveryCost The seller's charge for delivery.
+     */
+    public void setDeliveryCost(int deliveryCost) {
+        this.deliveryCost = deliveryCost;
     }
 
-    public void setDelivery(int delivery) {
-        this.delivery = delivery;
-    }
-
-    public int getProductCost() {
-        return productCost;
-    }
-
+    /**
+     * @param productCost The cost of the product bought/sold.
+     */
     public void setProductCost(int productCost) {
         this.productCost = productCost;
     }

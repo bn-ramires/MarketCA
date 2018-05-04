@@ -68,8 +68,8 @@ public class UserInterface {
             result = result.concat("\n     Depot ID: " + ticket.getSellerDepotId());
             result = result.concat("\n     Qty: " + ticket.getQuantity());
             result = result.concat("\n     Price: " + ticket.getProductCost() + "€");
-            result = result.concat("\n     Delivery: " + ticket.getDelivery() + "€");
-            result = result.concat("\n     Total: " + (ticket.getTotalCost() + ticket.getDelivery()) + "€");
+            result = result.concat("\n     Delivery: " + ticket.getDeliveryCost() + "€");
+            result = result.concat("\n     Total: " + (ticket.getTotalCost() + ticket.getDeliveryCost()) + "€");
             result = result.concat("\n-----------------------");
         }
         return result;
@@ -99,8 +99,8 @@ public class UserInterface {
     }
 
     /**
-     * Prints a report of a depot to the screen. If there was at least one transaction made by the depot,
-     * it will also contain the additional details of each individual transaction.
+     * Prints a report of a depot to the screen. It will also contain the additional
+     * details of each individual transaction when there were any performed.
      *
      * @param report data necessary to be shown to the user.
      */
@@ -112,8 +112,8 @@ public class UserInterface {
          */
         String[] firstTableHeader = {"Depot ID", String.valueOf(report.getDepotId())};
         String[][] firstTableData = {
-                {"Products Sold", String.valueOf(report.getTotalProductSold())},
-                {"Products Bought", String.valueOf(report.getTotalProductBought())},
+                {"Products Sold", String.valueOf(report.getQtyProductsSold())},
+                {"Products Bought", String.valueOf(report.getQtyProductsBought())},
                 {"Income", String.valueOf(report.getIncome()) + "€"},
                 {"Expenses", String.valueOf(report.getExpenses()) + "€"},
                 {"Initial cash", String.valueOf(report.getCashAllowance()) + "€"},
@@ -235,7 +235,7 @@ public class UserInterface {
         String[][] data = {
                 {"Income", String.valueOf(record.getIncome()) + "€"},
                 {"Expenses", String.valueOf(record.getExpenses()) + "€"},
-                {"Cash Flow", String.valueOf(record.getCashflow()) + "€"}
+                {"Cash Flow", String.valueOf(record.getCashFlow()) + "€"}
         };
 
         System.out.println(FlipTable.of(headers, data));
@@ -261,6 +261,8 @@ public class UserInterface {
 
     /**
      * Prints a banner with the chosen company name.
+     *
+     * @param companyName company's name.
      */
     public static void printCompanyName(String companyName) {
         System.out.println("=================================================");
@@ -278,7 +280,7 @@ public class UserInterface {
         System.out.println("Best Performance Company");
         System.out.println("=========================");
         System.out.println("Company name: " + winner.getCompanyName());
-        System.out.println("Cash Flow:     " + winner.getCashflow() + "€");
+        System.out.println("Cash Flow:     " + winner.getCashFlow() + "€");
         System.out.println("-------------------------");
 
     }

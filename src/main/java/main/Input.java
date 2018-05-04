@@ -7,13 +7,6 @@ import java.util.Random;
 
 /**
  * This class represents the data source needed to carry out all necessary requirements.
- * <p>
- * Sample initiation to meet the CA's requirements.
- *
- * @see Input#makeSampleFile()
- * <p>
- * Data source to be used as input by the program.
- * @see Input#json
  */
 public class Input {
 
@@ -232,7 +225,7 @@ public class Input {
     }
 
     /**
-     * @return the cost of products for each transaction. Required: 1-10.
+     * @param productCost the cost of products for each transaction. Required: 1-10.
      */
     public void setProductCost(int productCost) {
         this.productCost = productCost;

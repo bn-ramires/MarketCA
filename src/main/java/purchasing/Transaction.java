@@ -13,8 +13,7 @@ import java.util.List;
  * Responsible for carrying out all necessary transactions automatically.
  * <p>
  * For that to happen. The usage of the following method is necessary:
- *
- * @see Transaction#makeTransactions(Company, Company, Company)
+ * {@link #makeTransactions(Company, Company, Company)}
  * <p>
  * This class is a Singleton. Therefore not meant to be instantiated multiple times
  * as it could possibly cause serious problems for any company involved.
@@ -47,7 +46,8 @@ public class Transaction {
         setMinCashAllowance(buyer.getDepots().get(0).getMinCashAllowance());
         setMaxCashAllowance(buyer.getDepots().get(0).getMaxCashAllowance());
 
-        setSellers(firstSeller, secondSeller);
+        // Initializing both sellers and shuffling them.
+        initSellers(firstSeller, secondSeller);
 
         // Looping through buyer's depots
         buyer.getDepots().forEach(buyerDepot -> {
@@ -61,6 +61,7 @@ public class Transaction {
                 boolean notReadyToBuy = false;
                 boolean hasBought = false;
 
+                // Break when the current seller depot cannot trade anymore.
                 if (notReadyToBuy || hasBought) {
                     break;
                 }
@@ -70,12 +71,18 @@ public class Transaction {
 
                     Depot sellerDepot = seller.getDepots().get(i);
 
+                    // Continue if the buyer depot is capable of performing a purchase.
                     if (isCapableOfBuying(buyerDepot, sellerDepot)) {
 
+                        // The buyer depot's buying goal.
                         int buyingGoal = setBuyingGoal(buyerDepot, sellerDepot);
 
+                        // Continue if the seller depot is capable of selling one or more products.
                         if (isCapableOfSelling(sellerDepot)) {
+
+                            // Settling on a quantity to buy.
                             int quantityToBuy = quantityToBuy(sellerDepot, buyingGoal);
+                            // Perform the transaction.
                             buy(quantityToBuy, buyerDepot, sellerDepot);
 
                             currentSellerId++;
@@ -96,14 +103,14 @@ public class Transaction {
      * Performs a purchase between two depots.
      * All necessary considerations are accounted for.
      *
-     * @param quantity
-     * @param seller
-     * @param buyer
+     * @param quantity quantity to be bought.
+     * @param seller   the depot selling the product(s).
+     * @param buyer    the depot buying the product(s).
      */
     protected void buy(int quantity, Depot buyer, Depot seller) {
 
         int productCost = seller.getStockList().get(0).getPrice();
-        int totalCost = (quantity * productCost) + seller.getDelivery();
+        int totalCost = (quantity * productCost) + seller.getDeliveryCost();
 
         pay(totalCost, buyer, seller);
         ship(quantity, buyer, seller);
@@ -114,9 +121,9 @@ public class Transaction {
     /**
      * Performs payment between two depots.
      *
-     * @param totalCost
-     * @param seller
-     * @param buyer
+     * @param totalCost the total cost to be paid.
+     * @param seller    the depot receiving the payment.
+     * @param buyer     the depot making the payment.
      */
     private void pay(int totalCost, Depot buyer, Depot seller) {
 
@@ -128,25 +135,26 @@ public class Transaction {
     /**
      * Ships products bought from Seller's depot to Buyer's.
      *
-     * @param quantity
-     * @param seller
-     * @param buyer
+     * @param quantity the quantity of products to be shipped.
+     * @param seller   the depot shipping the product(s).
+     * @param buyer    the depot receiving the product(s).
      */
     private void ship(int quantity, Depot buyer, Depot seller) {
 
         for (int i = 0; i < quantity; i++) {
 
-            Product temp = seller.getStockList().remove(0);
-            buyer.getStorageList().add(temp);
+            Product productThatWasBought = seller.getStockList().remove(0);
+            buyer.getStorageList().add(productThatWasBought);
         }
     }
 
     /**
      * Generates and stores a ticket for the performed transaction.
      *
-     * @param quantity
-     * @param seller
-     * @param buyer
+     * @param quantity The quantity of products bought or sold.
+     * @param seller   the depot who sold the products.
+     * @param buyer    the depot that made the purchase.
+     * @return the generated ticket.
      */
     protected Ticket generateTicket(int quantity, Depot buyer, Depot seller) {
 
@@ -156,7 +164,7 @@ public class Transaction {
         getOriginator().setSeller(seller.getOwner());
         getOriginator().setBuyerDepotId(getCurrentBuyerId());
         getOriginator().setSellerDepotId(getCurrentSellerId());
-        getOriginator().setDelivery(seller.getDelivery());
+        getOriginator().setDeliveryCost(seller.getDeliveryCost());
         getOriginator().setProductCost(productCost);
         getOriginator().setQuantity(quantity);
         return getTicketCarer().addTicket(getOriginator().saveTicketState());
@@ -191,13 +199,13 @@ public class Transaction {
      * Determines how many products a depot is capable of buying.
      * Ensuring the depot will not be left with its stock capacity below the required minimum amount.
      *
-     * @param buyer
-     * @param seller
+     * @param buyer  The depot attempting to buy products.
+     * @param seller The depot attemtping to sell products.
      * @return The quantity of items this depot is capable of buying.
      */
     private int setBuyingGoal(Depot buyer, Depot seller) {
 
-        int deliveryCost = seller.getDelivery();
+        int deliveryCost = seller.getDeliveryCost();
         int productCost = seller.getStockList().get(0).getPrice();
         int stock = buyer.getStockList().size();
         int minimum = buyer.getStockMin();
@@ -227,7 +235,7 @@ public class Transaction {
         int minimum = seller.getStockMin();
         int productsInStock = stock - minimum;
         int productCost = seller.getStockList().get(0).getPrice();
-        int deliveryCost = seller.getDelivery();
+        int deliveryCost = seller.getDeliveryCost();
         int allowedIncome = (getMaxCashAllowance() - seller.getCashAllowance()) - deliveryCost;
 
         /*
@@ -250,8 +258,8 @@ public class Transaction {
      * Determines if the current buyer's depot is capable of buying at least one product.
      *
      * @param seller the seller depot used for reference.
-     * @param buyer the buyer depot used for reference.
-     * @Return A true or false.
+     * @param buyer  the buyer depot used for reference.
+     * @return A true or false.
      */
     protected Boolean isCapableOfBuying(Depot buyer, Depot seller) {
 
@@ -259,7 +267,7 @@ public class Transaction {
         int currentAmountOfProductsBought = buyer.getStorageList().size();
         int maxStorageSpace = buyer.getStorageMax();
         int productPrice = seller.getStockList().get(0).getPrice();
-        int deliveryCost = seller.getDelivery();
+        int deliveryCost = seller.getDeliveryCost();
         int costOfPurchase = productPrice + deliveryCost;
         int purchasingPower = cash - getMinCashAllowance();
 
@@ -277,7 +285,7 @@ public class Transaction {
      * Determines if the current seller's depot is capable of selling at least one product.
      *
      * @param seller the concerned seller depot.
-     * @Return A true or false.
+     * @return A true or false.
      */
     private Boolean isCapableOfSelling(Depot seller) {
 
@@ -285,7 +293,7 @@ public class Transaction {
         int stockSpace = seller.getStockList().size();
         int minStockSpace = seller.getStockMin();
         int productCost = seller.getStockList().get(0).getPrice();
-        int minimumCharge = productCost + seller.getDelivery();
+        int minimumCharge = productCost + seller.getDeliveryCost();
         int newBalance = cash + minimumCharge;
 
         /*
@@ -300,46 +308,79 @@ public class Transaction {
         return stockSpace > minStockSpace;
     }
 
+    /**
+     * @return The list containing all possible seller companies.
+     */
     private List<Company> getSellers() {
         return sellers;
     }
 
+    /**
+     * @return The ticket originator.
+     */
     private TicketOriginator getOriginator() {
         return originator;
     }
 
+    /**
+     * @return The ticket carer, containing a list with all tickets for all transactions.
+     */
     public static TicketCarer getTicketCarer() {
         return ticketCarer;
     }
 
+    /**
+     * @return The ID number of the current buyer depot in the loop.
+     */
     private int getCurrentBuyerId() {
         return currentBuyerId;
     }
 
+    /**
+     * @return The ID number of the current seller depot in the loop.
+     */
     private int getCurrentSellerId() {
         return currentSellerId;
     }
 
+    /**
+     * @return The minimum amount of cash a depot is allowed to have on initialization.
+     */
     private int getMinCashAllowance() {
         return minCashAllowance;
     }
 
+    /**
+     * @return The maximum amount of cash a depot is allowed to have on initialization.
+     */
     private int getMaxCashAllowance() {
         return maxCashAllowance;
     }
 
+    /**
+     * @param currentBuyerId The ID number of the current buyer depot in the loop.
+     */
     private void setCurrentBuyerId(int currentBuyerId) {
         this.currentBuyerId = currentBuyerId;
     }
 
+    /**
+     * @param currentSellerId The ID number of the current seller depot in the loop.
+     */
     private void setCurrentSellerId(int currentSellerId) {
         this.currentSellerId = currentSellerId;
     }
 
+    /**
+     * @param minCashAllowance The minimum amount of cash a depot is allowed to have on initialization.
+     */
     private void setMinCashAllowance(int minCashAllowance) {
         this.minCashAllowance = minCashAllowance;
     }
 
+    /**
+     * @param maxCashAllowance The maximum amount of cash a depot is allowed to have on initialization.
+     */
     private void setMaxCashAllowance(int maxCashAllowance) {
         this.maxCashAllowance = maxCashAllowance;
     }
@@ -347,7 +388,7 @@ public class Transaction {
     /**
      * Prevents multiple instances of this class to exist in this project.
      *
-     * @Return instance of this class
+     * @return instance of this class
      */
     public static Transaction getInstance() {
         if (instance == null) {
@@ -360,10 +401,10 @@ public class Transaction {
      * Places the two possible sellers in a list and shuffles it.
      * Making the output of the program more unpredictable each time it runs.
      *
-     * @param firstSeller
-     * @param secondSeller
+     * @param firstSeller first possible seller.
+     * @param secondSeller second possible seller.
      */
-    public void setSellers(Company firstSeller, Company secondSeller) {
+    public void initSellers(Company firstSeller, Company secondSeller) {
         sellers.add(firstSeller);
         sellers.add(secondSeller);
         Collections.shuffle(sellers);

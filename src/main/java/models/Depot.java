@@ -7,26 +7,6 @@ import java.util.Random;
 
 /**
  * This is a model for a Depot and it holds all necessary information about it.
- * <p>
- * Lists of both the depot's and other company's products. Randomized as required.
- *
- * @see Depot#stockList
- * @see Depot#storageList
- * <p>
- * The company that owns this depot.
- * @see Depot#owner
- * <p>
- * Cash allowance. Restricted and randomized as required.
- * @see Depot#cashAllowance
- * <p>
- * Delivery cost for anyone buying from this depot.
- * @see Depot#delivery
- * <p>
- * Restrictions as required for the depot's own products and purchased ones.
- * @see Depot#stockMax
- * @see Depot#stockMin
- * @see Depot#storageMax
- * @see Depot#storageMin
  */
 public class Depot {
 
@@ -36,7 +16,7 @@ public class Depot {
     int cashAllowance;
     int minCashAllowance;
     int maxCashAllowance;
-    int delivery;
+    int deliveryCost;
     int stockMax;
     int stockMin;
     int storageMax;
@@ -50,7 +30,7 @@ public class Depot {
         this.minCashAllowance = builder.input.minCashAllowance;
         this.maxCashAllowance = builder.input.maxCashAllowance;
         this.cashAllowance = getRandomNumber(getMaxCashAllowance(), getMinCashAllowance());
-        this.delivery = builder.input.deliveryCost;
+        this.deliveryCost = builder.input.deliveryCost;
         this.stockMax = builder.input.stockMax;
         this.stockMin = builder.input.stockMin;
         this.storageMax = builder.input.storageMax;
@@ -139,86 +119,150 @@ public class Depot {
         return initializedList;
     }
 
+
+    /**
+     * @return a list of products in stock. (products from this company).
+     */
     public List<Product> getStockList() {
         return stockList;
     }
 
+    /**
+     * @return a list of products in storage. (products from other companies).
+     */
     public List<Product> getStorageList() {
         return storageList;
     }
 
+    /**
+     * @return the name of the company that owns this depot.
+     */
     public String getOwner() {
         return owner;
     }
 
+    /**
+     * @return the cash allowance of this depot.
+     */
     public int getCashAllowance() {
         return cashAllowance;
     }
 
-    public int getDelivery() {
-        return delivery;
+    /**
+     * @return the deliveryCost cost this depot charges others for transactions.
+     */
+    public int getDeliveryCost() {
+        return deliveryCost;
     }
 
+    /**
+     * @return the maximum amount of products this depot can have in stock.
+     */
     public int getStockMax() {
         return stockMax;
     }
 
+    /**
+     * @return the minimum amount of products this depot can have in stock.
+     */
     public int getStockMin() {
         return stockMin;
     }
 
+    /**
+     * @return the maximum amount of products this depot can have in storage.
+     */
     public int getStorageMax() {
         return storageMax;
     }
 
+    /**
+     * @return the minimum amount of products this depot can have in storage.
+     */
     public int getStorageMin() {
         return storageMin;
     }
 
+    /**
+     * @param cashAllowance the cash allowance of this depot.
+     */
     public void setCashAllowance(int cashAllowance) {
         this.cashAllowance = cashAllowance;
     }
 
+    /**
+     * @param stockList the list of products in stock. (products from this company).
+     */
     public void setStockList(List<Product> stockList) {
         this.stockList = stockList;
     }
 
+    /**
+     * @param storageList the list of products in storage. (products from other companies).
+     */
     public void setStorageList(List<Product> storageList) {
         this.storageList = storageList;
     }
 
+    /**
+     * @param owner the name of the company that owns this depot.
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    public void setDelivery(int delivery) {
-        this.delivery = delivery;
+    /**
+     * @param deliveryCost the price this depot charges others for transactions.
+     */
+    public void setDeliveryCost(int deliveryCost) {
+        this.deliveryCost = deliveryCost;
     }
 
+    /**
+     * @param stockMax the maximum amount of products this depot can have in stock.
+     */
     public void setStockMax(int stockMax) {
         this.stockMax = stockMax;
     }
 
+    /**
+     * @param stockMin the minimum amount of products this depot can have in stock.
+     */
     public void setStockMin(int stockMin) {
         this.stockMin = stockMin;
     }
 
+    /**
+     * @param storageMax the maximum amount of products this depot can have in storage.
+     */
     public void setStorageMax(int storageMax) {
         this.storageMax = storageMax;
     }
 
+    /**
+     * @param storageMin the minimum amount of products this depot can have in storage.
+     */
     public void setStorageMin(int storageMin) {
         this.storageMin = storageMin;
     }
 
+    /**
+     * @return the minimum cash allowance this depot can possibly have, prior to transactions.
+     */
     public int getMinCashAllowance() {
         return minCashAllowance;
     }
 
+    /**
+     * @return the maximum cash allowance this depot can possibly have, prior to transactions.
+     */
     public int getMaxCashAllowance() {
         return maxCashAllowance;
     }
 
+    /**
+     * The builder pattern for a Depot.
+     */
     public static class DepotBuilder {
 
         Company.CompanyBuilder input;
@@ -227,6 +271,9 @@ public class Depot {
             this.input = input;
         }
 
+        /**
+         * @return builds a Depot.
+         */
         public Depot build() {
             return new Depot(this);
         }
@@ -239,7 +286,7 @@ public class Depot {
                 ", storageList=" + storageList.size() +
                 ", owner='" + owner + '\'' +
                 ", cashAllowance=" + cashAllowance +
-                ", delivery=" + delivery +
+                ", deliveryCost=" + deliveryCost +
                 ", stockMax=" + stockMax +
                 ", stockMin=" + stockMin +
                 ", storageMax=" + storageMax +

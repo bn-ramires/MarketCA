@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * A model for a ticket. This is a simple POJO that holds all information for each transaction performed.
+ */
 public class Ticket {
 
     String buyer;
@@ -9,7 +12,7 @@ public class Ticket {
     int productCost;
     int totalCost;
     int quantity;
-    int delivery;
+    int deliveryCost;
 
     public Ticket(String buyer,
                   String seller,
@@ -17,7 +20,7 @@ public class Ticket {
                   int sellerDepotId,
                   int productCost,
                   int quantity,
-                  int delivery) {
+                  int deliveryCost) {
 
         this.buyer = buyer;
         this.seller = seller;
@@ -25,61 +28,63 @@ public class Ticket {
         this.sellerDepotId = sellerDepotId;
         this.productCost = productCost;
         this.quantity = quantity;
-        this.delivery = delivery;
+        this.deliveryCost = deliveryCost;
         this.totalCost = quantity * productCost;
 
     }
 
+    /**
+     * @return The depot who made a purchase.
+     */
     public String getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(String buyer) {
-        this.buyer = buyer;
-    }
-
+    /**
+     * @return The depot who sold the product(s).
+     */
     public String getSeller() {
         return seller;
     }
 
-    public int getTotalCost() { return totalCost; }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
+    /**
+     * @return The total cost for all products bought/sold.
+     */
+    public int getTotalCost() {
+        return totalCost;
     }
 
+    /**
+     * @return The ID number of the buyer depot.
+     */
     public int getBuyerDepotId() {
         return buyerDepotId;
     }
 
-    public void setBuyerDepotId(int buyerDepotId) {
-        this.buyerDepotId = buyerDepotId;
-    }
-
+    /**
+     * @return The ID number of the seller depot.
+     */
     public int getSellerDepotId() {
         return sellerDepotId;
     }
 
-    public void setSellerDepotId(int sellerDepotId) {
-        this.sellerDepotId = sellerDepotId;
-    }
-
+    /**
+     * @return The quantity of products bought/sold.
+     */
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    /**
+     * @return The seller's charge for delivery.
+     */
+    public int getDeliveryCost() {
+        return deliveryCost;
     }
 
-    public int getDelivery() {
-        return delivery;
-    }
-
-    public void setDelivery(int delivery) {
-        this.delivery = delivery;
-    }
-
+    /**
+     * @return The cost of the product bought/sold.
+     */
     public int getProductCost() {
         return productCost;
     }
@@ -94,7 +99,7 @@ public class Ticket {
                 ", productCost=" + productCost +
                 ", totalCost=" + totalCost +
                 ", quantity=" + quantity +
-                ", delivery=" + delivery +
+                ", deliveryCost=" + deliveryCost +
                 '}';
     }
 }

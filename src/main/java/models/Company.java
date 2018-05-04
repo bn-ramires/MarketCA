@@ -7,8 +7,6 @@ import java.util.List;
 
 /**
  * This is a model for a company and it holds all necessary information about it.
- *
- * @see Company#depots a list of a company's depots.
  */
 public class Company {
 
@@ -23,7 +21,7 @@ public class Company {
     /**
      * Initializes the list of depots of this company.
      *
-     * @param builder required input data for individual depot instantiation.
+     * @param builder required input data for depot instantiation.
      * @return Initialized list of depot objects.
      */
     private List<Depot> initDepots(CompanyBuilder builder) {
@@ -41,33 +39,42 @@ public class Company {
     }
 
     /**
-     * Generates a record objects with information about this company's transactions.
+     * Generates a company record containing information a company's transactions.
      *
      * @param carer list of tickets required for CompanyRecord objects to be made.
-     * @return a new CompanyRecord.
+     * @return a new company record.
      */
     public CompanyRecord makeCompanyRecord(TicketCarer carer) {
         return new CompanyRecord(getName(), carer);
     }
 
     /**
-     * Generates a record objects with information about this company's transactions.
+     * Generates a report containing detailed info on transactions done by each depot.
      *
-     * @param carer list of tickets required for company records to be made.
-     * @return a new CompanyRecord object.
+     * @param carer list of tickets required for a report to be made.
+     * @return a new report object.
      */
     public Report makeFullReport(TicketCarer carer) {
         return new Report(getName(), getDepots(), carer);
     }
 
+    /**
+     * @return the company's name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return a list with all depots of a company.
+     */
     public List<Depot> getDepots() {
         return depots;
     }
 
+    /**
+     * A builder pattern for a Company.
+     */
     public static class CompanyBuilder {
 
         String name;
@@ -103,6 +110,9 @@ public class Company {
             this.deliveryCost = deliveryCost;
         }
 
+        /**
+         * @return a new Company object as per builder pattern practices.
+         */
         public Company build() {
             return new Company(this);
         }
